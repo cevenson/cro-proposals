@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Skincare — Bundle & Volume Discount CRO Proposal</title>
+    <style>
+        :root {
+            --bg-color: #0f1115;
+            --card-bg: #1a1d24;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.2);
+            --border: #2dd4bf; /* Teal accent */
+            --border-muted: #334155;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1, h2, h3, h4 {
+            color: #ffffff;
+            margin-top: 2em;
+            margin-bottom: 0.5em;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-top: 0;
+            background: linear-gradient(90deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            border-bottom: 1px solid var(--border-muted);
+            padding-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 1.5em;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-top: -10px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .insight-card {
+            border-left-color: var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-muted);
+        }
+
+        th {
+            background-color: rgba(255, 255, 255, 0.03);
+            font-weight: 600;
+            color: #fff;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .highlight {
+            color: var(--border);
+            font-weight: 600;
+        }
+
+        .mockup-placeholder {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px dashed var(--border-muted);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            margin: 20px 0;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .button:hover {
+            background-color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lumina Skincare — Routine & Replenish CRO Proposal</h1>
+        <div class="subtitle">A data-backed proposal to increase AOV through routine building and stock-up incentives, based on analysis of 8,421 Shopify orders, 60 days of GA4 behavioral data, and qualitative insights from NotebookLM research.</div>
+
+        <h2>What Your Customers Are Already Doing</h2>
+        <p>We analyzed Lumina's recent transaction and session data. We also cross-referenced these quantitative findings with qualitative research stored in your NotebookLM workspace (customer interviews and post-purchase surveys). Here is what the data tells us:</p>
+
+        <div class="card insight-card">
+            <h3>The Double-Cleanse Behavior is Ubiquitous</h3>
+            <p><strong>Data:</strong> In the last 60 days, 1,205 sessions added both the "Gentle Foaming Cleanser" and the "Oil Makeup Melting Balm" to their cart. 850 completed the purchase (70% conversion rate).</p>
+            <p><strong>NotebookLM Insight:</strong> "Customers frequently mention in reviews that they consider these two products a single 'step' in their evening routine. However, several users complained about having to navigate to two separate pages to buy them."</p>
+        </div>
+
+        <div class="card insight-card">
+            <h3>Sunscreen is a High-Volume Necessity</h3>
+            <p><strong>Data:</strong> 25% of all orders containing the "Daily Defense SPF 50" contain 2 or more units without any current volume discount.</p>
+            <p><strong>NotebookLM Insight:</strong> "Post-purchase surveys show that 40% of SPF buyers are purchasing for multiple family members or stocking up for the summer."</p>
+        </div>
+
+        <h2>Co-Purchase & Gap Analysis</h2>
+        <p>Top product pairs that appear in the same order, cross-referenced with GA4 co-viewing sessions. The <span class="highlight">"Gap"</span> shows how many people browsed both products but only bought one — representing the unmet bundle opportunity.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Product Pair</th>
+                    <th>Co-Purchased</th>
+                    <th>Co-Viewed</th>
+                    <th>Co-Carted</th>
+                    <th>The Gap</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cleanser + Oil Balm</td>
+                    <td>850</td>
+                    <td>3,100</td>
+                    <td>1,205</td>
+                    <td class="highlight">2,250</td>
+                </tr>
+                <tr>
+                    <td>Vitamin C Serum + SPF 50</td>
+                    <td>420</td>
+                    <td>1,850</td>
+                    <td>510</td>
+                    <td class="highlight">1,430</td>
+                </tr>
+                <tr>
+                    <td>Night Cream + Eye Cream</td>
+                    <td>310</td>
+                    <td>1,200</td>
+                    <td>380</td>
+                    <td class="highlight">890</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Proposed Tests</h2>
+        
+        <div class="card">
+            <h3>Test 1: The "Complete Your Routine" Add-On</h3>
+            <p><strong>Target:</strong> Product pages for the Foaming Cleanser and Vitamin C Serum.</p>
+            <p><strong>Mechanic:</strong> Offer a 15% discount on the complementary product (Oil Balm or SPF) when added directly from the current product page via a 1-click CTA.</p>
+            <p><strong>Hypothesis:</strong> If we reduce the friction of finding the complementary product and provide a small financial incentive, AOV will increase because the co-viewing gap shows high underlying intent that is currently dropping off.</p>
+        </div>
+
+        <div class="card">
+            <h3>Test 2: SPF Stock-Up Tiers</h3>
+            <p><strong>Target:</strong> Daily Defense SPF 50 Product Page.</p>
+            <p><strong>Mechanic:</strong> Tiered discounts: Buy 2 get 10% off the second, Buy 3 get 15% off the third+.</p>
+            <p><strong>Hypothesis:</strong> If we incrementally reward bulk purchases on high-replenishment items, units per order will increase because NotebookLM survey data confirms users already buy this for multiple family members.</p>
+        </div>
+
+        <h2>Projected Revenue Impact</h2>
+        <p>Based on actual order data, modeling the capture of the "Gap" sessions. All figures are per quarter.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Scenario</th>
+                    <th>Gap Capture</th>
+                    <th>Incremental Rev / Qtr</th>
+                    <th>Discount Cost</th>
+                    <th>Net Margin Boost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Conservative</td>
+                    <td>10%</td>
+                    <td>+$18,500</td>
+                    <td>-$2,200</td>
+                    <td class="highlight">+$9,800</td>
+                </tr>
+                <tr>
+                    <td>Expected</td>
+                    <td>20%</td>
+                    <td>+$37,000</td>
+                    <td>-$4,400</td>
+                    <td class="highlight">+$19,600</td>
+                </tr>
+                <tr>
+                    <td>Strong</td>
+                    <td>30%</td>
+                    <td>+$55,500</td>
+                    <td>-$6,600</td>
+                    <td class="highlight">+$29,400</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p><em>* Margin calculations assume a blended 65% gross margin across skincare SKUs.</em></p>
+
+        <h2>What Success Looks Like</h2>
+        <ul>
+            <li>AOV increases 5-8% (From $72 baseline to $76-$78) at conservative estimates.</li>
+            <li>Units per transaction for SPF rises from 1.3 to >1.5.</li>
+            <li>No drop in overall conversion rate; bundles should enhance perceived value.</li>
+            <li>GrowthBook metrics reach statistical significance (95% confidence) within 4 weeks at current traffic levels.</li>
+        </ul>
+
+        <h2>Next Steps</h2>
+        <ol>
+            <li>Approve the discount levels (15% add-on, 10/15% tiered).</li>
+            <li>Configure GrowthBook feature flags (<code>exp-complete-routine-add-on</code>, <code>exp-spf-volume-tiers</code>).</li>
+            <li>Design and develop the PDP bundle cross-sell block.</li>
+            <li>Launch to 50% traffic allocation and monitor for 4 weeks.</li>
+        </ol>
+
+    </div>
+</body>
+</html>
