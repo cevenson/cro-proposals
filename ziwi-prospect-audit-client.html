@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZIWI — Stage 1 CRO Audit</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #f8fafc;
+    --surface:   #ffffff;
+    --card:      #ffffff;
+    --border:    #e2e8f0;
+    --accent:    #2563eb;
+    --accent2:   #1d4ed8;
+    --text:      #1e293b;
+    --muted:     #64748b;
+    --subtle:    #475569;
+    --green:     #16a34a;
+    --green-bg:  rgba(22,163,74,0.08);
+    --red:       #dc2626;
+    --yellow:    #ca8a04;
+    --radius:    12px;
+    --ziwi-navy: #1e2d4a;
+    --ziwi-teal: #0d9488;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #ffffff 0%, #eff6ff 50%, #dbeafe 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 64px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 80% 40%, rgba(37,99,235,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+  .hero-logo-text { font-size: 14px; font-weight: 700; color: var(--accent); letter-spacing: 0.02em; }
+  .hero-logo-url { font-size: 12px; color: var(--muted); margin-left: 4px; }
+  .hero-eyebrow {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: inline-block; width: 24px; height: 2px;
+    background: var(--accent); border-radius: 2px;
+  }
+  .hero-title {
+    font-size: 52px; font-weight: 800; line-height: 1.05;
+    letter-spacing: -0.03em; color: #0f172a; margin-bottom: 8px;
+  }
+  .hero-subtitle { font-size: 18px; color: var(--muted); margin-bottom: 36px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.2);
+    border-radius: 100px; padding: 6px 16px; font-size: 12px; font-weight: 600;
+    color: var(--accent); letter-spacing: 0.05em; text-transform: uppercase;
+    margin-bottom: 48px;
+  }
+  .hero-metrics {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  }
+  .metric-card {
+    background: rgba(255,255,255,0.8); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px 24px;
+  }
+  .metric-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .metric-value { font-size: 26px; font-weight: 800; color: #0f172a; line-height: 1; margin-bottom: 4px; }
+  .metric-sub { font-size: 12px; color: var(--muted); }
+
+  /* CONTEXT BANNER */
+  .context-banner {
+    background: linear-gradient(90deg, rgba(13,148,136,0.08) 0%, rgba(13,148,136,0.03) 100%);
+    border: 1px solid rgba(13,148,136,0.2);
+    border-radius: var(--radius);
+    padding: 16px 24px;
+    margin: 32px 64px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .context-banner-icon { color: var(--ziwi-teal); font-size: 20px; margin-top: 1px; flex-shrink: 0; }
+  .context-banner-text { font-size: 13px; color: var(--subtle); line-height: 1.6; }
+  .context-banner-text strong { color: var(--text); }
+
+  /* SECTIONS */
+  .section { padding: 64px 64px; border-bottom: 1px solid var(--border); }
+  .section-number {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-number::before {
+    content: ''; display: inline-block; width: 20px; height: 2px;
+    background: var(--accent); border-radius: 2px;
+  }
+  .section-title { font-size: 28px; font-weight: 700; color: #0f172a; letter-spacing: -0.01em; margin-bottom: 8px; }
+  .section-desc { font-size: 15px; color: var(--muted); max-width: 640px; }
+
+  /* OVERVIEW */
+  .funnel-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    margin-top: 36px; background: var(--card);
+    border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+  }
+  .funnel-step { padding: 24px 20px; border-right: 1px solid var(--border); position: relative; }
+  .funnel-step:last-child { border-right: none; }
+  .funnel-step-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .funnel-step-value { font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
+  .funnel-step-sub { font-size: 12px; color: var(--muted); }
+  .funnel-arrow {
+    position: absolute; right: -10px; top: 50%; transform: translateY(-50%);
+    width: 20px; height: 20px; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: var(--accent); z-index: 2;
+  }
+
+  .overview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 36px; }
+  .overview-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+  .overview-card-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .overview-card-value { font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
+  .overview-card-note { font-size: 13px; color: var(--muted); }
+
+  /* INSIGHTS */
+  .insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 36px; }
+  .insight-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+  .insight-card.high { border-left: 3px solid var(--red); }
+  .insight-card.medium { border-left: 3px solid var(--yellow); }
+  .insight-severity { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; display: inline-flex; align-items: center; gap: 6px; }
+  .insight-card.high .insight-severity { color: var(--red); }
+  .insight-card.medium .insight-severity { color: var(--yellow); }
+  .insight-title { font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
+  .insight-body { font-size: 13px; color: var(--subtle); line-height: 1.6; }
+  .insight-page-tag { display: inline-block; margin-top: 12px; font-size: 11px; font-weight: 600; color: var(--muted); background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 3px 8px; }
+
+  /* TEST CARDS */
+  .test-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 36px; }
+  .test-card-header {
+    padding: 28px 32px 24px; border-bottom: 1px solid var(--border);
+    display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: start;
+  }
+  .test-number { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .test-title { font-size: 20px; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
+  .test-hypothesis { font-size: 14px; color: var(--subtle); line-height: 1.6; max-width: 580px; }
+  .ice-box {
+    background: rgba(37,99,235,0.06); border: 1px solid rgba(37,99,235,0.18);
+    border-radius: var(--radius); padding: 16px 20px; text-align: center; min-width: 120px;
+  }
+  .ice-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .ice-score { font-size: 36px; font-weight: 900; color: var(--accent); line-height: 1; margin-bottom: 8px; }
+  .ice-breakdown { font-size: 11px; color: var(--muted); }
+
+  /* MOCKUP */
+  .mockup-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    padding: 28px 32px; border-top: 1px solid var(--border); background: #f8fafc;
+  }
+  .mockup-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+  .mockup-label.control { color: var(--muted); }
+  .mockup-label.variant { color: var(--green); }
+
+  /* WIREFRAMES */
+  .wf-pdp {
+    background: #f0ece6;
+    border-radius: 10px;
+    padding: 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: #1a1a1a;
+    border: 1px solid #e0d8d0;
+  }
+  .wf-breadcrumb { font-size: 10px; color: #888; margin-bottom: 8px; }
+  .wf-stars { color: #f59e0b; font-size: 11px; margin-bottom: 6px; }
+  .wf-title { font-size: 16px; font-weight: 800; color: #1e2d4a; margin-bottom: 6px; }
+  .wf-desc { font-size: 11px; color: #555; line-height: 1.5; margin-bottom: 10px; }
+  .wf-price-anchor { font-size: 12px; font-weight: 600; color: #1e2d4a; margin-bottom: 10px; background: #e8e0d5; border-radius: 6px; padding: 5px 10px; display: inline-block; }
+  .wf-recipe-row { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
+  .wf-recipe-pill { border: 1px solid #c0b9ae; border-radius: 100px; padding: 3px 9px; font-size: 10px; color: #555; }
+  .wf-recipe-pill.active { background: #1e2d4a; color: #fff; border-color: #1e2d4a; }
+  .wf-size-row { display: flex; gap: 5px; margin-bottom: 12px; }
+  .wf-size-pill { border: 1px solid #c0b9ae; border-radius: 100px; padding: 3px 10px; font-size: 10px; color: #555; }
+  .wf-size-pill.active { background: #1e2d4a; color: #fff; border-color: #1e2d4a; }
+  .wf-buy-zone-control { padding: 10px 0; }
+  .wf-buy-prompt { font-size: 10px; color: #888; margin-bottom: 8px; }
+  .wf-retailer-row-control {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 7px 10px; background: #fff; border-radius: 6px; margin-bottom: 5px;
+    border: 1px solid #e0d8d0;
+  }
+  .wf-retailer-name { font-size: 10px; font-weight: 700; color: #1e2d4a; }
+  .wf-retailer-btn-control {
+    background: #1e2d4a; color: #fff; font-size: 9px; font-weight: 700;
+    border-radius: 100px; padding: 4px 10px;
+  }
+  .wf-buy-zone-variant { padding: 10px 0; }
+  .wf-buy-heading { font-size: 13px; font-weight: 800; color: #1e2d4a; margin-bottom: 10px; }
+  .wf-review-summary {
+    background: #fff; border-radius: 8px; padding: 8px 10px; margin-bottom: 10px;
+    border-left: 3px solid #0d9488; font-size: 10px; color: #444; line-height: 1.5;
+  }
+  .wf-review-summary strong { color: #1e2d4a; }
+  .wf-retailer-row-variant {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px; background: #1e2d4a; border-radius: 8px; margin-bottom: 6px;
+    color: #fff;
+  }
+  .wf-retailer-row-variant .wf-retailer-name { color: #e2e8f0; font-size: 10px; }
+  .wf-retailer-row-variant .wf-retailer-price { font-size: 10px; color: #94a3b8; }
+  .wf-retailer-btn-variant {
+    background: #2563eb; color: #fff; font-size: 9px; font-weight: 800;
+    border-radius: 6px; padding: 4px 10px;
+  }
+  .wf-plp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .wf-plp-card {
+    background: #f0ece6; border-radius: 10px; overflow: hidden;
+    font-family: 'Inter', sans-serif; font-size: 12px; color: #1a1a1a;
+    border: 1px solid #e0d8d0;
+  }
+  .wf-plp-img {
+    background: linear-gradient(135deg, #e0dbd4, #d4cec7); height: 90px;
+    display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999;
+    position: relative;
+  }
+  .wf-plp-new { position: absolute; top: 8px; right: 8px; background: #e67e40; color: #fff; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 100px; }
+  .wf-plp-body { padding: 10px; }
+  .wf-plp-stars { color: #f59e0b; font-size: 10px; margin-bottom: 3px; }
+  .wf-plp-count { font-size: 9px; color: #999; }
+  .wf-plp-type { font-size: 10px; color: #888; }
+  .wf-plp-name { font-size: 12px; font-weight: 700; color: #1e2d4a; margin: 2px 0 4px; }
+  .wf-plp-no-price { font-size: 10px; color: #bbb; font-style: italic; }
+  .wf-plp-price { font-size: 12px; font-weight: 700; color: #1e2d4a; }
+  .wf-plp-price-sub { font-size: 9px; color: #888; }
+
+  /* BODY COLUMNS */
+  .test-card-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .test-col { padding: 28px 32px; border-right: 1px solid var(--border); }
+  .test-col:last-child { border-right: none; }
+  .test-col-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+  .impl-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .impl-list li { display: flex; gap: 10px; font-size: 13px; color: var(--subtle); line-height: 1.5; }
+  .impl-list li::before { content: '&#8594;'; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .impl-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; background: rgba(37,99,235,0.07); color: var(--accent); border-radius: 4px; padding: 2px 8px; margin-bottom: 12px; }
+  .metric-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .metric-mini { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .metric-mini-label { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .metric-mini-value { font-size: 20px; font-weight: 800; color: var(--green); line-height: 1; margin-bottom: 3px; }
+  .metric-mini-sub { font-size: 11px; color: var(--muted); }
+  .metric-mini.accent .metric-mini-value { color: var(--accent); }
+
+  /* SUMMARY TABLE */
+  .summary-table { width: 100%; border-collapse: collapse; margin-top: 36px; }
+  .summary-table th { text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 12px 16px; border-bottom: 2px solid var(--border); }
+  .summary-table td { padding: 14px 16px; font-size: 13px; color: var(--subtle); border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .summary-table tr:last-child td { border-bottom: none; }
+  .summary-table tr:hover td { background: #f1f5f9; }
+  .td-title { color: #0f172a !important; font-weight: 600; }
+  .td-lift { color: var(--green) !important; font-weight: 700; }
+  .td-rev { color: var(--accent) !important; font-weight: 700; }
+  .badge-ice { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; background: rgba(37,99,235,0.08); border-radius: 50%; font-size: 12px; font-weight: 800; color: var(--accent); }
+  .page-badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--bg); border: 1px solid var(--border); color: var(--muted); }
+
+  /* TIMELINE */
+  .timeline { margin-top: 36px; display: flex; flex-direction: column; gap: 0; border-left: 2px solid var(--border); margin-left: 16px; }
+  .timeline-item { padding: 0 0 28px 28px; position: relative; }
+  .timeline-item::before { content: ''; position: absolute; left: -7px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); }
+  .timeline-week { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .timeline-title { font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
+  .timeline-desc { font-size: 13px; color: var(--subtle); line-height: 1.6; }
+
+  /* OFFER BLOCK */
+  .offer-block {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #2563eb 100%);
+    padding: 64px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .offer-block::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 90% 50%, rgba(255,255,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .offer-eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .offer-eyebrow::before {
+    content: ''; display: inline-block; width: 20px; height: 2px;
+    background: rgba(255,255,255,0.4); border-radius: 2px;
+  }
+  .offer-title {
+    font-size: 36px; font-weight: 800; color: #fff; line-height: 1.1;
+    letter-spacing: -0.02em; margin-bottom: 20px; max-width: 640px;
+  }
+  .offer-guarantee {
+    font-size: 16px; color: rgba(255,255,255,0.8); line-height: 1.7;
+    max-width: 560px; margin-bottom: 36px;
+  }
+  .offer-guarantee strong { color: #fff; }
+  .offer-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: #fff; color: #1d4ed8; font-size: 15px; font-weight: 700;
+    border-radius: 10px; padding: 16px 32px; text-decoration: none;
+    letter-spacing: -0.01em;
+    transition: transform 0.15s;
+  }
+  .offer-cta:hover { transform: translateY(-1px); }
+  .offer-cta-arrow { font-size: 18px; }
+  .offer-points {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    margin-top: 48px;
+  }
+  .offer-point { display: flex; gap: 12px; align-items: flex-start; }
+  .offer-point-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0; color: #fff;
+  }
+  .offer-point-text { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.5; }
+  .offer-point-text strong { color: #fff; display: block; margin-bottom: 2px; font-size: 14px; }
+
+  /* FOOTER */
+  .footer { padding: 36px 64px; border-top: 1px solid var(--border); background: var(--surface); display: flex; justify-content: space-between; align-items: center; }
+  .footer-left { display: flex; align-items: center; gap: 10px; }
+  .footer-credit { font-size: 13px; color: var(--muted); }
+  .footer-right { font-size: 13px; color: var(--muted); }
+
+  code { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 11px; background: #f1f5f9; border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--subtle); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-logo">
+    <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+      <circle cx="15" cy="15" r="14" stroke="#2563eb" stroke-width="2.2" fill="none" stroke-dasharray="60 28" stroke-dashoffset="-7"/>
+      <circle cx="15" cy="15" r="14" fill="#1e3a8a" opacity="0.08"/>
+      <polygon points="4,24 8,17 12,20.5 16.5,12 22,18 24,24" fill="#2563eb" opacity="0.15"/>
+      <polyline points="4,24 8,17 12,20.5 16.5,12 22,18" stroke="#2563eb" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="22" cy="18" r="2" fill="#0d9488"/>
+    </svg>
+    <span class="hero-logo-text">Revenue Lift CRO</span>
+    <span class="hero-logo-url">· revenueliftcro.com</span>
+  </div>
+
+  <div class="hero-eyebrow">CRO Audit · March 2026</div>
+  <div class="hero-title">ZIWI</div>
+  <div class="hero-subtitle">ziwipets.com · Premium Pet Food · Shopify · Retailer-Redirect Model</div>
+  <div class="hero-badge">
+    <span style="width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;"></span>
+    Stage 1 · CRO Audit
+  </div>
+
+  <div class="hero-metrics">
+    <div class="metric-card">
+      <div class="metric-label">Conversion Model</div>
+      <div class="metric-value" style="font-size:18px;line-height:1.2;">Retailer Redirect</div>
+      <div class="metric-sub">Petstock · Animates · Petdirect</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Price Visibility</div>
+      <div class="metric-value" style="font-size:18px;color:var(--red);">Fully Hidden</div>
+      <div class="metric-sub">Prices in Shopify — not shown on site</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Review Count (Avg)</div>
+      <div class="metric-value" style="font-size:18px;color:var(--yellow);">0–8</div>
+      <div class="metric-sub">New products: 0–1 · Air-Dried: 6–8</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">12-Month Opportunity</div>
+      <div class="metric-value" style="font-size:22px;color:var(--accent);">~$468K</div>
+      <div class="metric-sub">3 retailer-click optimisation tests</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTEXT BANNER -->
+<div class="context-banner">
+  <div class="context-banner-icon">&#9679;</div>
+  <div class="context-banner-text">
+    <strong>Unique conversion model note:</strong> ZIWI does not sell direct-to-consumer via their Shopify store. The entire site functions as a brand discovery hub, with every product page directing visitors to three NZ retail partners — Petstock, Animates, and Petdirect. The primary CRO metric is <strong>retailer click-through rate</strong> (the "Buy now" button clicks), not Shopify orders. All three proposed tests are designed to maximise this click-through event, operating within the stated constraints of no checkout changes and no deep discounting.
+  </div>
+</div>
+
+<!-- SECTION 01 -->
+<section class="section">
+  <div class="section-number">Section 01</div>
+  <div class="section-title">Store Overview</div>
+  <div class="section-desc">Crawl-based analysis of ziwipets.com (NZ region) across homepage, product listings, product pages, and cart. No analytics access — all findings from live site inspection and CRO research.</div>
+
+  <div class="funnel-row">
+    <div class="funnel-step">
+      <div class="funnel-step-label">Visit Site</div>
+      <div class="funnel-step-value">~200K</div>
+      <div class="funnel-step-sub">Est. monthly sessions (NZ)</div>
+      <div class="funnel-arrow">&#8594;</div>
+    </div>
+    <div class="funnel-step">
+      <div class="funnel-step-label">View Product Page</div>
+      <div class="funnel-step-value">~40%</div>
+      <div class="funnel-step-sub">Est. PLP-to-PDP rate</div>
+      <div class="funnel-arrow">&#8594;</div>
+    </div>
+    <div class="funnel-step">
+      <div class="funnel-step-label">Click "Buy Now"</div>
+      <div class="funnel-step-value">~15%</div>
+      <div class="funnel-step-sub">Est. retailer click-through rate</div>
+      <div class="funnel-arrow">&#8594;</div>
+    </div>
+    <div class="funnel-step">
+      <div class="funnel-step-label">Purchase at Retailer</div>
+      <div class="funnel-step-value">~25%</div>
+      <div class="funnel-step-sub">Est. post-click conversion</div>
+    </div>
+  </div>
+
+  <div class="overview-grid">
+    <div class="overview-card">
+      <div class="overview-card-label">Platform</div>
+      <div class="overview-card-value" style="font-size:18px;">Shopify (brand hub)</div>
+      <div class="overview-card-note">No DTC checkout — retail partner model</div>
+    </div>
+    <div class="overview-card">
+      <div class="overview-card-label">Retail Partners (NZ)</div>
+      <div class="overview-card-value" style="font-size:18px;">Petstock · Animates</div>
+      <div class="overview-card-note">+ Petdirect — same 3 retailers on every PDP</div>
+    </div>
+    <div class="overview-card">
+      <div class="overview-card-label">Product Range</div>
+      <div class="overview-card-value" style="font-size:18px;">4 categories</div>
+      <div class="overview-card-note">Air-Dried · Steam &amp; Dried · Canned Wet · Chews</div>
+    </div>
+    <div class="overview-card">
+      <div class="overview-card-label">Price Range (NZD)</div>
+      <div class="overview-card-value" style="font-size:18px;">$11.99–$130</div>
+      <div class="overview-card-note">Confirmed via Shopify — currently hidden from site</div>
+    </div>
+    <div class="overview-card">
+      <div class="overview-card-label">Reviews</div>
+      <div class="overview-card-value" style="font-size:18px;">0–8 per SKU</div>
+      <div class="overview-card-note">New products: 0–1 · Flagship Air-Dried: 6–8</div>
+    </div>
+    <div class="overview-card">
+      <div class="overview-card-label">Brand Positioning</div>
+      <div class="overview-card-value" style="font-size:18px;">Ultra-premium</div>
+      <div class="overview-card-note">91–96% meat · NZ-sourced · "Label reader" target</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 02 -->
+<section class="section">
+  <div class="section-number">Section 02</div>
+  <div class="section-title">Key CRO Findings</div>
+  <div class="section-desc">Three findings that directly limit retailer click-through rate — the site's sole conversion event. All are addressable without checkout changes or discounting.</div>
+
+  <div class="insights-grid">
+    <div class="insight-card high">
+      <div class="insight-severity">&#9679; High Severity</div>
+      <div class="insight-title">The Only Conversion CTA is Visually Buried</div>
+      <div class="insight-body">The entire site funnels visitors toward one action: clicking a retailer "Buy now" button. Yet this zone is introduced by a long passive sentence ("Looking to buy in store or from your favourite online retailer?") and three low-contrast rows that read as navigation items rather than primary CTAs. The most important element on every PDP is styled like a secondary footer element.</div>
+      <div class="insight-page-tag">&#9654; PDP · Where to Buy Zone</div>
+    </div>
+    <div class="insight-card high">
+      <div class="insight-severity">&#9679; High Severity</div>
+      <div class="insight-title">Price Completely Hidden — Confident Buyers Left Guessing</div>
+      <div class="insight-body">Prices are fully populated in Shopify's database ($11.99–$130.32 NZD) but deliberately hidden from both PLP cards and PDP pages. ZIWI's own homepage copy targets "label readers" — price-conscious, ingredient-scrutinising buyers — yet these same customers arrive at retail partners without any price expectation, creating friction and drop-off at the handoff point.</div>
+      <div class="insight-page-tag">&#9654; PLP &amp; PDP · Price Display</div>
+    </div>
+    <div class="insight-card medium">
+      <div class="insight-severity">&#9679; Medium Severity</div>
+      <div class="insight-title">Thin Review Counts Undercut Premium Positioning</div>
+      <div class="insight-body">Flagship Air-Dried products carry 6–8 reviews. Newer Steam &amp; Dried SKUs show 0–1. For a brand priced at a significant premium, social proof at the moment of purchase intent is critical. Displaying a 2-sentence AI-generated summary of existing reviews adjacent to the "Buy now" buttons would concentrate available trust signals at the exact decision point.</div>
+      <div class="insight-page-tag">&#9654; PDP · Social Proof Zone</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 03 -->
+<section class="section">
+  <div class="section-number">Section 03</div>
+  <div class="section-title">Proposed A/B Tests</div>
+  <div class="section-desc">Three tests designed for ZIWI's retailer-redirect model. Each targets the retailer click-through event — the equivalent of "Add to Cart" for this site architecture.</div>
+
+  <!-- TEST 01 -->
+  <div class="test-card">
+    <div class="test-card-header">
+      <div>
+        <div class="test-number">Test 01 · PDP · Where to Buy Zone</div>
+        <div class="test-title">Redesign the Retailer CTA Zone for Visual Priority</div>
+        <div class="test-hypothesis">Replacing the passive "Looking to buy..." sentence with a clear action-oriented heading, upgrading retailer buttons to full-width high-contrast cards, and tagging the recommended retailer will lift the retailer click-through rate by giving ZIWI's sole conversion CTA the visual weight it deserves.</div>
+      </div>
+      <div class="ice-box">
+        <div class="ice-label">ICE Score</div>
+        <div class="ice-score">8.7</div>
+        <div class="ice-breakdown">I: 9 · C: 9 · E: 8</div>
+      </div>
+    </div>
+
+    <div class="mockup-row">
+      <div>
+        <div class="mockup-label control">Control (Now)</div>
+        <div class="wf-pdp">
+          <div class="wf-breadcrumb">Dog food &nbsp;&#8250;&nbsp; Air-dried &nbsp;&#8250;&nbsp; Original Beef Recipe</div>
+          <div class="wf-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="wf-title">Beef Recipe</div>
+          <div class="wf-recipe-row">
+            <span class="wf-recipe-pill active">Beef</span>
+            <span class="wf-recipe-pill">Chicken</span>
+            <span class="wf-recipe-pill">Lamb</span>
+            <span class="wf-recipe-pill">Venison</span>
+          </div>
+          <div class="wf-size-row">
+            <span class="wf-size-pill active">454g</span>
+            <span class="wf-size-pill">1kg</span>
+            <span class="wf-size-pill">2.5kg</span>
+            <span class="wf-size-pill">4kg</span>
+          </div>
+          <div class="wf-buy-zone-control">
+            <div class="wf-buy-prompt">Looking to buy in store or from your favourite online retailer? Where to buy</div>
+            <div class="wf-retailer-row-control">
+              <span class="wf-retailer-name">petstock</span>
+              <span class="wf-retailer-btn-control">Buy now</span>
+            </div>
+            <div class="wf-retailer-row-control">
+              <span class="wf-retailer-name">ANIMATES</span>
+              <span class="wf-retailer-btn-control">Buy now</span>
+            </div>
+            <div class="wf-retailer-row-control">
+              <span class="wf-retailer-name">Petdirect</span>
+              <span class="wf-retailer-btn-control">Buy now</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="mockup-label variant">Variant (Test)</div>
+        <div class="wf-pdp">
+          <div class="wf-breadcrumb">Dog food &nbsp;&#8250;&nbsp; Air-dried &nbsp;&#8250;&nbsp; Original Beef Recipe</div>
+          <div class="wf-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="wf-title">Beef Recipe</div>
+          <div class="wf-recipe-row">
+            <span class="wf-recipe-pill active">Beef</span>
+            <span class="wf-recipe-pill">Chicken</span>
+            <span class="wf-recipe-pill">Lamb</span>
+            <span class="wf-recipe-pill">Venison</span>
+          </div>
+          <div class="wf-size-row">
+            <span class="wf-size-pill active">454g</span>
+            <span class="wf-size-pill">1kg</span>
+            <span class="wf-size-pill">2.5kg</span>
+            <span class="wf-size-pill">4kg</span>
+          </div>
+          <div class="wf-buy-zone-variant">
+            <div class="wf-buy-heading">Buy ZIWI Beef Recipe</div>
+            <div class="wf-retailer-row-variant">
+              <div>
+                <div class="wf-retailer-name">petstock</div>
+                <div class="wf-retailer-price">Most popular</div>
+              </div>
+              <span class="wf-retailer-btn-variant">Buy now &#8594;</span>
+            </div>
+            <div class="wf-retailer-row-variant" style="background:#29395a;">
+              <div>
+                <div class="wf-retailer-name">ANIMATES</div>
+                <div class="wf-retailer-price">Online &amp; in-store</div>
+              </div>
+              <span class="wf-retailer-btn-variant">Buy now &#8594;</span>
+            </div>
+            <div class="wf-retailer-row-variant" style="background:#29395a;">
+              <div>
+                <div class="wf-retailer-name">Petdirect</div>
+                <div class="wf-retailer-price">Fast delivery</div>
+              </div>
+              <span class="wf-retailer-btn-variant">Buy now &#8594;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="test-card-body">
+      <div class="test-col">
+        <div class="test-col-title">Implementation Notes</div>
+        <div class="impl-tag">Shopify Liquid · product.liquid</div>
+        <ul class="impl-list">
+          <li>Replace the passive intro sentence with an action-oriented H3: "Buy [Product Name]" — dynamically rendered via <code>{{ product.title }}</code></li>
+          <li>Upgrade retailer rows from a flex row (logo + pill button) to full-width card blocks with a dark ZIWI navy background, the retailer name, a contextual sub-label ("Most popular", "Fast delivery"), and a high-contrast CTA button</li>
+          <li>Tag the first retailer (Petstock) with a "Most popular" label — this creates a subtle anchoring effect and reduces choice paralysis across three identical CTAs</li>
+          <li>GrowthBook flag: <code>pdp-retailer-cta-redesign</code> — 50/50 on all PDP traffic; primary metric: retailer "Buy now" click-through rate</li>
+          <li>Expected dev time: 4–6 hours (HTML/CSS in product.liquid, no logic changes)</li>
+        </ul>
+      </div>
+      <div class="test-col">
+        <div class="test-col-title">Revenue Projection (Conservative)</div>
+        <div class="metric-row">
+          <div class="metric-mini">
+            <div class="metric-mini-label">Expected CTR Lift</div>
+            <div class="metric-mini-value">+10–15%</div>
+            <div class="metric-mini-sub">CTA redesign benchmark</div>
+          </div>
+          <div class="metric-mini accent">
+            <div class="metric-mini-label">Monthly Uplift</div>
+            <div class="metric-mini-value">+$16K</div>
+            <div class="metric-mini-sub">Est. at current traffic</div>
+          </div>
+          <div class="metric-mini">
+            <div class="metric-mini-label">12-Month Revenue</div>
+            <div class="metric-mini-value">+$192K</div>
+            <div class="metric-mini-sub">Attributed to retailer</div>
+          </div>
+          <div class="metric-mini">
+            <div class="metric-mini-label">Implementation</div>
+            <div class="metric-mini-value" style="color:var(--green);">Low</div>
+            <div class="metric-mini-sub">4–6 hrs · CSS/HTML only</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEST 02 -->
+  <div class="test-card">
+    <div class="test-card-header">
+      <div>
+        <div class="test-number">Test 02 · PLP + PDP · Price Display</div>
+        <div class="test-title">Add "From $X at Retailers" Price Anchoring</div>
+        <div class="test-hypothesis">Displaying a starting price ("From $XX.XX at retailers") on both PLP product cards and the PDP product header will set accurate purchase expectations, improve the quality of retailer click-throughs, and lift overall click-through rate by reducing price uncertainty for ZIWI's target audience of informed, label-reading pet owners.</div>
+      </div>
+      <div class="ice-box">
+        <div class="ice-label">ICE Score</div>
+        <div class="ice-score">8.0</div>
+        <div class="ice-breakdown">I: 8 · C: 8 · E: 8</div>
+      </div>
+    </div>
+
+    <div class="mockup-row">
+      <div>
+        <div class="mockup-label control">Control (Now) — PLP</div>
+        <div class="wf-plp-grid">
+          <div class="wf-plp-card">
+            <div class="wf-plp-img">
+              <span>ZIWI bag</span>
+              <div class="wf-plp-new">New</div>
+            </div>
+            <div class="wf-plp-body">
+              <div class="wf-plp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <div class="wf-plp-type">Steam &amp; Dried</div>
+              <div class="wf-plp-name">Beef with Pumpkin</div>
+              <div class="wf-plp-no-price">— no price shown —</div>
+            </div>
+          </div>
+          <div class="wf-plp-card">
+            <div class="wf-plp-img">
+              <span>ZIWI bag</span>
+            </div>
+            <div class="wf-plp-body">
+              <div class="wf-plp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <div class="wf-plp-type">Air-Dried</div>
+              <div class="wf-plp-name">Beef Recipe</div>
+              <div class="wf-plp-no-price">— no price shown —</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="mockup-label variant">Variant (Test) — PLP</div>
+        <div class="wf-plp-grid">
+          <div class="wf-plp-card">
+            <div class="wf-plp-img">
+              <span>ZIWI bag</span>
+              <div class="wf-plp-new">New</div>
+            </div>
+            <div class="wf-plp-body">
+              <div class="wf-plp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <div class="wf-plp-type">Steam &amp; Dried</div>
+              <div class="wf-plp-name">Beef with Pumpkin</div>
+              <div class="wf-plp-price">From $XX.XX</div>
+              <div class="wf-plp-price-sub">at retailers</div>
+            </div>
+          </div>
+          <div class="wf-plp-card">
+            <div class="wf-plp-img">
+              <span>ZIWI bag</span>
+            </div>
+            <div class="wf-plp-body">
+              <div class="wf-plp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <div class="wf-plp-type">Air-Dried</div>
+              <div class="wf-plp-name">Beef Recipe</div>
+              <div class="wf-plp-price">From $XX.XX</div>
+              <div class="wf-plp-price-sub">at retailers</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="test-card-body">
+      <div class="test-col">
+        <div class="test-col-title">Implementation Notes</div>
+        <div class="impl-tag">Shopify Liquid · product-card + product.liquid</div>
+        <ul class="impl-list">
+          <li>In the product card snippet, render "From {{ product.price | money }}" below the product title, using Liquid's built-in money filter — prices are already in Shopify's database, confirmed via the Shopify Admin</li>
+          <li>Add "at retailers" as a sub-label in a lighter, smaller font to maintain the indirect retail model context — this prevents the impression that ZIWI is selling at that price directly</li>
+          <li>On PDP, display the same "From $X" anchor in the product header area, adjacent to the star rating, before the recipe selector</li>
+          <li>GrowthBook flag: <code>plp-pdp-price-anchor</code> — 50/50 split on collection pages and PDP; primary metric: retailer click-through rate; secondary: PLP click-through to PDP</li>
+          <li>For the "From" price, show the lowest variant price (smallest size) to anchor against the most accessible entry point</li>
+        </ul>
+      </div>
+      <div class="test-col">
+        <div class="test-col-title">Revenue Projection (Conservative)</div>
+        <div class="metric-row">
+          <div class="metric-mini">
+            <div class="metric-mini-label">Expected CTR Lift</div>
+            <div class="metric-mini-value">+8–12%</div>
+            <div class="metric-mini-sub">Price transparency benchmark</div>
+          </div>
+          <div class="metric-mini accent">
+            <div class="metric-mini-label">Monthly Uplift</div>
+            <div class="metric-mini-value">+$11K</div>
+            <div class="metric-mini-sub">Conservative 20% CTR improvement</div>
+          </div>
+          <div class="metric-mini">
+            <div class="metric-mini-label">12-Month Revenue</div>
+            <div class="metric-mini-value">+$132K</div>
+            <div class="metric-mini-sub">Attributed to retailer</div>
+          </div>
+          <div class="metric-mini">
+            <div class="metric-mini-label">Implementation</div>
+            <div class="metric-mini-value" style="color:var(--green);">Very Low</div>
+            <div class="metric-mini-sub">2–3 hrs · Liquid price filter</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEST 03 -->
+  <div class="test-card">
+    <div class="test-card-header">
+      <div>
+        <div class="test-number">Test 03 · PDP · Social Proof Zone</div>
+        <div class="test-title">AI Review Summary Adjacent to Retailer Buttons</div>
+        <div class="test-hypothesis">Adding a 2-sentence AI-generated summary of existing customer reviews (e.g. "Customers say their picky dogs finally accept ZIWI — and coat &amp; digestion improvements are noticed within weeks") directly above the retailer "Buy now" buttons will concentrate social proof at the decision point and lift click-through rate, particularly for premium-priced SKUs with low visible review counts.</div>
+      </div>
+      <div class="ice-box">
+        <div class="ice-label">ICE Score</div>
+        <div class="ice-score">7.7</div>
+        <div class="ice-breakdown">I: 8 · C: 8 · E: 7</div>
+      </div>
+    </div>
+
+    <div class="mockup-row">
+      <div>
+        <div class="mockup-label control">Control (Now)</div>
+        <div class="wf-pdp">
+          <div class="wf-stars">&#9733;&#9733;&#9733;&#9733;&#9733; <span style="font-size:10px;color:#888;">6 Reviews</span></div>
+          <div class="wf-title">Beef Recipe</div>
+          <div class="wf-recipe-row">
+            <span class="wf-recipe-pill active">Beef</span>
+            <span class="wf-recipe-pill">Chicken</span>
+            <span class="wf-recipe-pill">Lamb</span>
+          </div>
+          <div class="wf-size-row">
+            <span class="wf-size-pill active">454g</span>
+            <span class="wf-size-pill">1kg</span>
+            <span class="wf-size-pill">2.5kg</span>
+          </div>
+          <div class="wf-buy-zone-control">
+            <div class="wf-buy-prompt">Looking to buy in store or from your favourite online retailer? Where to buy</div>
+            <div class="wf-retailer-row-control">
+              <span class="wf-retailer-name">petstock</span>
+              <span class="wf-retailer-btn-control">Buy now</span>
+            </div>
+            <div class="wf-retailer-row-control">
+              <span class="wf-retailer-name">ANIMATES</span>
+              <span class="wf-retailer-btn-control">Buy now</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="mockup-label variant">Variant (Test)</div>
+        <div class="wf-pdp">
+          <div class="wf-stars">&#9733;&#9733;&#9733;&#9733;&#9733; <span style="font-size:10px;color:#888;">6 Reviews</span></div>
+          <div class="wf-title">Beef Recipe</div>
+          <div class="wf-recipe-row">
+            <span class="wf-recipe-pill active">Beef</span>
+            <span class="wf-recipe-pill">Chicken</span>
+            <span class="wf-recipe-pill">Lamb</span>
+          </div>
+          <div class="wf-size-row">
+            <span class="wf-size-pill active">454g</span>
+            <span class="wf-size-pill">1kg</span>
+            <span class="wf-size-pill">2.5kg</span>
+          </div>
+          <div class="wf-buy-zone-variant">
+            <div class="wf-buy-heading">Buy ZIWI Beef Recipe</div>
+            <div class="wf-review-summary">
+              <strong>What pet parents say:</strong> "My picky golden finally eats everything in the bowl — coat looks incredible after just 3 weeks. Worth every cent."
+            </div>
+            <div class="wf-retailer-row-variant">
+              <div>
+                <div class="wf-retailer-name">petstock</div>
+                <div class="wf-retailer-price">Most popular</div>
+              </div>
+              <span class="wf-retailer-btn-variant">Buy now &#8594;</span>
+            </div>
+            <div class="wf-retailer-row-variant" style="background:#29395a;">
+              <div>
+                <div class="wf-retailer-name">ANIMATES</div>
+                <div class="wf-retailer-price">Online &amp; in-store</div>
+              </div>
+              <span class="wf-retailer-btn-variant">Buy now &#8594;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="test-card-body">
+      <div class="test-col">
+        <div class="test-col-title">Implementation Notes</div>
+        <div class="impl-tag">Shopify Liquid + AI review summarisation</div>
+        <ul class="impl-list">
+          <li>Generate a 2-sentence review summary per product using an AI tool (e.g. GPT-4 API, or the Judge.me / Okendo review app's built-in AI summary feature)</li>
+          <li>Inject the summary as a Shopify metafield (<code>product.metafields.reviews.ai_summary</code>) — this allows product-specific summaries without code changes per product</li>
+          <li>In <code>product.liquid</code>, render the metafield as a quoted pull-out block directly above the retailer button list, styled with a teal left-border and italic text — visually distinct from the product description</li>
+          <li>For products with 0 reviews, conditionally suppress the block and instead show the brand's own product headline (e.g. "96% meat, organs &amp; bone — no fillers")</li>
+          <li>GrowthBook flag: <code>pdp-review-summary</code> — 50/50; primary metric: retailer CTR; secondary: time-on-page (proxy for engagement)</li>
+        </ul>
+      </div>
+      <div class="test-col">
+        <div class="test-col-title">Revenue Projection (Conservative)</div>
+        <div class="metric-row">
+          <div class="metric-mini">
+            <div class="metric-mini-label">Expected CTR Lift</div>
+            <div class="metric-mini-value">+8–12%</div>
+            <div class="metric-mini-sub">Social proof placement benchmark</div>
+          </div>
+          <div class="metric-mini accent">
+            <div class="metric-mini-label">Monthly Uplift</div>
+            <div class="metric-mini-value">+$12K</div>
+            <div class="metric-mini-sub">Conservative retailer CTR gain</div>
+          </div>
+          <div class="metric-mini">
+            <div class="metric-mini-label">12-Month Revenue</div>
+            <div class="metric-mini-value">+$144K</div>
+            <div class="metric-mini-sub">Attributed to retailer</div>
+          </div>
+          <div class="metric-mini">
+            <div class="metric-mini-label">Implementation</div>
+            <div class="metric-mini-value" style="color:var(--yellow);">Medium</div>
+            <div class="metric-mini-sub">AI summary + metafield setup</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 04 -->
+<section class="section">
+  <div class="section-number">Section 04</div>
+  <div class="section-title">Test Priority Summary</div>
+  <div class="section-desc">All three tests target ZIWI's sole conversion event — retailer click-through rate. No checkout modifications or discounting required.</div>
+
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>Priority</th>
+        <th>Test</th>
+        <th>Page</th>
+        <th>ICE</th>
+        <th>Expected Lift</th>
+        <th>12-Month Revenue</th>
+        <th>Effort</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:var(--accent);font-weight:800;">#1</td>
+        <td class="td-title">Retailer CTA Zone Redesign</td>
+        <td><span class="page-badge">PDP</span></td>
+        <td><span class="badge-ice">9</span></td>
+        <td class="td-lift">+10–15% retailer CTR</td>
+        <td class="td-rev">+$192K</td>
+        <td>Low</td>
+      </tr>
+      <tr>
+        <td style="color:var(--accent);font-weight:800;">#2</td>
+        <td class="td-title">Price Anchoring on PLP + PDP</td>
+        <td><span class="page-badge">PLP+PDP</span></td>
+        <td><span class="badge-ice">8</span></td>
+        <td class="td-lift">+8–12% retailer CTR</td>
+        <td class="td-rev">+$132K</td>
+        <td>Very Low</td>
+      </tr>
+      <tr>
+        <td style="color:var(--accent);font-weight:800;">#3</td>
+        <td class="td-title">AI Review Summary Near Buy Buttons</td>
+        <td><span class="page-badge">PDP</span></td>
+        <td><span class="badge-ice">8</span></td>
+        <td class="td-lift">+8–12% retailer CTR</td>
+        <td class="td-rev">+$144K</td>
+        <td>Medium</td>
+      </tr>
+      <tr style="background:#f0f9ff;">
+        <td colspan="5" style="font-weight:700;color:#0f172a;">Combined 12-Month Opportunity</td>
+        <td class="td-rev" style="font-size:18px;font-weight:900;">~$468K</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:20px;padding:16px 20px;background:rgba(37,99,235,0.04);border:1px solid rgba(37,99,235,0.12);border-radius:8px;">
+    <p style="font-size:12px;color:var(--muted);line-height:1.6;"><strong style="color:var(--subtle);">Note on revenue projections:</strong> No analytics access was provided for this Stage 1 audit. All projections are based on estimated traffic benchmarks (200K monthly sessions), an assumed 15% current retailer click-through rate, a 25% post-click purchase rate at retailers, and a conservative NZD $50 average transaction value. A Stage 2 engagement with GA4 access would sharpen these projections significantly.</p>
+  </div>
+</section>
+
+<!-- SECTION 05 -->
+<section class="section">
+  <div class="section-number">Section 05</div>
+  <div class="section-title">Recommended Next Steps</div>
+  <div class="section-desc">Suggested 6-week implementation and testing roadmap, prioritised by effort and impact.</div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-week">Week 1–2</div>
+      <div class="timeline-title">Instrument &amp; Baseline</div>
+      <div class="timeline-desc">Set up GrowthBook SDK, add event tracking for retailer "Buy now" button clicks (currently untracked in most setups), and confirm current click-through rates per retailer and per product. This baseline is critical — retailer CTR is likely the only metric on the ZIWI Shopify site that maps to revenue.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-week">Week 2</div>
+      <div class="timeline-title">Launch Test 02 — Price Anchoring</div>
+      <div class="timeline-desc">Quickest implementation: a single Liquid price filter on the product card and PDP header. Can ship and reach statistical significance within 7–10 days. The result will also validate the price transparency hypothesis before investing in Test 01.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-week">Week 3</div>
+      <div class="timeline-title">Launch Test 01 — Retailer CTA Redesign</div>
+      <div class="timeline-desc">4–6 hours of HTML/CSS work to transform the retailer zone from a passive set of rows into a high-priority purchase destination. Expected to be the highest-impact test — run 50/50 on all PDP traffic with retailer CTR as the primary metric.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-week">Week 4</div>
+      <div class="timeline-title">Launch Test 03 — AI Review Summary</div>
+      <div class="timeline-desc">Generate per-product review summaries (or product-specific benefit statements for 0-review SKUs). Load as Shopify metafields. Render above the retailer buttons. Run 50/50 on PDP traffic — stack this test once Tests 01 and 02 have reached significance.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-week">Week 5–6</div>
+      <div class="timeline-title">Read Results &amp; Stage 2 Planning</div>
+      <div class="timeline-desc">Ship winners to 100% of traffic. Stage 2 audit to explore deeper opportunities: international retailer expansion (adding AU/US retail partners per market), "Build your bowl" conversion optimisation, and homepage hero CTA testing to drive more PDP visits.</div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFER BLOCK -->
+<section class="offer-block">
+  <div class="offer-eyebrow">The Revenue Lift CRO Offer</div>
+  <div class="offer-title">4× your investment in measurable revenue — within 60 days, or I'll refund every cent.</div>
+  <div class="offer-guarantee">
+    This isn't a retainer or a long-term commitment. It's a focused 60-day engagement: we instrument, test, and ship. <strong>If we don't deliver at least 4× your investment in measurable revenue within 60 days, I'll refund every cent.</strong> No invoices, no chasing, no questions asked.
+  </div>
+  <a href="https://revenueliftcro.com/revenue-lift-cro-offer/" class="offer-cta">
+    Claim Your Revenue Lift
+    <span class="offer-cta-arrow">&#8594;</span>
+  </a>
+  <div class="offer-points">
+    <div class="offer-point">
+      <div class="offer-point-icon">&#9654;</div>
+      <div class="offer-point-text">
+        <strong>Zero risk</strong>
+        Full refund if we don't hit 4× ROI within 60 days. You keep any wins we ship along the way.
+      </div>
+    </div>
+    <div class="offer-point">
+      <div class="offer-point-icon">&#9675;</div>
+      <div class="offer-point-text">
+        <strong>No retainer</strong>
+        A fixed-scope engagement. We agree on the tests, we ship them, we measure the result.
+      </div>
+    </div>
+    <div class="offer-point">
+      <div class="offer-point-icon">&#9632;</div>
+      <div class="offer-point-text">
+        <strong>Measurable results</strong>
+        Every test is instrumented with GrowthBook. Revenue impact is calculated from real data — not estimates.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-left">
+    <svg width="24" height="24" viewBox="0 0 30 30" fill="none">
+      <circle cx="15" cy="15" r="14" stroke="#2563eb" stroke-width="2.2" fill="none" stroke-dasharray="60 28" stroke-dashoffset="-7"/>
+      <polyline points="4,24 8,17 12,20.5 16.5,12 22,18" stroke="#2563eb" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="22" cy="18" r="2" fill="#0d9488"/>
+    </svg>
+    <span class="footer-credit">revenueliftcro.com · cavell@revenueliftcro.com</span>
+  </div>
+  <div class="footer-right">ZIWI · Stage 1 CRO Audit · March 2026 · Shopify · Premium Pet Food</div>
+</footer>
+
+</body>
+</html>

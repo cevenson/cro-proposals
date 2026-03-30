@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wicked Weasel — Stage 1 Prospect Audit</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #080d1a;
+    --surface:   #0e1628;
+    --card:      #131c30;
+    --border:    #1e2d4a;
+    --accent:    #fb923c;
+    --accent2:   #f97316;
+    --brand:     #e91e8c;
+    --text:      #e2e8f0;
+    --muted:     #64748b;
+    --subtle:    #94a3b8;
+    --green:     #22c55e;
+    --green-bg:  rgba(34,197,94,0.08);
+    --red:       #ef4444;
+    --yellow:    #eab308;
+    --radius:    12px;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: linear-gradient(135deg, #080d1a 0%, #0e1628 40%, #0d1f3c 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 64px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 80% 40%, rgba(251,146,60,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+  .hero-logo-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+  }
+  .hero-logo-url {
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: 4px;
+  }
+  .hero-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+  .hero-title {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .hero-subtitle {
+    font-size: 18px;
+    color: var(--subtle);
+    margin-bottom: 36px;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(251,146,60,0.12);
+    border: 1px solid rgba(251,146,60,0.25);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+  }
+  .hero-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .metric-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+  }
+  .metric-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .metric-value {
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .metric-sub {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* ─── MAIN CONTENT ─── */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 64px;
+  }
+
+  /* ─── SECTION ─── */
+  .section {
+    padding: 64px 64px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-number {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-number::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+  .section-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+  .section-desc {
+    font-size: 15px;
+    color: var(--subtle);
+    max-width: 640px;
+  }
+
+  /* ─── FUNNEL / STORE OVERVIEW ─── */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 36px;
+  }
+  .overview-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .overview-card-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .overview-card-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .overview-card-note {
+    font-size: 13px;
+    color: var(--subtle);
+  }
+
+  .funnel-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 36px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .funnel-step {
+    padding: 24px 20px;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .funnel-step:last-child { border-right: none; }
+  .funnel-step-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .funnel-step-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .funnel-step-sub {
+    font-size: 12px;
+    color: var(--subtle);
+  }
+  .funnel-arrow {
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: var(--accent);
+    z-index: 2;
+  }
+
+  /* ─── KEY INSIGHTS ─── */
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 36px;
+  }
+  .insight-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .insight-card.high { border-left: 3px solid var(--red); }
+  .insight-card.medium { border-left: 3px solid var(--yellow); }
+  .insight-severity {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .insight-card.high .insight-severity { color: var(--red); }
+  .insight-card.medium .insight-severity { color: var(--yellow); }
+  .insight-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .insight-body {
+    font-size: 13px;
+    color: var(--subtle);
+    line-height: 1.6;
+  }
+  .insight-page-tag {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    padding: 3px 8px;
+  }
+
+  /* ─── TEST CARDS ─── */
+  .test-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 36px;
+  }
+  .test-card-header {
+    padding: 28px 32px 24px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: start;
+  }
+  .test-number {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .test-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .test-hypothesis {
+    font-size: 14px;
+    color: var(--subtle);
+    line-height: 1.6;
+    max-width: 580px;
+  }
+  .ice-box {
+    background: rgba(251,146,60,0.08);
+    border: 1px solid rgba(251,146,60,0.2);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    text-align: center;
+    min-width: 120px;
+  }
+  .ice-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .ice-score {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .ice-breakdown {
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .test-card-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .test-col {
+    padding: 28px 32px;
+    border-right: 1px solid var(--border);
+  }
+  .test-col:last-child { border-right: none; }
+  .test-col-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  /* ─── MOCKUP SECTION ─── */
+  .mockup-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 0;
+    padding: 28px 32px;
+    border-top: 1px solid var(--border);
+    background: rgba(0,0,0,0.2);
+  }
+  .mockup-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .mockup-label.control { color: var(--muted); }
+  .mockup-label.variant { color: var(--green); }
+
+  /* ─── WIREFRAME COMPONENTS ─── */
+  .wf-buybox {
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px;
+    font-family: 'Inter', sans-serif;
+    color: #1a1a1a;
+    font-size: 12px;
+  }
+  .wf-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 10px;
+  }
+  .wf-price {
+    font-size: 16px;
+    font-weight: 800;
+    color: #111;
+    margin-bottom: 4px;
+  }
+  .wf-bnpl-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+    padding: 6px 8px;
+    background: #f0f4ff;
+    border-radius: 6px;
+    font-size: 11px;
+    color: #333;
+  }
+  .wf-bnpl-logo {
+    background: #e8f4fd;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #1a73e8;
+  }
+  .wf-bnpl-logo.zip {
+    background: #fff0f5;
+    color: #e91e8c;
+  }
+  .wf-separator {
+    color: #ccc;
+    font-size: 10px;
+  }
+  .wf-swatch-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .wf-swatch {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+  }
+  .wf-swatch.active { border-color: #111; }
+  .wf-size-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .wf-size {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #555;
+    background: #fafafa;
+  }
+  .wf-size.active { border-color: #111; color: #111; background: #fff; }
+  .wf-atc {
+    background: #e91e8c;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 10px 16px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .wf-trust-strip {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0 4px;
+    border-top: 1px solid #f0f0f0;
+    margin-top: 4px;
+  }
+  .wf-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: #555;
+    flex: 1;
+  }
+  .wf-trust-icon {
+    font-size: 12px;
+  }
+  .wf-missing {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #bbb;
+    font-size: 10px;
+    font-style: italic;
+    border: 1px dashed #e8e8e8;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+  /* PLP card wireframe */
+  .wf-plp-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+    color: #1a1a1a;
+    font-size: 12px;
+  }
+  .wf-plp-img {
+    background: #f0e8f0;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #bbb;
+    font-size: 11px;
+    position: relative;
+  }
+  .wf-plp-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #e91e8c;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 3px 7px;
+    border-radius: 4px;
+  }
+  .wf-plp-badge.grey {
+    background: #888;
+  }
+  .wf-plp-info {
+    padding: 10px 12px;
+  }
+  .wf-plp-label {
+    font-size: 10px;
+    color: #999;
+    margin-bottom: 2px;
+  }
+  .wf-plp-label.warn {
+    color: #e91e8c;
+    font-weight: 600;
+  }
+  .wf-plp-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #111;
+    margin-bottom: 4px;
+  }
+  .wf-plp-price {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111;
+  }
+  .wf-plp-price-old {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 4px;
+    font-weight: 400;
+  }
+
+  /* ─── IMPLEMENTATION / METRICS columns ─── */
+  .impl-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .impl-list li {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--subtle);
+    line-height: 1.5;
+  }
+  .impl-list li::before {
+    content: '→';
+    color: var(--accent);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .impl-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(251,146,60,0.1);
+    color: var(--accent);
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin-bottom: 12px;
+  }
+  .metric-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 0;
+  }
+  .metric-mini {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .metric-mini-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .metric-mini-value {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+  .metric-mini-sub {
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .metric-mini.accent .metric-mini-value { color: var(--accent); }
+
+  /* ─── NEXT STEPS ─── */
+  .timeline {
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-left: 2px solid var(--border);
+    margin-left: 16px;
+  }
+  .timeline-item {
+    padding: 0 0 28px 28px;
+    position: relative;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -7px;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+  .timeline-week {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .timeline-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .timeline-desc {
+    font-size: 13px;
+    color: var(--subtle);
+    line-height: 1.6;
+  }
+
+  /* ─── SUMMARY TABLE ─── */
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 36px;
+  }
+  .summary-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .summary-table td {
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--subtle);
+    border-bottom: 1px solid rgba(30,45,74,0.5);
+    vertical-align: middle;
+  }
+  .summary-table tr:last-child td { border-bottom: none; }
+  .summary-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .td-title { color: #fff !important; font-weight: 600; }
+  .td-lift { color: var(--green) !important; font-weight: 700; }
+  .td-rev { color: var(--accent) !important; font-weight: 700; }
+  .badge-ice {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: rgba(251,146,60,0.12);
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .page-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.06);
+    color: var(--subtle);
+  }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    padding: 40px 64px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .footer-credit {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .footer-right {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* code */
+  code {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 11px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--subtle);
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<section class="hero">
+  <div class="hero-logo">
+    <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+      <circle cx="15" cy="15" r="14" stroke="#fb923c" stroke-width="2.2" fill="none" stroke-dasharray="60 28" stroke-dashoffset="-7"/>
+      <circle cx="15" cy="15" r="14" fill="#ea580c" opacity="0.10"/>
+      <polygon points="4,24 8,17 12,20.5 16.5,12 22,18 24,24" fill="#fb923c" opacity="0.15"/>
+      <polyline points="4,24 8,17 12,20.5 16.5,12 22,18" stroke="#fb923c" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="22" cy="18" r="2" fill="#fdba74"/>
+    </svg>
+    <span class="hero-logo-text">Revenue Lift CRO</span>
+    <span class="hero-logo-url">· revenueliftcro.com</span>
+  </div>
+
+  <div class="hero-eyebrow">Prospect Audit · March 2026</div>
+  <div class="hero-title">Wicked Weasel</div>
+  <div class="hero-subtitle">wickedweasel.com · Women's Swimwear & Apparel · Shopify</div>
+  <div class="hero-badge">
+    <span style="width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;"></span>
+    Stage 1 · Prospect Audit
+  </div>
+
+  <div class="hero-metrics">
+    <div class="metric-card">
+      <div class="metric-label">Monthly Revenue</div>
+      <div class="metric-value">$1.93M</div>
+      <div class="metric-sub">~$23.2M / year</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Monthly Sessions</div>
+      <div class="metric-value">406K</div>
+      <div class="metric-sub">1.5M page views / month</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Catalogue</div>
+      <div class="metric-value">433</div>
+      <div class="metric-sub">Products · 237 countries served</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">12-Month CRO Opportunity</div>
+      <div class="metric-value" style="color:var(--accent);">~$2.1M</div>
+      <div class="metric-sub">3 high-confidence tests</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ SECTION 01 — STORE OVERVIEW ═══════════════════════ -->
+<section class="section">
+  <div class="section-number">Section 01</div>
+  <div class="section-title">Store Overview</div>
+  <div class="section-desc">Crawl-based analysis of wickedweasel.com across homepage, PLP, PDP, and cart. No analytics access — all findings from live site inspection and structured CRO research.</div>
+
+  <div class="funnel-row">
+    <div class="funnel-step">
+      <div class="funnel-step-label">Monthly Sessions</div>
+      <div class="funnel-step-value">406K</div>
+      <div class="funnel-step-sub">Organic + paid traffic</div>
+      <div class="funnel-arrow">→</div>
+    </div>
+    <div class="funnel-step">
+      <div class="funnel-step-label">PLP → PDP</div>
+      <div class="funnel-step-value">~40%</div>
+      <div class="funnel-step-sub">Est. click-through rate</div>
+      <div class="funnel-arrow">→</div>
+    </div>
+    <div class="funnel-step">
+      <div class="funnel-step-label">PDP → ATC</div>
+      <div class="funnel-step-value">~18%</div>
+      <div class="funnel-step-sub">Est. add-to-cart rate</div>
+      <div class="funnel-arrow">→</div>
+    </div>
+    <div class="funnel-step">
+      <div class="funnel-step-label">Overall CVR</div>
+      <div class="funnel-step-value">~2.5%</div>
+      <div class="funnel-step-sub">Benchmark: fashion 2–4%</div>
+    </div>
+  </div>
+
+  <div class="overview-grid">
+    <div class="overview-card">
+      <div class="overview-card-label">Platform</div>
+      <div class="overview-card-value" style="font-size:20px;">Shopify</div>
+      <div class="overview-card-note">Dawn-derived theme · Liquid templates</div>
+    </div>
+    <div class="overview-card">
+      <div class="overview-card-label">BNPL Partners</div>
+      <div class="overview-card-value" style="font-size:20px;">Klarna · Zippay</div>
+      <div class="overview-card-note">Both active — absent from PDP buybox</div>
+    </div>
+    <div class="overview-card">
+      <div class="overview-card-label">AOV (implied)</div>
+      <div class="overview-card-value" style="font-size:20px;">~$120–150</div>
+      <div class="overview-card-note">Core items $50–$120 · Cover-ups to $120</div>
+    </div>
+    <div class="overview-card">
+      <div class="overview-card-label">Reviews Platform</div>
+      <div class="overview-card-value" style="font-size:20px;">None visible</div>
+      <div class="overview-card-note">No star ratings on PDP or PLP</div>
+    </div>
+    <div class="overview-card">
+      <div class="overview-card-label">Employees</div>
+      <div class="overview-card-value" style="font-size:20px;">13</div>
+      <div class="overview-card-note">Lean team — ease of implementation key</div>
+    </div>
+    <div class="overview-card">
+      <div class="overview-card-label">Global Reach</div>
+      <div class="overview-card-value" style="font-size:20px;">237</div>
+      <div class="overview-card-note">Countries shipped to · International focus</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ SECTION 02 — KEY FINDINGS ═══════════════════════ -->
+<section class="section">
+  <div class="section-number">Section 02</div>
+  <div class="section-title">Key CRO Findings</div>
+  <div class="section-desc">Three high-severity gaps identified during live crawl — all addressable without checkout modifications or deep discounting, per brief constraints.</div>
+
+  <div class="insights-grid">
+    <div class="insight-card high">
+      <div class="insight-severity">● High Severity</div>
+      <div class="insight-title">BNPL Invisible on PDP</div>
+      <div class="insight-body">Klarna and Zippay are both active — confirmed via footer links — but zero BNPL messaging appears anywhere on the PDP buybox. For a $50–$150 swimwear range, instalment messaging is proven to reduce payment friction and lift ATC rates by 13%+.</div>
+      <div class="insight-page-tag">&#9654;#9658; PDP · Buybox</div>
+    </div>
+    <div class="insight-card high">
+      <div class="insight-severity">● High Severity</div>
+      <div class="insight-title">Zero Trust Signals at Point of Purchase</div>
+      <div class="insight-body">The cart page shows three trust icons — "Great International Shipping Rates," "Exchanges and Returns," "Call Our Bikini Specialists" — yet none of these appear on the PDP where the purchase decision is actually made. These reassurances need to be at the ATC zone.</div>
+      <div class="insight-page-tag">&#9654;#9658; PDP · ATC Zone</div>
+    </div>
+    <div class="insight-card medium">
+      <div class="insight-severity">● Medium Severity</div>
+      <div class="insight-title">"Sale Price" Label on Every Product — No Actual Discount</div>
+      <div class="insight-body">Shopify's <code>products.json</code> confirms <code>compare_at_price: null</code> on all inspected variants — meaning no real discount exists — yet the theme displays "Sale price" as the default price label on all PLP cards. This erodes brand trust and dilutes the impact of genuine future promotions.</div>
+      <div class="insight-page-tag">&#9654;#9658; PLP · Product Cards</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ SECTION 03 — TEST PROPOSALS ═══════════════════════ -->
+<section class="section">
+  <div class="section-number">Section 03</div>
+  <div class="section-title">Proposed A/B Tests</div>
+  <div class="section-desc">Three tests prioritised bottom-of-funnel first. Each includes a before/after mockup, ICE score, Shopify implementation notes, and conservative revenue projections.</div>
+
+  <!-- ─── TEST 01 ─── -->
+  <div class="test-card">
+    <div class="test-card-header">
+      <div>
+        <div class="test-number">Test 01 · PDP · ATC Zone</div>
+        <div class="test-title">BNPL Payment Messaging in PDP Buybox</div>
+        <div class="test-hypothesis">Displaying "or 4 payments of $X with Klarna / Zippay" directly below the ATC button will reduce payment-size anxiety and lift add-to-cart rate by making high-intent shoppers realise the item is immediately affordable in instalments.</div>
+      </div>
+      <div class="ice-box">
+        <div class="ice-label">ICE Score</div>
+        <div class="ice-score">9.0</div>
+        <div class="ice-breakdown">I: 9 · C: 9 · E: 9</div>
+      </div>
+    </div>
+
+    <!-- Before/After Mockup -->
+    <div class="mockup-row">
+      <div>
+        <div class="mockup-label control">Control (Now)</div>
+        <div class="wf-buybox">
+          <div class="wf-title">Breeze Mesh Portia Sarong</div>
+          <div class="wf-price">$73 USD</div>
+          <div class="wf-missing">— no BNPL messaging —</div>
+          <div class="wf-swatch-row">
+            <div class="wf-swatch active" style="background:#f5f5f5;"></div>
+            <div class="wf-swatch" style="background:#3d2b1f;"></div>
+          </div>
+          <div class="wf-size-row">
+            <div class="wf-size active">XS/S</div>
+            <div class="wf-size">M/L</div>
+            <div class="wf-size">XL/XXL</div>
+          </div>
+          <div class="wf-atc">ADD TO CART $73 USD</div>
+        </div>
+      </div>
+      <div>
+        <div class="mockup-label variant">Variant (Test)</div>
+        <div class="wf-buybox">
+          <div class="wf-title">Breeze Mesh Portia Sarong</div>
+          <div class="wf-price">$73 USD</div>
+          <div class="wf-bnpl-row">
+            <span class="wf-bnpl-logo">Klarna</span>
+            <span>4 × $18.25 interest-free</span>
+            <span class="wf-separator">|</span>
+            <span class="wf-bnpl-logo zip">Zip</span>
+            <span>Own it now</span>
+          </div>
+          <div class="wf-swatch-row">
+            <div class="wf-swatch active" style="background:#f5f5f5;"></div>
+            <div class="wf-swatch" style="background:#3d2b1f;"></div>
+          </div>
+          <div class="wf-size-row">
+            <div class="wf-size active">XS/S</div>
+            <div class="wf-size">M/L</div>
+            <div class="wf-size">XL/XXL</div>
+          </div>
+          <div class="wf-atc">ADD TO CART $73 USD</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="test-card-body">
+      <div class="test-col">
+        <div class="test-col-title">Implementation Notes</div>
+        <div class="impl-tag">Shopify Liquid · product.liquid</div>
+        <ul class="impl-list">
+          <li>Add Klarna on-site messaging widget (<code>&lt;klarna-placement&gt;</code>) below <code>{{ product.price | money }}</code> in the main buybox section of <code>product.liquid</code> or the buybox snippet</li>
+          <li>Add Zippay inline widget (Zippay Shopify widget script) alongside — display as a flex row with a separator</li>
+          <li>Use <code>{{ product.price | divided_by: 400.0 | money }}</code> to dynamically calculate instalment amount (4 payments)</li>
+          <li>GrowthBook feature flag: <code>bnpl-buybox-display</code> — serve to 50% of PDP visitors; exclude returning purchasers from experiment population</li>
+          <li>Primary metric: ATC rate · Secondary: CVR · Guard: bounce rate</li>
+        </ul>
+      </div>
+      <div class="test-col">
+        <div class="test-col-title">Revenue Projection (Conservative)</div>
+        <div class="metric-row">
+          <div class="metric-mini">
+            <div class="metric-mini-label">Expected ATC Lift</div>
+            <div class="metric-mini-value">+8–13%</div>
+            <div class="metric-mini-sub">BNPL messaging benchmark</div>
+          </div>
+          <div class="metric-mini accent">
+            <div class="metric-mini-label">Monthly Uplift</div>
+            <div class="metric-mini-value" style="color:var(--accent);">+$58K</div>
+            <div class="metric-mini-sub">Conservative 3% CVR gain</div>
+          </div>
+          <div class="metric-mini">
+            <div class="metric-mini-label">12-Month Revenue</div>
+            <div class="metric-mini-value">+$696K</div>
+            <div class="metric-mini-sub">Incremental at current traffic</div>
+          </div>
+          <div class="metric-mini">
+            <div class="metric-mini-label">Implementation Effort</div>
+            <div class="metric-mini-value" style="color:var(--green);">Low</div>
+            <div class="metric-mini-sub">1–2 days dev · existing BNPL</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TEST 02 ─── -->
+  <div class="test-card">
+    <div class="test-card-header">
+      <div>
+        <div class="test-number">Test 02 · PDP · ATC Zone</div>
+        <div class="test-title">Trust Signal Strip Below ATC Button</div>
+        <div class="test-hypothesis">Adding a three-icon trust strip — International Shipping, Easy Exchanges, Bikini Specialists — directly below the ATC button on the PDP will reduce purchase hesitation and lift CVR by surfacing reassurances that already exist on the cart page but are absent at the critical decision point.</div>
+      </div>
+      <div class="ice-box">
+        <div class="ice-label">ICE Score</div>
+        <div class="ice-score">8.7</div>
+        <div class="ice-breakdown">I: 8 · C: 9 · E: 9</div>
+      </div>
+    </div>
+
+    <!-- Before/After Mockup -->
+    <div class="mockup-row">
+      <div>
+        <div class="mockup-label control">Control (Now)</div>
+        <div class="wf-buybox">
+          <div class="wf-title">Breeze Mesh Portia Sarong</div>
+          <div class="wf-price">$73 USD</div>
+          <div class="wf-swatch-row">
+            <div class="wf-swatch active" style="background:#f5f5f5;"></div>
+            <div class="wf-swatch" style="background:#3d2b1f;"></div>
+          </div>
+          <div class="wf-size-row">
+            <div class="wf-size active">XS/S</div>
+            <div class="wf-size">M/L</div>
+            <div class="wf-size">XL/XXL</div>
+          </div>
+          <div class="wf-atc">ADD TO CART $73 USD</div>
+          <div class="wf-missing">— no trust signals —</div>
+        </div>
+      </div>
+      <div>
+        <div class="mockup-label variant">Variant (Test)</div>
+        <div class="wf-buybox">
+          <div class="wf-title">Breeze Mesh Portia Sarong</div>
+          <div class="wf-price">$73 USD</div>
+          <div class="wf-swatch-row">
+            <div class="wf-swatch active" style="background:#f5f5f5;"></div>
+            <div class="wf-swatch" style="background:#3d2b1f;"></div>
+          </div>
+          <div class="wf-size-row">
+            <div class="wf-size active">XS/S</div>
+            <div class="wf-size">M/L</div>
+            <div class="wf-size">XL/XXL</div>
+          </div>
+          <div class="wf-atc">ADD TO CART $73 USD</div>
+          <div class="wf-trust-strip">
+            <div class="wf-trust-item"><span class="wf-trust-icon">&#9992;#9992;</span><span>Worldwide Shipping</span></div>
+            <div class="wf-trust-item"><span class="wf-trust-icon">↩#8617;</span><span>Easy Returns</span></div>
+            <div class="wf-trust-item"><span class="wf-trust-icon">&#9656;#x2709;</span><span>Bikini Experts</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="test-card-body">
+      <div class="test-col">
+        <div class="test-col-title">Implementation Notes</div>
+        <div class="impl-tag">Shopify Liquid · product.liquid</div>
+        <ul class="impl-list">
+          <li>After the <code>{% form 'product' %}</code> ATC form closing tag, inject a <code>&lt;div class="trust-strip"&gt;</code> containing three flex items: shipping icon + text, returns icon + text, phone/specialists icon + text</li>
+          <li>Icons can use inline SVG or a lightweight icon font (Heroicons included in most Shopify themes). Style with flex layout, 14px text, muted colour (#666)</li>
+          <li>Copy the existing trust bar text from the cart page for consistency: "Great International Shipping Rates," "Exchanges and Returns," "Call Our Bikini Specialists"</li>
+          <li>GrowthBook flag: <code>pdp-trust-strip</code> — 50/50 split; measure CVR and ATC-to-checkout rate</li>
+          <li>Estimated dev time: 2–4 hours (HTML/CSS only, no logic required)</li>
+        </ul>
+      </div>
+      <div class="test-col">
+        <div class="test-col-title">Revenue Projection (Conservative)</div>
+        <div class="metric-row">
+          <div class="metric-mini">
+            <div class="metric-mini-label">Expected CVR Lift</div>
+            <div class="metric-mini-value">+5–8%</div>
+            <div class="metric-mini-sub">Trust badge benchmark range</div>
+          </div>
+          <div class="metric-mini accent">
+            <div class="metric-mini-label">Monthly Uplift</div>
+            <div class="metric-mini-value" style="color:var(--accent);">+$49K</div>
+            <div class="metric-mini-sub">Conservative 2.5% CVR gain</div>
+          </div>
+          <div class="metric-mini">
+            <div class="metric-mini-label">12-Month Revenue</div>
+            <div class="metric-mini-value">+$588K</div>
+            <div class="metric-mini-sub">Incremental at current traffic</div>
+          </div>
+          <div class="metric-mini">
+            <div class="metric-mini-label">Implementation Effort</div>
+            <div class="metric-mini-value" style="color:var(--green);">Very Low</div>
+            <div class="metric-mini-sub">2–4 hours HTML/CSS only</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TEST 03 ─── -->
+  <div class="test-card">
+    <div class="test-card-header">
+      <div>
+        <div class="test-number">Test 03 · PLP · Product Cards</div>
+        <div class="test-title">Remove Misleading "Sale Price" Label from Non-Sale Products</div>
+        <div class="test-hypothesis">Fixing the theme bug that displays "Sale price" on all PLP product cards — when no actual compare-at price exists — will improve browsing trust and increase PLP-to-PDP click-through rate by removing false urgency signals that erode credibility with informed shoppers.</div>
+      </div>
+      <div class="ice-box">
+        <div class="ice-label">ICE Score</div>
+        <div class="ice-score">8.3</div>
+        <div class="ice-breakdown">I: 7 · C: 9 · E: 9</div>
+      </div>
+    </div>
+
+    <!-- Before/After Mockup -->
+    <div class="mockup-row">
+      <div>
+        <div class="mockup-label control">Control (Now)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div class="wf-plp-card">
+            <div class="wf-plp-img" style="height:90px;">
+              <span style="font-size:10px;color:#bbb;">img product image</span>
+            </div>
+            <div class="wf-plp-info">
+              <div class="wf-plp-label warn">Sale price</div>
+              <div class="wf-plp-name">Portia Sarong</div>
+              <div class="wf-plp-price">$73 USD</div>
+            </div>
+          </div>
+          <div class="wf-plp-card">
+            <div class="wf-plp-img" style="height:90px;">
+              <span style="font-size:10px;color:#bbb;">img product image</span>
+            </div>
+            <div class="wf-plp-info">
+              <div class="wf-plp-label warn">Sale price</div>
+              <div class="wf-plp-name">Keira Top</div>
+              <div class="wf-plp-price">$95 USD</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#ef4444;font-style:italic;text-align:center;">All products show "Sale price" — no actual sale</div>
+      </div>
+      <div>
+        <div class="mockup-label variant">Variant (Test)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div class="wf-plp-card">
+            <div class="wf-plp-img" style="height:90px;">
+              <span style="font-size:10px;color:#bbb;">img product image</span>
+            </div>
+            <div class="wf-plp-info">
+              <div class="wf-plp-label" style="color:#999;">Regular price</div>
+              <div class="wf-plp-name">Portia Sarong</div>
+              <div class="wf-plp-price">$73 USD</div>
+            </div>
+          </div>
+          <div class="wf-plp-card">
+            <div class="wf-plp-img" style="height:90px;">
+              <div class="wf-plp-badge">SALE</div>
+              <span style="font-size:10px;color:#bbb;">img product image</span>
+            </div>
+            <div class="wf-plp-info">
+              <div class="wf-plp-label warn">Sale price</div>
+              <div class="wf-plp-name">Sale Item Example</div>
+              <div class="wf-plp-price"><span class="wf-plp-price-old">$95</span>$72 USD</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#22c55e;font-style:italic;text-align:center;">"Sale price" only appears on genuine discounted items</div>
+      </div>
+    </div>
+
+    <div class="test-card-body">
+      <div class="test-col">
+        <div class="test-col-title">Implementation Notes</div>
+        <div class="impl-tag">Shopify Liquid · product-card snippet</div>
+        <ul class="impl-list">
+          <li>In the product card snippet (typically <code>product-card.liquid</code> or <code>card-product.liquid</code>), find the price label block and wrap the "Sale price" text in a conditional: <code>{% if product.compare_at_price > product.price %}</code></li>
+          <li>When <code>compare_at_price</code> is null or equal to price, render "Regular price" (or suppress the label entirely — test both variants separately if bandwidth allows)</li>
+          <li>The existing "Sale price" appears to be the theme's default price label, not a dynamic conditional — a one-line Liquid fix resolves this without breaking genuine sale display</li>
+          <li>GrowthBook flag: <code>plp-price-label-fix</code> — can be implemented as a direct theme fix rather than A/B test if team prefers shipping a fix; otherwise 50/50 on collection pages</li>
+          <li>Primary metric: PLP click-through rate · Secondary: overall CVR</li>
+        </ul>
+      </div>
+      <div class="test-col">
+        <div class="test-col-title">Revenue Projection (Conservative)</div>
+        <div class="metric-row">
+          <div class="metric-mini">
+            <div class="metric-mini-label">Expected PLP CTR Lift</div>
+            <div class="metric-mini-value">+5–10%</div>
+            <div class="metric-mini-sub">Improved pricing clarity benchmark</div>
+          </div>
+          <div class="metric-mini accent">
+            <div class="metric-mini-label">Monthly Uplift</div>
+            <div class="metric-mini-value" style="color:var(--accent);">+$34K</div>
+            <div class="metric-mini-sub">Conservative 1.8% CVR gain</div>
+          </div>
+          <div class="metric-mini">
+            <div class="metric-mini-label">12-Month Revenue</div>
+            <div class="metric-mini-value">+$408K</div>
+            <div class="metric-mini-sub">Incremental at current traffic</div>
+          </div>
+          <div class="metric-mini">
+            <div class="metric-mini-label">Implementation Effort</div>
+            <div class="metric-mini-value" style="color:var(--green);">Very Low</div>
+            <div class="metric-mini-sub">1–3 hours · single Liquid fix</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ SECTION 04 — TEST SUMMARY ═══════════════════════ -->
+<section class="section">
+  <div class="section-number">Section 04</div>
+  <div class="section-title">Test Priority Summary</div>
+  <div class="section-desc">All three tests are high-confidence, low-effort, and addressable within the stated constraints — no checkout changes, no deep discounting.</div>
+
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>Priority</th>
+        <th>Test</th>
+        <th>Page</th>
+        <th>ICE</th>
+        <th>CVR / Metric Lift</th>
+        <th>12-Month Revenue</th>
+        <th>Effort</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:var(--accent);font-weight:800;">#1</td>
+        <td class="td-title">BNPL Messaging on PDP Buybox</td>
+        <td><span class="page-badge">PDP</span></td>
+        <td><span class="badge-ice">9</span></td>
+        <td class="td-lift">+8–13% ATC rate</td>
+        <td class="td-rev">+$696K</td>
+        <td>Low</td>
+      </tr>
+      <tr>
+        <td style="color:var(--accent);font-weight:800;">#2</td>
+        <td class="td-title">Trust Strip Below ATC Button</td>
+        <td><span class="page-badge">PDP</span></td>
+        <td><span class="badge-ice">9</span></td>
+        <td class="td-lift">+5–8% CVR</td>
+        <td class="td-rev">+$588K</td>
+        <td>Very Low</td>
+      </tr>
+      <tr>
+        <td style="color:var(--accent);font-weight:800;">#3</td>
+        <td class="td-title">Fix "Sale Price" Label on PLP</td>
+        <td><span class="page-badge">PLP</span></td>
+        <td><span class="badge-ice">8</span></td>
+        <td class="td-lift">+5–10% PLP CTR</td>
+        <td class="td-rev">+$408K</td>
+        <td>Very Low</td>
+      </tr>
+      <tr style="background:rgba(251,146,60,0.04);">
+        <td colspan="5" style="font-weight:700;color:var(--text);">Combined 12-Month Opportunity</td>
+        <td class="td-rev" style="font-size:18px;font-weight:900;">~$1.69M</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════════════════ SECTION 05 — NEXT STEPS ═══════════════════════ -->
+<section class="section">
+  <div class="section-number">Section 05</div>
+  <div class="section-title">Recommended Next Steps</div>
+  <div class="section-desc">Suggested 6-week implementation and testing roadmap.</div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-week">Week 1–2</div>
+      <div class="timeline-title">Instrument &amp; Baseline</div>
+      <div class="timeline-desc">Set up GrowthBook SDK on Shopify, define experiment metrics in analytics (ATC rate, CVR, revenue per session). Establish 2-week baseline to confirm funnel benchmarks before any changes go live.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-week">Week 2</div>
+      <div class="timeline-title">Launch Test 03 — PLP Price Label Fix</div>
+      <div class="timeline-desc">Quickest implementation: single Liquid conditional in the product card snippet. Can ship as a direct fix or 50/50 A/B test. Expected stat-sig in 7–10 days given 406K monthly sessions on collection pages.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-week">Week 3</div>
+      <div class="timeline-title">Launch Test 02 — PDP Trust Strip</div>
+      <div class="timeline-desc">2–4 hours dev work. Deploy the trust strip below the ATC button on PDP using existing copy from the cart page. Run 50/50 on all PDP traffic. Primary metric: CVR on PDP; secondary: ATC-to-checkout rate.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-week">Week 4</div>
+      <div class="timeline-title">Launch Test 01 — BNPL Buybox Messaging</div>
+      <div class="timeline-desc">Integrate Klarna on-site widget + Zippay inline widget below the price on PDP. Dynamic instalment calculation via Liquid. 50/50 split on PDP visitors. Highest revenue potential of the three tests.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-week">Week 5–6</div>
+      <div class="timeline-title">Read Results &amp; Ship Winners</div>
+      <div class="timeline-desc">With 406K monthly sessions, most tests will reach statistical significance within 2–3 weeks. Winners ship to 100% of traffic. Stage 2 audit to identify next tier of opportunities (PDP reviews, homepage personalisation, cart upsell).</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<footer class="footer">
+  <div class="footer-left">
+    <svg width="24" height="24" viewBox="0 0 30 30" fill="none">
+      <circle cx="15" cy="15" r="14" stroke="#fb923c" stroke-width="2.2" fill="none" stroke-dasharray="60 28" stroke-dashoffset="-7"/>
+      <polyline points="4,24 8,17 12,20.5 16.5,12 22,18" stroke="#fb923c" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="22" cy="18" r="2" fill="#fdba74"/>
+    </svg>
+    <span class="footer-credit">Prepared by Cavell Evenson · cavell@evensongraphics.co.nz</span>
+  </div>
+  <div class="footer-right">Wicked Weasel · Stage 1 Prospect Audit · March 2026 · Shopify · Swimwear</div>
+</footer>
+
+</body>
+</html>

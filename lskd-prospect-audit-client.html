@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LSKD — Stage 1 CRO Audit | Revenue Lift CRO</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #ffffff;
+    --surface:  #f8fafc;
+    --surface2: #f1f5f9;
+    --border:   #e2e8f0;
+    --text:     #0f172a;
+    --muted:    #64748b;
+    --accent:   #2563eb;
+    --teal:     #0d9488;
+    --rose:     #dc2626;
+    --purple:   #7c3aed;
+    --blue:     #2563eb;
+    --green:    #16a34a;
+    --amber:    #b45309;
+    --orange:   #ea580c;
+
+    --home-col:  #7c3aed;
+    --plp-col:   #2563eb;
+    --pdp-col:   #0d9488;
+    --cart-col:  #16a34a;
+
+    --high:   #dc2626;
+    --med:    #d97706;
+    --low:    #16a34a;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── LAYOUT ── */
+  .page { max-width: 1060px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #eff6ff 0%, #f0fdfa 60%, #f8faff 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 56px 24px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(37,99,235,0.06) 0%, transparent 70%);
+  }
+
+  .rl-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  .rl-logo-text {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e3a5f;
+    letter-spacing: -0.01em;
+  }
+  .rl-logo-text em { font-style: italic; font-weight: 700; }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-sub {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 540px;
+    margin: 0 auto 28px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-badges {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .badge-shopify  { background: rgba(22,163,74,0.1);   color: #15803d; border: 1px solid rgba(22,163,74,0.25); }
+  .badge-stage1   { background: rgba(37,99,235,0.08);  color: var(--accent); border: 1px solid rgba(37,99,235,0.2); }
+  .badge-sport    { background: rgba(13,148,136,0.08); color: var(--teal); border: 1px solid rgba(13,148,136,0.2); }
+  .badge-noproj   { background: rgba(220,38,38,0.07);  color: var(--rose); border: 1px solid rgba(220,38,38,0.18); }
+
+  .stage-notice {
+    background: rgba(37,99,235,0.05);
+    border: 1px solid rgba(37,99,235,0.15);
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-size: 12px;
+    color: #1d4ed8;
+    max-width: 640px;
+    margin: 24px auto 0;
+    text-align: left;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+  }
+  .stage-notice strong { color: #1e3a8a; }
+
+  /* ── SECTION ── */
+  .section { padding: 52px 0 0; }
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 24px;
+  }
+
+  /* ── FUNNEL AUDIT CARDS ── */
+  .funnel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .funnel-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .funnel-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .funnel-card.home::before  { background: var(--home-col); }
+  .funnel-card.plp::before   { background: var(--plp-col); }
+  .funnel-card.pdp::before   { background: var(--pdp-col); }
+  .funnel-card.cart::before  { background: var(--cart-col); }
+
+  .funnel-page-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .home  .funnel-page-label { color: var(--home-col); }
+  .plp   .funnel-page-label { color: var(--plp-col); }
+  .pdp   .funnel-page-label { color: var(--pdp-col); }
+  .cart  .funnel-page-label { color: var(--cart-col); }
+
+  .finding-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .finding-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+  .sev {
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+  .sev.H, .sev.High { background: rgba(220,38,38,0.1);  color: var(--high); }
+  .sev.M, .sev.Med  { background: rgba(217,119,6,0.1);  color: var(--med); }
+  .sev.L, .sev.Low  { background: rgba(22,163,74,0.1);  color: var(--low); }
+
+  .positive-list { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .positive-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: var(--muted); }
+  .positive-item::before { content: '✓'; color: var(--teal); flex-shrink: 0; font-size: 11px; margin-top: 1px; }
+
+  /* ── INSIGHT CALLOUTS ── */
+  .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .insight-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid;
+    border-radius: 0 10px 10px 0;
+    padding: 18px 20px;
+  }
+  .insight-card.teal   { border-left-color: var(--teal); }
+  .insight-card.amber  { border-left-color: #d97706; }
+  .insight-card.rose   { border-left-color: var(--rose); }
+  .insight-card.purple { border-left-color: var(--purple); }
+  .insight-card.blue   { border-left-color: var(--blue); }
+  .insight-card.orange { border-left-color: var(--orange); }
+  .insight-num { font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .insight-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .insight-body  { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+  .insight-source { font-size: 10.5px; color: var(--muted); margin-top: 8px; font-style: italic; opacity: 0.7; }
+
+  /* ── TEST CARDS ── */
+  .tests-grid { display: flex; flex-direction: column; gap: 20px; }
+  .test-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(15,23,42,0.06);
+  }
+  .test-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .test-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .test-card:nth-child(1) .test-num { background: rgba(37,99,235,0.12); color: var(--blue); }
+  .test-card:nth-child(2) .test-num { background: rgba(13,148,136,0.12); color: var(--teal); }
+  .test-card:nth-child(3) .test-num { background: rgba(217,119,6,0.10); color: #d97706; }
+
+  .test-header-text { flex: 1; }
+  .test-name { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .test-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+  .test-tag {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 2px 8px; border-radius: 4px;
+  }
+  .tag-plp   { background: rgba(37,99,235,0.08);  color: var(--blue);   border: 1px solid rgba(37,99,235,0.2); }
+  .tag-pdp   { background: rgba(13,148,136,0.08); color: var(--teal);   border: 1px solid rgba(13,148,136,0.2); }
+  .tag-home  { background: rgba(124,58,237,0.08); color: var(--purple); border: 1px solid rgba(124,58,237,0.2); }
+  .tag-cart  { background: rgba(22,163,74,0.08);  color: var(--green);  border: 1px solid rgba(22,163,74,0.2); }
+  .tag-cvr   { background: rgba(220,38,38,0.07);  color: var(--rose);   border: 1px solid rgba(220,38,38,0.18); }
+  .tag-ease  { background: rgba(22,163,74,0.07);  color: var(--green);  border: 1px solid rgba(22,163,74,0.18); }
+
+  .ice-scores {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .ice-pill {
+    text-align: center;
+    min-width: 44px;
+  }
+  .ice-label { font-size: 9px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .ice-val { font-size: 17px; font-weight: 700; color: var(--text); line-height: 1; }
+  .ice-val.high { color: var(--rose); }
+  .ice-val.med  { color: var(--med); }
+  .ice-total {
+    background: var(--text);
+    color: #fff;
+    border-radius: 8px;
+    padding: 4px 10px;
+    text-align: center;
+  }
+  .ice-total .ice-label { color: rgba(255,255,255,0.65); }
+  .ice-total .ice-val { color: #fff; font-size: 20px; }
+
+  .test-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .test-col {
+    padding: 20px 22px;
+  }
+  .test-col + .test-col {
+    border-left: 1px solid var(--border);
+  }
+  .test-col-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+  }
+  .test-col p { font-size: 13px; color: var(--text); line-height: 1.55; }
+  .test-col ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .test-col ul li { font-size: 13px; color: var(--text); padding-left: 14px; position: relative; line-height: 1.5; }
+  .test-col ul li::before { content: '→'; position: absolute; left: 0; color: var(--muted); font-size: 11px; top: 2px; }
+
+  .hypothesis-box {
+    margin: 0 22px 20px;
+    background: rgba(37,99,235,0.04);
+    border: 1px solid rgba(37,99,235,0.15);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+    font-style: italic;
+  }
+  .hypothesis-box strong { font-style: normal; color: var(--accent); }
+
+  /* ── MOCKUP SECTION ── */
+  .card-mockup {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .product-card-mock {
+    width: 180px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    font-size: 11.5px;
+  }
+  .card-img { height: 120px; background: linear-gradient(135deg, #e2e8f0, #cbd5e1); display: flex; align-items: center; justify-content: center; }
+  .card-img span { font-size: 28px; }
+  .card-info { padding: 8px 10px; }
+  .card-name { font-weight: 600; color: var(--text); margin-bottom: 3px; font-size: 11px; line-height: 1.3; }
+  .card-price { color: var(--muted); font-size: 11px; }
+  .card-stars { display: flex; align-items: center; gap: 3px; margin-top: 4px; }
+  .stars { color: #f59e0b; font-size: 11px; letter-spacing: -1px; }
+  .review-count { font-size: 10px; color: var(--muted); }
+  .card-badge { background: rgba(220,38,38,0.08); color: var(--rose); font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 3px; margin-bottom: 4px; display: inline-block; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* Buy box mockup */
+  .buybox-mock {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 340px;
+    background: #fff;
+    font-size: 12px;
+  }
+  .buybox-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .buybox-price { font-size: 16px; font-weight: 700; color: var(--text); }
+  .buybox-rating { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--muted); }
+  .buybox-label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .size-btns { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .size-btn { border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; font-size: 11px; font-weight: 500; cursor: pointer; }
+  .size-btn.sel { border-color: var(--text); background: var(--text); color: #fff; }
+  .atc-btn { width: 100%; background: #0f172a; color: #fff; border: none; border-radius: 6px; padding: 10px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .delivery-promise {
+    margin-top: 10px;
+    background: rgba(22,163,74,0.05);
+    border: 1px solid rgba(22,163,74,0.15);
+    border-radius: 6px;
+    padding: 8px 10px;
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+  }
+  .delivery-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+  .delivery-text { font-size: 11px; color: var(--green); line-height: 1.4; }
+  .find-instore-below {
+    margin-top: 8px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  /* ── PROJECTION TABLE ── */
+  .proj-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 12px;
+  }
+  .proj-table th {
+    background: var(--surface2);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .proj-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+  .proj-table tr:last-child td { border-bottom: none; }
+  .proj-table tr.highlight td { background: rgba(37,99,235,0.04); font-weight: 500; }
+  .lift-chip {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .lift-chip.cons { background: rgba(22,163,74,0.08);  color: var(--green); }
+  .lift-chip.base { background: rgba(37,99,235,0.08);  color: var(--blue); }
+  .lift-chip.bull { background: rgba(234,88,12,0.08);  color: var(--orange); }
+
+  /* ── EVIDENCE SECTION ── */
+  .evidence-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 4px; }
+  .evidence-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 18px;
+  }
+  .evidence-num { font-size: 28px; font-weight: 700; color: var(--accent); margin-bottom: 4px; line-height: 1; }
+  .evidence-claim { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; line-height: 1.35; }
+  .evidence-body { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .evidence-source { font-size: 10.5px; color: var(--muted); margin-top: 8px; font-style: italic; opacity: 0.7; }
+
+  /* ── KPI SECTION ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+  .kpi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    text-align: center;
+  }
+  .kpi-metric { font-size: 22px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+  .kpi-label  { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .kpi-target { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+  /* ── RISKS TABLE ── */
+  .risk-list { display: flex; flex-direction: column; gap: 10px; }
+  .risk-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .risk-icon { font-size: 18px; flex-shrink: 0; }
+  .risk-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .risk-body  { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+  .risk-mit   { font-size: 12px; color: var(--green); margin-top: 5px; font-weight: 500; }
+
+  /* ── NEXT STEPS ── */
+  .steps-list { display: flex; flex-direction: column; gap: 10px; }
+  .step-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .step-num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-body { flex: 1; }
+  .step-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+  .step-desc  { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+  .step-owner { font-size: 11px; color: var(--accent); margin-top: 4px; font-weight: 500; }
+
+  /* ── DATA GAP BANNER ── */
+  .data-gap {
+    background: rgba(217,119,6,0.05);
+    border: 1px solid rgba(217,119,6,0.2);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 12.5px;
+    color: #92400e;
+    line-height: 1.55;
+    margin-top: 24px;
+  }
+  .data-gap strong { color: #78350f; }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: var(--border); margin: 48px 0 0; }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 64px;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 13px;
+    color: #1e3a5f;
+  }
+  .footer-brand em { font-style: italic; }
+</style>
+</head>
+<body>
+
+<!-- ──────────────────────────────────────────
+     HERO
+─────────────────────────────────────────── -->
+<div class="hero">
+  <div class="page">
+    <div class="rl-logo">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="15" cy="15" r="14" stroke="#2563eb" stroke-width="2.2" fill="none" stroke-dasharray="60 28" stroke-dashoffset="-7"/>
+        <circle cx="15" cy="15" r="14" fill="#1e3a8a" opacity="0.08"/>
+        <polygon points="4,24 8,17 12,20.5 16.5,12 22,18 24,24" fill="#2563eb" opacity="0.15"/>
+        <polyline points="4,24 8,17 12,20.5 16.5,12 22,18" stroke="#2563eb" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="22" cy="18" r="2" fill="#0d9488"/>
+      </svg>
+      <span class="rl-logo-text">Revenue <em>Lift</em> CRO &nbsp;·&nbsp; revenueliftcro.com</span>
+    </div>
+    <div class="hero-eyebrow">CRO Audit · March 2026</div>
+    <h1>LSKD<br>Conversion Audit</h1>
+    <p class="hero-sub">A full-funnel review across Home, PLP, PDP, and Cart — identifying the highest-leverage conversion opportunities with no checkout changes and no deep discounting.</p>
+    <div class="hero-badges">
+      <span class="badge badge-shopify">● Shopify</span>
+      <span class="badge badge-sport">Sportswear</span>
+      <span class="badge badge-stage1">Stage 1 · CRO Audit</span>
+      <span class="badge badge-noproj">CVR Focus · No Order Data</span>
+    </div>
+    <div class="stage-notice">
+      <strong>Stage 1 scope.</strong> Findings are based on a live site crawl and established CRO research — not order data, session recordings, or GA4. Revenue projections are expressed as relative CVR lift benchmarks using industry data. <strong>Stage 2 (full engagement)</strong> would unlock absolute revenue modelling once analytics access is provided.
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ──────────────────────────────────────────
+     FUNNEL AUDIT
+─────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-label">Full Funnel Review</div>
+  <div class="section-title">What We Found Across the Four Conversion Pages</div>
+
+  <div class="funnel-grid">
+
+    <!-- HOME -->
+    <div class="funnel-card home">
+      <div class="funnel-page-label">Home Page</div>
+      <ul class="finding-list">
+        <li class="finding-item"><span class="sev Med">Med</span><span>Hero tagline "alldayactive" is a lifestyle statement, not a conversion hook — new visitors can't immediately identify the brand's core offer.</span></li>
+        <li class="finding-item"><span class="sev Med">Med</span><span>Announcement bar promotes 15% off first <em>app</em> purchase — actively diverts web traffic toward the app before a web conversion attempt.</span></li>
+        <li class="finding-item"><span class="sev Low">Low</span><span>Hero CTA ("Shop Now") appears slightly below fold on standard viewports — value prop and CTA aren't co-located above the scroll line.</span></li>
+        <li class="finding-item"><span class="sev Low">Low</span><span>No trust signals above fold: no aggregate review count, press mentions, or star rating to anchor first impressions.</span></li>
+      </ul>
+      <ul class="positive-list">
+        <li class="positive-item">Strong editorial imagery; brand identity is visually distinct</li>
+        <li class="positive-item">Category navigation (Popular, Womens, Mens, Unisex) is clear</li>
+        <li class="positive-item">Community and Rewards links visible in header — loyalty signal</li>
+      </ul>
+    </div>
+
+    <!-- PLP -->
+    <div class="funnel-card plp">
+      <div class="funnel-page-label">Product Listing Page</div>
+      <ul class="finding-list">
+        <li class="finding-item"><span class="sev High">High</span><span>Product cards display <strong>zero review indicators</strong> — star ratings and review counts are completely absent from PLP cards, despite flagship products having 10,000+ verified reviews.</span></li>
+        <li class="finding-item"><span class="sev Med">Med</span><span>432 results in the main Womens collection with no default sort by popularity or bestseller — high-converting products may be buried.</span></li>
+        <li class="finding-item"><span class="sev Low">Low</span><span>Filter options require tapping "Filter &amp; Sort" — filter chips aren't pre-surfaced on desktop for a 432-result catalogue.</span></li>
+      </ul>
+      <ul class="positive-list">
+        <li class="positive-item">"Popular Style 🔥" and "New" badges provide browsing cues</li>
+        <li class="positive-item">"2 For $110" bundle badges surface offers at browse stage</li>
+        <li class="positive-item">Subcategory chip filters (Flare, 7/8, Bike Shorts, etc.) present</li>
+        <li class="positive-item">Quick-add (+) button on each card reduces friction</li>
+        <li class="positive-item">Core Styles editorial guide (Fusion/Rep/Elixir) aids decision</li>
+      </ul>
+    </div>
+
+    <!-- PDP -->
+    <div class="funnel-card pdp">
+      <div class="funnel-page-label">Product Detail Page</div>
+      <ul class="finding-list">
+        <li class="finding-item"><span class="sev High">High</span><span>"Find In-Store" CTA renders as a prominent full-width button <em>directly above the size selector</em> — the first actionable element an online shopper encounters creates an unexpected in-store off-ramp.</span></li>
+        <li class="finding-item"><span class="sev Med">Med</span><span>No delivery estimate or shipping promise visible near the ATC zone — customers complete size selection without knowing when their order arrives or what the returns policy is.</span></li>
+        <li class="finding-item"><span class="sev Med">Med</span><span>No per-size stock availability indicators — shoppers selecting a size have no urgency signal or awareness of low availability.</span></li>
+        <li class="finding-item"><span class="sev Low">Low</span><span>Product Details and Model Details accordions are collapsed by default — key fit information requires an extra click to surface.</span></li>
+      </ul>
+      <ul class="positive-list">
+        <li class="positive-item">Sticky ATC bar ensures "Add to Bag" is always accessible</li>
+        <li class="positive-item">4.7★ / 12,094 reviews visible inline — exceptional social proof</li>
+        <li class="positive-item">"Best-Seller" and "94%+ Recommended" image badges are strong</li>
+        <li class="positive-item">"Complete the Fit" cross-sell section exists after ATC</li>
+        <li class="positive-item">Fit indicator (Runs Small → True to Size → Runs Large) present</li>
+      </ul>
+    </div>
+
+    <!-- CART -->
+    <div class="funnel-card cart">
+      <div class="funnel-page-label">Cart / Checkout</div>
+      <ul class="finding-list">
+        <li class="finding-item"><span class="sev Med">Med</span><span>Cart drawer could not be fully evaluated in this audit — detailed assessment of trust signals, upsell placement, and checkout CTA requires analytics access.</span></li>
+        <li class="finding-item"><span class="sev Low">Low</span><span>Empty cart page offers category navigation but no "recently viewed" or personalised product recovery prompt.</span></li>
+      </ul>
+      <ul class="positive-list">
+        <li class="positive-item">Cart is a slide-out drawer (no full-page redirect) — lower friction UX</li>
+        <li class="positive-item">Checkout is out of scope for Stage 1 per brief constraints</li>
+        <li class="positive-item">Cart page design is clean with clear navigation fallback</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ──────────────────────────────────────────
+     KEY INSIGHTS
+─────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-label">Key Insights</div>
+  <div class="section-title">What the Audit Tells Us</div>
+
+  <div class="insights-grid">
+    <div class="insight-card rose">
+      <div class="insight-num">0</div>
+      <div class="insight-title">Review stars on PLP cards</div>
+      <div class="insight-body">Despite flagship leggings carrying 12,094 reviews at 4.7 stars, not a single PLP product card surfaces a rating. Shoppers browsing 432 Womens SKUs can't filter by confidence — they're choosing blind.</div>
+      <div class="insight-source">Finding: Live PLP crawl · lskd.co/collections/womens</div>
+    </div>
+    <div class="insight-card amber">
+      <div class="insight-num">#1</div>
+      <div class="insight-title">"Find In-Store" is the first PDP action</div>
+      <div class="insight-body">Before a customer can select their size, a full-width "Find In-Store" button is the most prominent interactive element on the PDP. Online-intent shoppers hit a physical off-ramp before any purchase flow begins.</div>
+      <div class="insight-source">Finding: Live PDP crawl · O.G. Fusion legging</div>
+    </div>
+    <div class="insight-card teal">
+      <div class="insight-num">?</div>
+      <div class="insight-title">No delivery signal near the buy button</div>
+      <div class="insight-body">At the point of size selection and purchase, customers see no shipping estimate, free returns notice, or fulfilment promise. Research consistently shows delivery uncertainty is a top-3 reason for cart abandonment in apparel.</div>
+      <div class="insight-source">Finding: Live PDP crawl + CRO research database</div>
+    </div>
+  </div>
+
+  <div class="data-gap">
+    <strong>Data gap note:</strong> Without GA4 or Shopify order data, we cannot confirm page-level drop-off rates, mobile vs desktop CVR splits, or which specific products drive the most exits. The three tests below are based on structural friction found in the live crawl and are supported by published sportswear CRO evidence.
+  </div>
+</div>
+
+<!-- ──────────────────────────────────────────
+     PROPOSED TESTS
+─────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-label">Prioritised Hypotheses · ICE Scored</div>
+  <div class="section-title">3 Proposed Tests — Highest Impact First</div>
+
+  <div class="tests-grid">
+
+    <!-- TEST 1: PLP REVIEWS -->
+    <div class="test-card">
+      <div class="test-header">
+        <div class="test-num">1</div>
+        <div class="test-header-text">
+          <div class="test-name">PLP Star Ratings — Surface Social Proof at Browse Stage</div>
+          <div class="test-meta">
+            <span class="test-tag tag-plp">PLP</span>
+            <span class="test-tag tag-cvr">CVR</span>
+            <span class="test-tag tag-ease">Easy to Ship</span>
+          </div>
+        </div>
+        <div class="ice-scores">
+          <div class="ice-pill">
+            <div class="ice-label">Impact</div>
+            <div class="ice-val high">8</div>
+          </div>
+          <div class="ice-pill">
+            <div class="ice-label">Confidence</div>
+            <div class="ice-val high">8</div>
+          </div>
+          <div class="ice-pill">
+            <div class="ice-label">Ease</div>
+            <div class="ice-val med">7</div>
+          </div>
+          <div class="ice-total">
+            <div class="ice-label">ICE</div>
+            <div class="ice-val">7.7</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hypothesis-box">
+        <strong>If we</strong> display aggregate star ratings and review counts on PLP product cards, <strong>then</strong> the PLP-to-PDP click-through rate and overall conversion rate will increase, <strong>because</strong> customers browsing a 432-product catalogue can filter by peer-validated confidence before clicking — reducing hesitation at the discovery stage.
+      </div>
+
+      <div class="test-body">
+        <div class="test-col">
+          <div class="test-col-label">Control (Current State)</div>
+          <p>Product cards show: product name, price, variant name, and colour swatches. No social proof element is present. A shopper comparing two leggings at $105 vs $125 NZD has no peer signal to guide their choice — they must click through to each PDP to find reviews.</p>
+        </div>
+        <div class="test-col">
+          <div class="test-col-label">Variant (Test State)</div>
+          <ul>
+            <li>Add ★★★★★ star rating + review count below product name on every card</li>
+            <li>Display "Best Seller" badge for products with 500+ reviews and 4.5+ rating</li>
+            <li>Star ratings pull from existing review app data — no new integrations needed</li>
+            <li>Control which products show ratings via metafield or theme setting toggle</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="padding: 0 22px 20px;">
+        <div class="test-col-label" style="margin-bottom: 10px;">What Customers Would See</div>
+        <div class="card-mockup">
+          <div>
+            <div style="font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.08em;">Control (Now)</div>
+            <div class="product-card-mock">
+              <div class="card-img"><span>🏃‍♀️</span></div>
+              <div class="card-info">
+                <div class="card-name">O.G. Fusion Legging Pockets</div>
+                <div class="card-price">$105.00 NZD</div>
+                <div style="font-size: 11px; color: #94a3b8; margin-top: 3px;">Black</div>
+              </div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; padding-top: 32px; font-size: 20px; color: var(--muted);">→</div>
+          <div>
+            <div style="font-size: 11px; font-weight: 600; color: var(--green); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.08em;">Variant (Test)</div>
+            <div class="product-card-mock">
+              <div class="card-img"><span>🏃‍♀️</span></div>
+              <div class="card-info">
+                <div class="card-badge">Best Seller</div>
+                <div class="card-name">O.G. Fusion Legging Pockets</div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div class="card-price">$105.00 NZD</div>
+                </div>
+                <div class="card-stars">
+                  <span class="stars">★★★★★</span>
+                  <span class="review-count">4.7 (12,094)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEST 2: FIND IN-STORE -->
+    <div class="test-card">
+      <div class="test-header">
+        <div class="test-num">2</div>
+        <div class="test-header-text">
+          <div class="test-name">PDP Buy Zone — Relocate "Find In-Store" Below the ATC</div>
+          <div class="test-meta">
+            <span class="test-tag tag-pdp">PDP</span>
+            <span class="test-tag tag-cvr">CVR</span>
+            <span class="test-tag tag-ease">Easy to Ship</span>
+          </div>
+        </div>
+        <div class="ice-scores">
+          <div class="ice-pill">
+            <div class="ice-label">Impact</div>
+            <div class="ice-val high">7</div>
+          </div>
+          <div class="ice-pill">
+            <div class="ice-label">Confidence</div>
+            <div class="ice-val med">7</div>
+          </div>
+          <div class="ice-pill">
+            <div class="ice-label">Ease</div>
+            <div class="ice-val med">7</div>
+          </div>
+          <div class="ice-total">
+            <div class="ice-label">ICE</div>
+            <div class="ice-val">7.0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hypothesis-box">
+        <strong>If we</strong> move "Find In-Store" from a prominent full-width button above the size selector to a subtle text link below the ATC button, <strong>then</strong> the online ATC rate will increase <strong>because</strong> the primary purchase path is no longer interrupted by a physical store redirect before the customer has made any size selection.
+      </div>
+
+      <div class="test-body">
+        <div class="test-col">
+          <div class="test-col-label">Control (Current State)</div>
+          <p>Order of elements in the buy box: product name → price + rating → description → <strong style="color: var(--rose);">[ FIND IN-STORE button ]</strong> → size selector → length selector → [accordions] → ATC. An in-store option is the first interactive element a customer encounters — creating cognitive friction before any purchase intent is captured.</p>
+        </div>
+        <div class="test-col">
+          <div class="test-col-label">Variant (Test State)</div>
+          <ul>
+            <li>Remove full-width "Find In-Store" button from above the size selector</li>
+            <li>Replace with a small text link: "Looking for a store? Find one near you →" placed below the ATC button</li>
+            <li>In-store functionality is preserved — it's purely repositioned, not removed</li>
+            <li>Requires a Liquid template tweak — no app changes needed</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="padding: 0 22px 20px;">
+        <div class="test-col-label" style="margin-bottom: 10px;">What Customers Would See</div>
+        <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start;">
+          <div>
+            <div style="font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.08em;">Control (Now)</div>
+            <div class="buybox-mock">
+              <div class="buybox-row">
+                <span class="buybox-price">$105.00 NZD</span>
+                <span class="buybox-rating"><span style="color:#f59e0b;">★</span> 4.7 (12,094)</span>
+              </div>
+              <div style="background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px; font-size: 12px; text-align: center; color: #374151; margin-bottom: 12px; font-weight: 500;">Find In-Store ›</div>
+              <div class="buybox-label">Select Size</div>
+              <div class="size-btns"><span class="size-btn">XS</span><span class="size-btn sel">S</span><span class="size-btn">M</span><span class="size-btn">L</span><span class="size-btn">XL</span></div>
+              <button class="atc-btn">ADD TO BAG</button>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; padding-top: 40px; font-size: 20px; color: var(--muted);">→</div>
+          <div>
+            <div style="font-size: 11px; font-weight: 600; color: var(--green); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.08em;">Variant (Test)</div>
+            <div class="buybox-mock">
+              <div class="buybox-row">
+                <span class="buybox-price">$105.00 NZD</span>
+                <span class="buybox-rating"><span style="color:#f59e0b;">★</span> 4.7 (12,094)</span>
+              </div>
+              <div class="buybox-label">Select Size</div>
+              <div class="size-btns"><span class="size-btn">XS</span><span class="size-btn sel">S</span><span class="size-btn">M</span><span class="size-btn">L</span><span class="size-btn">XL</span></div>
+              <button class="atc-btn">ADD TO BAG</button>
+              <div class="find-instore-below">Looking for a store near you? →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEST 3: DELIVERY PROMISE -->
+    <div class="test-card">
+      <div class="test-header">
+        <div class="test-num">3</div>
+        <div class="test-header-text">
+          <div class="test-name">PDP Buy Zone — Add Delivery Promise &amp; Returns Signal</div>
+          <div class="test-meta">
+            <span class="test-tag tag-pdp">PDP</span>
+            <span class="test-tag tag-cvr">CVR</span>
+          </div>
+        </div>
+        <div class="ice-scores">
+          <div class="ice-pill">
+            <div class="ice-label">Impact</div>
+            <div class="ice-val med">7</div>
+          </div>
+          <div class="ice-pill">
+            <div class="ice-label">Confidence</div>
+            <div class="ice-val med">7</div>
+          </div>
+          <div class="ice-pill">
+            <div class="ice-label">Ease</div>
+            <div class="ice-val med">6</div>
+          </div>
+          <div class="ice-total">
+            <div class="ice-label">ICE</div>
+            <div class="ice-val">6.7</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hypothesis-box">
+        <strong>If we</strong> add a compact delivery promise and returns badge below the ATC button (e.g., "Free shipping over $X NZD · Free returns within 30 days"), <strong>then</strong> the ATC-to-purchase conversion rate will improve <strong>because</strong> customers who've selected their size have one final decision gate — fulfilment uncertainty — and removing that hesitation at the buy zone accelerates purchase commitment.
+      </div>
+
+      <div class="test-body">
+        <div class="test-col">
+          <div class="test-col-label">Control (Current State)</div>
+          <p>After selecting size and length, the customer sees only the "ADD TO BAG" button. There is no visible shipping promise, estimated delivery date, return window, or security signal near the point of commitment. For a $105–$125 NZD purchase, this is a significant trust gap at the final decision point.</p>
+        </div>
+        <div class="test-col">
+          <div class="test-col-label">Variant (Test State)</div>
+          <ul>
+            <li>Add an icon + copy block directly below the ATC: "🚚 Free shipping over [threshold] NZD"</li>
+            <li>Add: "↩ Free returns within 30 days" (or match LSKD's actual policy)</li>
+            <li>Optionally: "🔒 Secure checkout" trust badge</li>
+            <li>Can be implemented via theme section or metablock — no app needed</li>
+            <li>Copy should match LSKD's actual shipping and returns terms</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="padding: 0 22px 20px;">
+        <div class="test-col-label" style="margin-bottom: 10px;">What Customers Would See</div>
+        <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start;">
+          <div>
+            <div style="font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.08em;">Control (Now)</div>
+            <div class="buybox-mock" style="max-width: 240px;">
+              <div class="buybox-label">Select Size</div>
+              <div class="size-btns"><span class="size-btn sel">M</span><span class="size-btn">L</span></div>
+              <button class="atc-btn">ADD TO BAG</button>
+              <div style="height: 32px;"></div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; padding-top: 30px; font-size: 20px; color: var(--muted);">→</div>
+          <div>
+            <div style="font-size: 11px; font-weight: 600; color: var(--green); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.08em;">Variant (Test)</div>
+            <div class="buybox-mock" style="max-width: 260px;">
+              <div class="buybox-label">Select Size</div>
+              <div class="size-btns"><span class="size-btn sel">M</span><span class="size-btn">L</span></div>
+              <button class="atc-btn">ADD TO BAG</button>
+              <div class="delivery-promise">
+                <span class="delivery-icon">🚚</span>
+                <div class="delivery-text">Free shipping over $X NZD · Free returns within 30 days</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ──────────────────────────────────────────
+     PROJECTED CVR LIFT
+─────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-label">Revenue Projections</div>
+  <div class="section-title">Projected CVR Lift — Relative Estimates</div>
+  <p style="font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.6;">
+    Without access to LSKD's analytics baseline, absolute revenue projections aren't possible at Stage 1. The table below shows estimated relative CVR lift per test, derived from published split-test results in sportswear and apparel e-commerce.
+  </p>
+
+  <table class="proj-table">
+    <thead>
+      <tr>
+        <th>Test</th>
+        <th>Page</th>
+        <th>Metric Affected</th>
+        <th>Conservative</th>
+        <th>Base</th>
+        <th>Bullish</th>
+        <th>Evidence Source</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="highlight">
+        <td><strong>Test 1</strong> — PLP Star Ratings</td>
+        <td>PLP</td>
+        <td>PLP → PDP click-through rate</td>
+        <td><span class="lift-chip cons">+5% CTR</span></td>
+        <td><span class="lift-chip base">+10% CTR</span></td>
+        <td><span class="lift-chip bull">+15% CTR</span></td>
+        <td>Apparel split tests; review visibility at browse stage</td>
+      </tr>
+      <tr>
+        <td><strong>Test 2</strong> — Find In-Store Relocate</td>
+        <td>PDP</td>
+        <td>Online ATC rate</td>
+        <td><span class="lift-chip cons">+2% ATC</span></td>
+        <td><span class="lift-chip base">+4% ATC</span></td>
+        <td><span class="lift-chip bull">+7% ATC</span></td>
+        <td>Off-ramp removal studies; friction reduction research</td>
+      </tr>
+      <tr class="highlight">
+        <td><strong>Test 3</strong> — Delivery Promise</td>
+        <td>PDP</td>
+        <td>ATC → purchase conversion</td>
+        <td><span class="lift-chip cons">+3% CVR</span></td>
+        <td><span class="lift-chip base">+6% CVR</span></td>
+        <td><span class="lift-chip bull">+10% CVR</span></td>
+        <td>Shipping uncertainty is top-3 cart abandonment driver</td>
+      </tr>
+      <tr>
+        <td colspan="3"><strong>Combined CVR Lift Estimate (conservative stacking)</strong></td>
+        <td colspan="3"><span class="lift-chip base" style="font-size: 13px; padding: 4px 14px;">+8–15% overall CVR lift</span></td>
+        <td style="color: var(--muted); font-size: 12px;">If all 3 tests pass at conservative scenario</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="data-gap" style="margin-top: 16px;">
+    <strong>To unlock absolute revenue projections:</strong> Share GA4 access (sessions, CVR, AOV) or a Shopify order export. With a baseline CVR and monthly traffic figure, Revenue Lift CRO can model exact revenue impact per test at each scenario within 48 hours.
+  </div>
+</div>
+
+<!-- ──────────────────────────────────────────
+     WHY WE EXPECT THIS TO WORK
+─────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-label">Evidence Base</div>
+  <div class="section-title">Why We Expect This to Work</div>
+
+  <div class="evidence-grid">
+    <div class="evidence-card">
+      <div class="evidence-num">+10%</div>
+      <div class="evidence-claim">Sticky mobile ATC → 10% lift in cart add rate</div>
+      <div class="evidence-body">Ezra Firestone split test on a mobile ATC sticky footer delivered a 10% cart addition lift and 9% order conversion lift at 95% confidence — confirming that persistent buy buttons outperform static placement.</div>
+      <div class="evidence-source">Source: CRO Research Database</div>
+    </div>
+    <div class="evidence-card">
+      <div class="evidence-num">#1</div>
+      <div class="evidence-claim">Shipping costs are the #1 reason for cart abandonment</div>
+      <div class="evidence-body">Unexpected costs and delivery uncertainty are consistently cited as the leading trigger for pre-checkout exit. Displaying shipping and returns terms clearly on the PDP addresses hesitation before it reaches the cart.</div>
+      <div class="evidence-source">Source: CRO Research Database</div>
+    </div>
+    <div class="evidence-card">
+      <div class="evidence-num">12K+</div>
+      <div class="evidence-claim">Reviews exist but aren't shown where they matter most</div>
+      <div class="evidence-body">LSKD's flagship leggings carry over 12,000 reviews at 4.7 stars — one of the strongest social proof signals in Australian sportswear. Hiding this at the browse stage means the most powerful trust signal only activates after the click, not before it.</div>
+      <div class="evidence-source">Source: Live site crawl · lskd.co</div>
+    </div>
+    <div class="evidence-card">
+      <div class="evidence-num">73%</div>
+      <div class="evidence-claim">Addressing friction reduces negative outcomes by 73%</div>
+      <div class="evidence-body">One documented case study showed that fixing a key usability friction point reduced negative customer outcomes by 73%. The principle applies broadly: removing friction at the browse and buy stage has outsized downstream effects.</div>
+      <div class="evidence-source">Source: CRO Research Database</div>
+    </div>
+    <div class="evidence-card">
+      <div class="evidence-num">50%</div>
+      <div class="evidence-claim">Only 50% of mobile users scroll to a non-sticky ATC</div>
+      <div class="evidence-body">Heatmap research on mobile PDPs found that when an ATC button isn't sticky, only half of mobile visitors scroll far enough to see it. LSKD's sticky ATC is already solving this — the remaining opportunity is at the PLP discovery stage.</div>
+      <div class="evidence-source">Source: CRO Research Database</div>
+    </div>
+    <div class="evidence-card">
+      <div class="evidence-num">Low</div>
+      <div class="evidence-claim">All 3 tests are low-risk, no-discount changes</div>
+      <div class="evidence-body">None of the proposed tests involve checkout modification, new apps, or deep discounting. Each is a theme-level or copy change with minimal implementation risk — ideal for building confidence in CRO methodology before committing to larger experiments.</div>
+      <div class="evidence-source">Assessment: Revenue Lift CRO audit</div>
+    </div>
+  </div>
+</div>
+
+<!-- ──────────────────────────────────────────
+     RISKS & CAVEATS
+─────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-label">Risk Assessment</div>
+  <div class="section-title">Risks &amp; Caveats</div>
+
+  <div class="risk-list">
+    <div class="risk-item">
+      <span class="risk-icon">⚠️</span>
+      <div>
+        <div class="risk-title">No analytics baseline — projections are relative only</div>
+        <div class="risk-body">All CVR lift estimates are based on industry benchmarks, not LSKD's actual traffic or conversion data. A store with 1% baseline CVR and one with 4% CVR will see very different absolute revenue impacts from the same relative lift.</div>
+        <div class="risk-mit">Mitigation: Connect GA4 or share Shopify analytics for Stage 2 modelling.</div>
+      </div>
+    </div>
+    <div class="risk-item">
+      <span class="risk-icon">📱</span>
+      <div>
+        <div class="risk-title">Mobile behaviour needs separate validation</div>
+        <div class="risk-body">This audit was conducted on a desktop viewport. Mobile represents the majority of sportswear e-commerce traffic. The sticky ATC, PLP card layout, and size selector UX should be separately validated on mobile before shipping variants.</div>
+        <div class="risk-mit">Mitigation: Stage 2 includes a dedicated mobile crawl and Clarity/heatmap review.</div>
+      </div>
+    </div>
+    <div class="risk-item">
+      <span class="risk-icon">🏬</span>
+      <div>
+        <div class="risk-title">Find In-Store relocation may reduce in-store traffic attribution</div>
+        <div class="risk-body">If LSKD's omnichannel strategy relies on the PDP as a store finder entry point, relocating this button may reduce in-store visit attribution. This is a business tradeoff, not just a UX decision.</div>
+        <div class="risk-mit">Mitigation: Test the repositioned version first. Monitor in-store traffic via Store Locator page views as a secondary metric during the experiment.</div>
+      </div>
+    </div>
+    <div class="risk-item">
+      <span class="risk-icon">📊</span>
+      <div>
+        <div class="risk-title">Test duration requires sufficient traffic volume</div>
+        <div class="risk-body">A/B tests on individual funnel pages require sufficient traffic to reach statistical significance. Without knowing LSKD's monthly sessions, we cannot estimate how long each test needs to run before a decision can be made (typically 2–4 weeks minimum).</div>
+        <div class="risk-mit">Mitigation: Share monthly session volume at onboarding. We will calculate required sample size per test before launch.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ──────────────────────────────────────────
+     SUCCESS KPIs
+─────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-label">Success Metrics</div>
+  <div class="section-title">What Success Looks Like</div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-metric">+5–15%</div>
+      <div class="kpi-label">PLP Click-Through Rate</div>
+      <div class="kpi-target">PLP card → PDP navigation rate. Primary success metric for Test 1 (PLP star ratings).</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-metric">+2–7%</div>
+      <div class="kpi-label">Online ATC Rate</div>
+      <div class="kpi-target">Add-to-Cart clicks as a % of PDP sessions. Primary success metric for Test 2 (Find In-Store relocate).</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-metric">+3–10%</div>
+      <div class="kpi-label">ATC → Purchase CVR</div>
+      <div class="kpi-target">Sessions that add to cart and complete checkout. Primary success metric for Test 3 (Delivery promise).</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-metric">+8–15%</div>
+      <div class="kpi-label">Overall CVR</div>
+      <div class="kpi-target">Combined site-wide conversion rate lift if all three tests pass at conservative scenario (compound effect).</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-metric">Stable</div>
+      <div class="kpi-label">In-Store Locator Views</div>
+      <div class="kpi-target">Guard metric for Test 2. Monitor that relocating Find In-Store does not significantly suppress in-store visits (target ±5%).</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-metric">≥ 95%</div>
+      <div class="kpi-label">Statistical Confidence</div>
+      <div class="kpi-target">All tests run until 95%+ confidence is reached in GrowthBook before a winner is called and shipped to 100%.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ──────────────────────────────────────────
+     NEXT STEPS
+─────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-label">What Happens Next</div>
+  <div class="section-title">From Approved to Live in 4 Weeks</div>
+
+  <div class="steps-list">
+    <div class="step-item">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Onboarding &amp; Analytics Access</div>
+        <div class="step-desc">Share GA4 property access (read-only) and monthly session volume. Revenue Lift CRO will model absolute revenue projections per test and confirm test duration requirements based on LSKD's actual traffic.</div>
+        <div class="step-owner">Owner: LSKD · Timeline: Week 1</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Shopify Theme Access &amp; GrowthBook Setup</div>
+        <div class="step-desc">Revenue Lift CRO will configure GrowthBook feature flags for each test, define primary and secondary metrics, and set up targeting rules. A developer preview of each variant will be shared for approval before going live.</div>
+        <div class="step-owner">Owner: Revenue Lift CRO · Timeline: Week 1–2</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Variant Build &amp; QA</div>
+        <div class="step-desc">Build Test 1 (PLP star ratings via theme setting), Test 2 (Find In-Store repositioning via Liquid tweak), and Test 3 (delivery promise block via section). QA across mobile and desktop, verify analytics events fire correctly.</div>
+        <div class="step-owner">Owner: Revenue Lift CRO · Timeline: Week 2</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">Launch Tests (50/50 Split)</div>
+        <div class="step-desc">Enable each experiment at 50/50 traffic split via GrowthBook. Run until 95% statistical confidence is reached (estimated 2–4 weeks depending on traffic volume). Revenue Lift CRO monitors weekly and provides mid-experiment updates.</div>
+        <div class="step-owner">Owner: Revenue Lift CRO · Timeline: Week 3–6</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <div class="step-title">Results Review &amp; Ship Winners</div>
+        <div class="step-desc">Review GrowthBook results with LSKD. Ship winning variants to 100% traffic. Document learnings for the ongoing CRO programme. Plan Stage 2 tests based on what the data reveals.</div>
+        <div class="step-owner">Owner: Revenue Lift CRO + LSKD · Timeline: Week 6–7</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ──────────────────────────────────────────
+     OFFER / CTA BLOCK
+─────────────────────────────────────────── -->
+<div class="section">
+  <div class="offer-block">
+    <div class="offer-left">
+      <div class="offer-eyebrow">Ready to act on these findings?</div>
+      <h2 class="offer-heading">Get Measurable Revenue Gains<br>In 60 Days — Guaranteed</h2>
+      <p class="offer-body">The tests in this audit are just the beginning. The Revenue Lift system turns findings like these into live, data-backed A/B experiments — fixing the hidden friction points that are quietly costing you revenue every day, without spending another dollar on ads.</p>
+      <ul class="offer-list">
+        <li>Proven system refined from hundreds of real-world experiments</li>
+        <li>Results tracked by conversion rate — measurable, not theoretical</li>
+        <li>Limited client roster — personalised, hands-on optimisation</li>
+        <li>First quick wins often visible within days of implementation</li>
+      </ul>
+      <div class="offer-guarantee">
+        <div class="guarantee-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="13" stroke="#0d9488" stroke-width="1.8"/><polyline points="8,14 12,18 20,10" stroke="#0d9488" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <div class="guarantee-title">4× ROI Guarantee — Zero Risk</div>
+          <div class="guarantee-text">If I can't help you achieve at least a <strong>4× ROI</strong> on your conversion optimisation within 60 days, I'll refund every cent — no hassle, no questions asked. You get breakthrough CRO growth, or you get your money back.</div>
+        </div>
+      </div>
+      <a href="https://revenueliftcro.com/revenue-lift-cro-offer/" class="cta-button" target="_blank">Claim Your Free 30-Minute Consultation →</a>
+      <div class="cta-sub">No obligation · Valued at $245 · Limited spots available</div>
+    </div>
+    <div class="offer-right">
+      <div class="offer-stat-card">
+        <div class="offer-stat">17%</div>
+        <div class="offer-stat-label">Conversion increase</div>
+        <div class="offer-stat-sub">$156k additional yearly revenue</div>
+      </div>
+      <div class="offer-stat-card">
+        <div class="offer-stat">20%</div>
+        <div class="offer-stat-label">Conversion increase</div>
+        <div class="offer-stat-sub">Real client A/B test result</div>
+      </div>
+      <div class="offer-stat-card accent">
+        <div class="offer-stat">$400k</div>
+        <div class="offer-stat-label">Yearly revenue added</div>
+        <div class="offer-stat-sub">From a 13.4% conversion lift</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .offer-block {
+    display: grid;
+    grid-template-columns: 1fr 240px;
+    gap: 32px;
+    background: linear-gradient(135deg, #eff6ff 0%, #f0fdfa 100%);
+    border: 1px solid #bfdbfe;
+    border-radius: 16px;
+    padding: 36px;
+    margin-top: 8px;
+  }
+  @media (max-width: 700px) { .offer-block { grid-template-columns: 1fr; } }
+  .offer-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
+  .offer-heading { font-family: 'Playfair Display', Georgia, serif; font-size: 22px; font-weight: 600; color: var(--text); line-height: 1.25; margin-bottom: 14px; }
+  .offer-body { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+  .offer-list { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-bottom: 22px; }
+  .offer-list li { font-size: 13px; color: var(--text); padding-left: 20px; position: relative; line-height: 1.45; }
+  .offer-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+  .offer-guarantee {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: rgba(13,148,136,0.06);
+    border: 1px solid rgba(13,148,136,0.2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 22px;
+  }
+  .guarantee-icon { flex-shrink: 0; margin-top: 1px; }
+  .guarantee-title { font-size: 13px; font-weight: 700; color: #0f766e; margin-bottom: 4px; }
+  .guarantee-text { font-size: 12px; color: var(--muted); line-height: 1.55; }
+  .guarantee-text strong { color: #0f766e; }
+  .cta-button {
+    display: inline-block;
+    background: linear-gradient(135deg, #2563eb, #0d9488);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 13px 26px;
+    border-radius: 8px;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    box-shadow: 0 2px 12px rgba(37,99,235,0.25);
+  }
+  .cta-sub { font-size: 11px; color: var(--muted); margin-top: 9px; }
+  .offer-right { display: flex; flex-direction: column; gap: 12px; }
+  .offer-stat-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(15,23,42,0.05);
+  }
+  .offer-stat-card.accent { background: linear-gradient(135deg, #eff6ff, #f0fdfa); border-color: #bfdbfe; }
+  .offer-stat { font-size: 28px; font-weight: 700; color: var(--accent); font-family: 'Playfair Display', Georgia, serif; line-height: 1; margin-bottom: 4px; }
+  .offer-stat-label { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .offer-stat-sub { font-size: 11px; color: var(--muted); }
+</style>
+
+<!-- ──────────────────────────────────────────
+     FOOTER
+─────────────────────────────────────────── -->
+<div class="footer">
+  <div>
+    <div class="footer-brand">
+      <svg width="20" height="20" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="15" cy="15" r="14" stroke="#2563eb" stroke-width="2.2" fill="none" stroke-dasharray="60 28" stroke-dashoffset="-7"/>
+        <polyline points="4,24 8,17 12,20.5 16.5,12 22,18" stroke="#2563eb" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="22" cy="18" r="2" fill="#0d9488"/>
+      </svg>
+      Revenue <em>Lift</em> CRO
+    </div>
+    <div style="margin-top:3px;">revenueliftcro.com &nbsp;·&nbsp; cavell@revenueliftcro.com</div>
+  </div>
+  <div style="text-align:right;">
+    <div>LSKD · Stage 1 CRO Audit</div>
+    <div>March 2026 · Shopify · Sportswear</div>
+  </div>
+</div>
+
+</div><!-- /page -->
+</body>
+</html>

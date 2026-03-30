@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kora Organics — Stage 1 Prospect Audit | Revenue Lift CRO</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #ffffff;
+    --surface:  #f8fafc;
+    --surface2: #f1f5f9;
+    --border:   #e2e8f0;
+    --text:     #0f172a;
+    --muted:    #64748b;
+    --accent:   #2563eb;
+    --teal:     #0d9488;
+    --rose:     #dc2626;
+    --purple:   #7c3aed;
+    --blue:     #2563eb;
+    --green:    #16a34a;
+    --amber:    #b45309;
+
+    --home-col:  #7c3aed;
+    --plp-col:   #2563eb;
+    --pdp-col:   #0d9488;
+    --cart-col:  #16a34a;
+
+    --high:   #dc2626;
+    --med:    #d97706;
+    --low:    #16a34a;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── LAYOUT ── */
+  .page { max-width: 1060px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #eff6ff 0%, #f0fdfa 60%, #f8faff 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 56px 24px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(37,99,235,0.06) 0%, transparent 70%);
+  }
+
+  /* Revenue Lift logo mark */
+  .rl-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  .rl-logo-text {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e3a5f;
+    letter-spacing: -0.01em;
+  }
+  .rl-logo-text em { font-style: italic; font-weight: 700; }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-sub {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 540px;
+    margin: 0 auto 28px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-badges {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .badge-shopify  { background: rgba(22,163,74,0.1);   color: #15803d; border: 1px solid rgba(22,163,74,0.25); }
+  .badge-stage1   { background: rgba(37,99,235,0.08);  color: var(--accent); border: 1px solid rgba(37,99,235,0.2); }
+  .badge-skincare { background: rgba(13,148,136,0.08); color: var(--teal); border: 1px solid rgba(13,148,136,0.2); }
+  .badge-noproj   { background: rgba(220,38,38,0.07);  color: var(--rose); border: 1px solid rgba(220,38,38,0.18); }
+
+  .stage-notice {
+    background: rgba(37,99,235,0.05);
+    border: 1px solid rgba(37,99,235,0.15);
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-size: 12px;
+    color: #1d4ed8;
+    max-width: 640px;
+    margin: 24px auto 0;
+    text-align: left;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+  }
+  .stage-notice strong { color: #1e3a8a; }
+
+  /* ── SECTION ── */
+  .section { padding: 52px 0 0; }
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 24px;
+  }
+
+  /* ── FUNNEL AUDIT CARDS ── */
+  .funnel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .funnel-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .funnel-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .funnel-card.home::before  { background: var(--home-col); }
+  .funnel-card.plp::before   { background: var(--plp-col); }
+  .funnel-card.pdp::before   { background: var(--pdp-col); }
+  .funnel-card.cart::before  { background: var(--cart-col); }
+
+  .funnel-page-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .home  .funnel-page-label { color: var(--home-col); }
+  .plp   .funnel-page-label { color: var(--plp-col); }
+  .pdp   .funnel-page-label { color: var(--pdp-col); }
+  .cart  .funnel-page-label { color: var(--cart-col); }
+
+  .finding-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .finding-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+  .sev {
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+  .sev.H { background: rgba(220,38,38,0.1);  color: var(--high); }
+  .sev.M { background: rgba(217,119,6,0.1);  color: var(--med); }
+  .sev.L { background: rgba(22,163,74,0.1);  color: var(--low); }
+
+  .positive-list { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .positive-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: var(--muted); }
+  .positive-item::before { content: '✓'; color: var(--teal); flex-shrink: 0; font-size: 11px; margin-top: 1px; }
+
+  /* ── INSIGHT CALLOUTS ── */
+  .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .insight-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid;
+    border-radius: 0 10px 10px 0;
+    padding: 18px 20px;
+  }
+  .insight-card.teal   { border-left-color: var(--teal); }
+  .insight-card.amber  { border-left-color: #d97706; }
+  .insight-card.rose   { border-left-color: var(--rose); }
+  .insight-card.purple { border-left-color: var(--purple); }
+  .insight-card.blue   { border-left-color: var(--blue); }
+  .insight-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .insight-body  { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+  .insight-source { font-size: 10.5px; color: var(--muted); margin-top: 8px; font-style: italic; opacity: 0.7; }
+
+  /* ── TEST CARDS ── */
+  .tests-grid { display: flex; flex-direction: column; gap: 20px; }
+  .test-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(15,23,42,0.06);
+  }
+  .test-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .test-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .test-card:nth-child(1) .test-num { background: rgba(13,148,136,0.12);  color: var(--teal); }
+  .test-card:nth-child(2) .test-num { background: rgba(217,119,6,0.1);    color: #d97706; }
+  .test-card:nth-child(3) .test-num { background: rgba(37,99,235,0.1);    color: var(--blue); }
+  .test-card:nth-child(4) .test-num { background: rgba(124,58,237,0.1);   color: var(--purple); }
+
+  .test-header-text { flex: 1; }
+  .test-name { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .test-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+  .test-tag {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 2px 8px; border-radius: 4px;
+  }
+  .tag-home   { background: rgba(124,58,237,0.08);  color: var(--home-col); }
+  .tag-plp    { background: rgba(37,99,235,0.08);   color: var(--plp-col); }
+  .tag-pdp    { background: rgba(13,148,136,0.08);  color: var(--pdp-col); }
+  .tag-cart   { background: rgba(22,163,74,0.08);   color: var(--cart-col); }
+
+  .ice-scores { display: flex; gap: 6px; }
+  .ice-pill {
+    font-size: 10px; font-weight: 700;
+    padding: 2px 8px; border-radius: 4px;
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .ice-pill span { color: var(--text); }
+  .ice-total {
+    font-size: 10px; font-weight: 700;
+    padding: 2px 10px; border-radius: 4px;
+    background: rgba(37,99,235,0.08);
+    border: 1px solid rgba(37,99,235,0.2);
+    color: var(--accent);
+  }
+  .ice-total span { color: #1d4ed8; }
+
+  .test-body { padding: 20px 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 640px) { .test-body { grid-template-columns: 1fr; } }
+
+  .test-section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .test-section-text  { font-size: 13px; color: var(--text); line-height: 1.55; }
+
+  .mockup-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.55;
+    grid-column: 1 / -1;
+  }
+  .mockup-box strong { color: var(--accent); }
+  .mockup-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .mockup-label::before { content: '◈'; color: var(--accent); }
+
+  /* MOCKUP WIREFRAMES */
+  .wireframe {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px;
+    font-size: 11px;
+    font-family: monospace;
+    line-height: 1.7;
+    color: #64748b;
+  }
+  .wf-highlight { color: var(--accent); font-weight: 700; }
+  .wf-new { color: var(--teal); }
+  .wf-remove { color: var(--rose); text-decoration: line-through; }
+  .wf-button {
+    display: inline-block;
+    background: rgba(37,99,235,0.08);
+    border: 1px solid rgba(37,99,235,0.2);
+    border-radius: 3px;
+    padding: 2px 8px;
+    color: var(--accent);
+    font-size: 11px;
+  }
+  .wf-button.dark {
+    background: #1e3a5f;
+    border-color: #1d4ed8;
+    color: #fff;
+  }
+
+  /* ── DATA TABLE ── */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table th {
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.45;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: rgba(37,99,235,0.03); }
+  .data-table .num { font-variant-numeric: tabular-nums; color: var(--accent); font-weight: 600; }
+  .table-wrap { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(15,23,42,0.05); }
+
+  /* ── EVIDENCE SECTION ── */
+  .evidence-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .evidence-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .evidence-number {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .evidence-label { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .evidence-desc  { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* ── RISKS ── */
+  .risk-list { display: flex; flex-direction: column; gap: 12px; }
+  .risk-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: auto 1fr 1fr;
+    gap: 14px;
+    align-items: start;
+    font-size: 12.5px;
+  }
+  @media (max-width: 640px) { .risk-item { grid-template-columns: 1fr; } }
+  .risk-icon { font-size: 18px; line-height: 1; }
+  .risk-risk  { color: var(--text); line-height: 1.5; }
+  .risk-mitig { color: var(--muted); line-height: 1.5; font-style: italic; }
+  .risk-sublabel { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+
+  /* ── KPI TABLE ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .kpi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .kpi-metric { font-size: 22px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+  .kpi-label  { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .kpi-target { font-size: 11px; color: var(--muted); }
+
+  /* ── NEXT STEPS ── */
+  .steps-list { list-style: none; counter-reset: steps; display: flex; flex-direction: column; gap: 10px; }
+  .step-item {
+    counter-increment: steps;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 13px;
+  }
+  .step-item::before {
+    content: counter(steps);
+    flex-shrink: 0;
+    width: 24px; height: 24px;
+    background: rgba(37,99,235,0.1);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px;
+  }
+  .step-text { color: var(--text); line-height: 1.5; }
+  .step-sub  { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 64px;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 13px;
+    color: #1e3a5f;
+  }
+  .footer-brand em { font-style: italic; }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: var(--border); margin: 48px 0 0; }
+
+  /* ── CONFIDENCE NOTICE ── */
+  .conf-notice {
+    background: rgba(217,119,6,0.05);
+    border: 1px solid rgba(217,119,6,0.18);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 12px;
+    color: #92400e;
+    margin-top: 20px;
+    line-height: 1.55;
+  }
+
+  /* ── SUMMARY BAR ── */
+  .summary-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 28px;
+  }
+  .sum-stat { text-align: center; }
+  .sum-num  { font-size: 26px; font-weight: 700; color: var(--accent); font-family: 'Playfair Display', serif; }
+  .sum-lbl  { font-size: 11px; color: var(--muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* ── highlight ── */
+  .hl { color: var(--accent); font-weight: 600; }
+  .hl-teal { color: var(--teal); font-weight: 600; }
+  .hl-rose { color: var(--rose); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- ───────────────── HERO ───────────────── -->
+<div class="hero">
+  <div class="page">
+    <div class="rl-logo">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="15" cy="15" r="14" stroke="#2563eb" stroke-width="2.2" fill="none" stroke-dasharray="60 28" stroke-dashoffset="-7"/>
+        <circle cx="15" cy="15" r="14" fill="#1e3a8a" opacity="0.08"/>
+        <polygon points="4,24 8,17 12,20.5 16.5,12 22,18 24,24" fill="#2563eb" opacity="0.15"/>
+        <polyline points="4,24 8,17 12,20.5 16.5,12 22,18" stroke="#2563eb" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="22" cy="18" r="2" fill="#0d9488"/>
+      </svg>
+      <span class="rl-logo-text">Revenue <em>Lift</em> CRO &nbsp;·&nbsp; revenueliftcro.com</span>
+    </div>
+    <div class="hero-eyebrow">CRO Prospect Audit</div>
+    <h1>Kora Organics<br>Conversion Audit</h1>
+    <p class="hero-sub">A structural funnel review across all four conversion pages — Home, PLP, PDP, and Cart — identifying the highest-leverage opportunities before a full data engagement.</p>
+    <div class="hero-badges">
+      <span class="badge badge-shopify">● Shopify</span>
+      <span class="badge badge-skincare">Skincare</span>
+      <span class="badge badge-stage1">Stage 1 · Prospect Audit</span>
+      <span class="badge badge-noproj">No Revenue Projections</span>
+    </div>
+    <div class="stage-notice">
+      <strong>Stage 1 audit.</strong> Findings are based on page structure, UX observation, and category research — not order data. Confidence scores are capped at 6/10. Revenue projections require a signed engagement with order data attached. All findings are labelled as structural observations only.
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- ───────────────── AUDIT SUMMARY ───────────────── -->
+  <div class="section">
+    <div class="section-label">Full Funnel Review</div>
+    <div class="section-title">What We Found Across the Four Conversion Pages</div>
+
+    <div class="summary-bar">
+      <div class="sum-stat"><div class="sum-num">11</div><div class="sum-lbl">Findings Total</div></div>
+      <div class="sum-stat"><div class="sum-num">5</div><div class="sum-lbl">High Severity</div></div>
+      <div class="sum-stat"><div class="sum-num">4</div><div class="sum-lbl">Medium Severity</div></div>
+      <div class="sum-stat"><div class="sum-num">4</div><div class="sum-lbl">Proposed Tests</div></div>
+      <div class="sum-stat"><div class="sum-num">4</div><div class="sum-lbl">Funnel Pages Audited</div></div>
+    </div>
+
+    <div class="funnel-grid">
+
+      <!-- HOME -->
+      <div class="funnel-card home">
+        <div class="funnel-page-label">Home Page</div>
+        <ul class="finding-list">
+          <li class="finding-item"><span class="sev H">H</span><span>Persistent geolocation modal fires on every page visit, interrupting browse flow before users can engage with the site</span></li>
+          <li class="finding-item"><span class="sev M">M</span><span>Hero headline promotes one product category (masks) rather than the brand's certified organic value proposition — new visitors miss the 'why KORA'</span></li>
+          <li class="finding-item"><span class="sev L">L</span><span>No BNPL/Afterpay visibility on homepage. Products range $42–$140 — showing payment instalment options earlier reduces considered-purchase anxiety</span></li>
+        </ul>
+        <ul class="positive-list">
+          <li class="positive-item">Trust ticker: Certified Organic, Climate Label, Cruelty-Free</li>
+          <li class="positive-item">Celebrity founder (Miranda Kerr) featured prominently</li>
+          <li class="positive-item">"As Featured In": Vogue, Allure + major media strip</li>
+          <li class="positive-item">UGC Instagram-style image wall</li>
+          <li class="positive-item">Newsletter: 15% first-order incentive</li>
+        </ul>
+      </div>
+
+      <!-- PLP -->
+      <div class="funnel-card plp">
+        <div class="funnel-page-label">Product Listing Page</div>
+        <ul class="finding-list">
+          <li class="finding-item"><span class="sev H">H</span><span>No skin concern or skin type filters — only category filters. Skincare shoppers browse by concern (Dryness, Aging, Acne), not product type. Filter metadata already exists in product tags but isn't surfaced.</span></li>
+          <li class="finding-item"><span class="sev M">M</span><span>Inconsistent CTA copy across product cards: "ADD TO BAG" vs "SHOP NOW" on the same grid — undermines decision-making clarity</span></li>
+          <li class="finding-item"><span class="sev L">L</span><span>Editorial/promo banners ("The Best of Nature") interspersed with product cards, disrupting the browse grid</span></li>
+        </ul>
+        <ul class="positive-list">
+          <li class="positive-item">Star ratings + review counts on every product card</li>
+          <li class="positive-item">Award, TikTok Viral, and Best Seller badges visible</li>
+          <li class="positive-item">Sorted by Bestselling by default</li>
+          <li class="positive-item">36 products with clear category sidebar</li>
+        </ul>
+      </div>
+
+      <!-- PDP -->
+      <div class="funnel-card pdp">
+        <div class="funnel-page-label">Product Detail Page</div>
+        <ul class="finding-list">
+          <li class="finding-item"><span class="sev H">H</span><span>No BNPL/Afterpay shown above the fold for a $102–$140 product. Competing skincare brands (Frank Body, The Ordinary AU) surface instalments directly below the price.</span></li>
+          <li class="finding-item"><span class="sev H">H</span><span>No "Frequently Bought Together" or routine cross-sell on PDP. Product tags confirm clear relationships (face oil → cleanser → moisturiser) but no upsell mechanic exists.</span></li>
+          <li class="finding-item"><span class="sev M">M</span><span>No delivery estimate shown anywhere on the PDP — delivery certainty is a top abandonment trigger for premium skincare</span></li>
+        </ul>
+        <ul class="positive-list">
+          <li class="positive-item">4.9★ from 1,865 reviews — exceptional social proof</li>
+          <li class="positive-item">Rich 15-image gallery: B&A, stats, ingredients, routine context</li>
+          <li class="positive-item">Subscribe & Save 10% option surfaced cleanly</li>
+          <li class="positive-item">3 size tiers ($42 / $102 / $140) for budget flexibility</li>
+          <li class="positive-item">LoyaltyLion integration with dollar-amount personalisation</li>
+        </ul>
+      </div>
+
+      <!-- CART -->
+      <div class="funnel-card cart">
+        <div class="funnel-page-label">Cart Page</div>
+        <ul class="finding-list">
+          <li class="finding-item"><span class="sev H">H</span><span>Yellow "Shipping Delays" warning banner is the dominant above-fold element in cart — the first thing customers read before deciding to checkout. Creates immediate abandonment anxiety.</span></li>
+          <li class="finding-item"><span class="sev H">H</span><span>No BNPL/Afterpay shown near the checkout button. At $102+, no payment flexibility = higher abandonment from price-sensitive customers.</span></li>
+          <li class="finding-item"><span class="sev M">M</span><span>No trust badges near the CHECKOUT button — no "Secure Checkout", "SSL Verified", or certification signals at the point of commitment</span></li>
+          <li class="finding-item"><span class="sev M">M</span><span>"Shipping &amp; duties charges are calculated at checkout" creates hidden-cost anxiety directly below the checkout CTA</span></li>
+        </ul>
+        <ul class="positive-list">
+          <li class="positive-item">"Customers Who Bought These Also Bought" cross-sell present</li>
+          <li class="positive-item">Free sample picker — strong engagement and discovery tool</li>
+          <li class="positive-item">Loyalty upsell with personalised dollar amount ($10.20)</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ───────────────── RESEARCH INSIGHTS ───────────────── -->
+  <div class="section">
+    <div class="section-label">Category Research · NotebookLM</div>
+    <div class="section-title">What Skincare Shoppers Tell Us They Need</div>
+    <div class="insights-grid">
+      <div class="insight-card teal">
+        <div class="insight-title">Social proof unlocks the first purchase</div>
+        <div class="insight-body">Skincare has one of the highest first-purchase anxiety rates in e-commerce. UGC, before-and-after imagery, and verified review counts are the primary trust drivers — more influential than brand authority alone.</div>
+        <div class="insight-source">NotebookLM · Boom by Cindy Joseph, Founders Formula audit</div>
+      </div>
+      <div class="insight-card amber">
+        <div class="insight-title">BNPL near the price point increases AOV</div>
+        <div class="insight-body">Adding a "4 payments of $X" instalment display directly adjacent to the product price — not buried in checkout — measurably increases conversion and average order value on products above $80 AUD.</div>
+        <div class="insight-source">NotebookLM · Founders Formula CRO study</div>
+      </div>
+      <div class="insight-card rose">
+        <div class="insight-title">Shipping anxiety is a leading cart abandonment trigger</div>
+        <div class="insight-body">Unexpected or uncertain shipping costs and delivery timelines are cited in 48–58% of cart abandonment surveys. Proactive, specific delivery estimates ("Ships in 2–3 days") outperform vague reassurances.</div>
+        <div class="insight-source">NotebookLM · E-commerce cart abandonment research</div>
+      </div>
+      <div class="insight-card purple">
+        <div class="insight-title">Skin concern filtering drives faster purchase decisions</div>
+        <div class="insight-body">Shoppers who can filter by their primary concern (Dryness, Aging, Acne) convert 23–35% faster than those forced to browse by product category. Sephora and Clinique usability tests confirm this pattern consistently.</div>
+        <div class="insight-source">NotebookLM · Sephora, Clinique UX research</div>
+      </div>
+      <div class="insight-card blue">
+        <div class="insight-title">Loyalty point clarity drives repeat purchase intent</div>
+        <div class="insight-body">Displaying exactly how many points a specific purchase earns — and what those points are worth — on the PDP increases repeat purchase intent and account creation. Vague "earn rewards" copy underperforms dollar-specific messaging.</div>
+        <div class="insight-source">NotebookLM · Loyalty program CRO analysis</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────────── PROPOSED TESTS ───────────────── -->
+  <div class="section">
+    <div class="section-label">Prioritised Hypotheses · ICE Scored</div>
+    <div class="section-title">4 Proposed Tests — Highest Impact First</div>
+
+    <div class="conf-notice">
+      All ICE confidence scores are capped at 6/10 (Stage 1 audit — no order data). Impact and Ease scores are based on structural observation and category benchmarks. Confidence will increase to 7–9/10 after 90 days of order data, co-purchase analysis, and GA4 session analytics are connected.
+    </div>
+
+    <div class="tests-grid" style="margin-top:24px;">
+
+      <!-- TEST 1 -->
+      <div class="test-card">
+        <div class="test-header">
+          <div class="test-num">1</div>
+          <div class="test-header-text">
+            <div class="test-name">BNPL Payment Instalment Display</div>
+            <div class="test-meta">
+              <span class="test-tag tag-cart">Cart</span>
+              <span class="test-tag tag-pdp">PDP</span>
+              <div class="ice-scores">
+                <span class="ice-pill">I <span>8</span></span>
+                <span class="ice-pill">C <span>6</span></span>
+                <span class="ice-pill">E <span>7</span></span>
+                <span class="ice-total">ICE <span>7.0</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="test-body">
+          <div>
+            <div class="test-section-label">Insight</div>
+            <div class="test-section-text">Kora's core products are $42–$140 AUD. No Afterpay or BNPL option is shown on the PDP or in the cart at any point before checkout. At these price points, showing an instalment breakdown ("4 × $25.50 with Afterpay") reduces the perceived price barrier and is particularly effective on considered purchases like certified organic skincare.</div>
+          </div>
+          <div>
+            <div class="test-section-label">Hypothesis</div>
+            <div class="test-section-text">If we display a <span class="hl">"4 payments of $X with Afterpay"</span> instalment line below the product price on the PDP, and again below the subtotal in the cart, then cart-to-checkout rate and PDP add-to-cart rate will increase — because price anxiety for premium products is reduced when the payment feels manageable.</div>
+          </div>
+          <div class="mockup-box">
+            <div class="mockup-label">What customers would see — PDP (above Add to Cart)</div>
+            <div class="wireframe">
+<span class="wf-highlight">Noni Glow Face Oil</span>  ·  30mL
+★★★★★  <span style="color:#888">4.9 · 1,865 reviews</span>
+
+<span class="wf-highlight">$102.00</span>  <span class="wf-new">or 4 × $25.50 with [Afterpay logo]  ⓘ</span>
+
+FREQUENCY
+◉ One-time purchase  ·  $102
+○ Subscribe: Save 10%  ·  $91.80
+
+<span class="wf-button dark">  ADD TO CART — $102  </span>
+            </div>
+            <div style="margin-top:12px;">
+            <div class="mockup-label">What customers would see — Cart (above Checkout)</div>
+            <div class="wireframe">
+Subtotal  <span class="wf-highlight">$102.00</span>
+<span class="wf-new">Pay in 4 × $25.50 with Afterpay  ·  No interest  [Afterpay logo]</span>
+
+<span class="wf-button dark" style="display:block;text-align:center;padding:8px;border-radius:4px;">  CHECKOUT  </span>
+            </div>
+            </div>
+          </div>
+          <div>
+            <div class="test-section-label">Implementation (Shopify)</div>
+            <div class="test-section-text">If Afterpay is already connected via Shopify Payments, the instalment widget is available via Afterpay's on-site messaging JavaScript snippet — no app required. Alternatively, a static "4 × $XX" liquid snippet can be added to the product template using <code>{{ product.price | divided_by: 400.0 | money }}</code>. A/B test via GrowthBook feature flag on PDP and cart templates.</div>
+          </div>
+          <div>
+            <div class="test-section-label">Why We Expect It to Work</div>
+            <div class="test-section-text">Afterpay messaging at the price point — not at checkout — is the highest-converting BNPL placement. Founders Formula audit confirms a direct CVR lift from adding BNPL display before the ATC click. Kora's products are exactly in the $40–$150 sweet spot where BNPL messaging is most effective.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEST 2 -->
+      <div class="test-card">
+        <div class="test-header">
+          <div class="test-num">2</div>
+          <div class="test-header-text">
+            <div class="test-name">Cart Trust Block — Replace Delay Banner</div>
+            <div class="test-meta">
+              <span class="test-tag tag-cart">Cart</span>
+              <div class="ice-scores">
+                <span class="ice-pill">I <span>7</span></span>
+                <span class="ice-pill">C <span>6</span></span>
+                <span class="ice-pill">E <span>8</span></span>
+                <span class="ice-total">ICE <span>7.0</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="test-body">
+          <div>
+            <div class="test-section-label">Insight</div>
+            <div class="test-section-text">The current cart leads with a <span class="hl-rose">yellow "Shipping Delays" warning banner</span> as the dominant above-fold element. This is the first thing a customer reads before deciding to proceed to checkout. Combined with the absence of trust signals near the CHECKOUT button, the cart currently amplifies anxiety rather than resolving it.</div>
+          </div>
+          <div>
+            <div class="test-section-label">Hypothesis</div>
+            <div class="test-section-text">If we <span class="hl">replace the yellow delay warning with an honest but confidence-framing delivery message</span>, and add three trust badges (Secure Checkout, Certified Organic, Free Returns) below the CHECKOUT button, then cart-to-checkout rate will increase — because the checkout experience will feel safe and transparent rather than risky.</div>
+          </div>
+          <div class="mockup-box">
+            <div class="mockup-label">Variant B — Cart above-fold redesign</div>
+            <div class="wireframe">
+<span class="wf-remove">⚠ SHIPPING DELAYS — We're currently transitioning to a new warehouse...</span>
+
+<span class="wf-new">📦 Orders currently dispatching within 5–8 business days.
+   Thank you for your patience while we move to our new warehouse.</span>
+
+SUBTOTAL  <span class="wf-highlight">$102.00</span>
+<span class="wf-new">or 4 × $25.50 with Afterpay</span>
+
+<span class="wf-button dark" style="display:block;text-align:center;padding:8px;border-radius:4px">  CHECKOUT  </span>
+
+<span class="wf-new">🔒 Secure Checkout   🌿 Certified Organic   ↩ Easy Returns</span>
+<span style="color:#555">Shipping &amp; duties calculated at checkout</span>
+            </div>
+          </div>
+          <div>
+            <div class="test-section-label">Implementation (Shopify)</div>
+            <div class="test-section-text">Replace the existing announcement bar in <code>cart.liquid</code> or the cart drawer template. Trust badge strip can be added as a static SVG row or using Shopify's section schema. GrowthBook feature flag targeting <code>cart</code> page only. No app required — pure Liquid/CSS change.</div>
+          </div>
+          <div>
+            <div class="test-section-label">Why We Expect It to Work</div>
+            <div class="test-section-text">Cart abandonment research consistently shows shipping uncertainty as a top-3 exit driver. The current banner doesn't hide the delay — it leads with it in a visually alarming yellow. An honest reframe that provides specifics ("5–8 business days") addresses the concern without amplifying it. Trust badges at the CTA are a standard conversion lift lever across Shopify.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEST 3 -->
+      <div class="test-card">
+        <div class="test-header">
+          <div class="test-num">3</div>
+          <div class="test-header-text">
+            <div class="test-name">Skin Concern Filters on PLP</div>
+            <div class="test-meta">
+              <span class="test-tag tag-plp">PLP</span>
+              <div class="ice-scores">
+                <span class="ice-pill">I <span>6</span></span>
+                <span class="ice-pill">C <span>6</span></span>
+                <span class="ice-pill">E <span>8</span></span>
+                <span class="ice-total">ICE <span>6.7</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="test-body">
+          <div>
+            <div class="test-section-label">Insight</div>
+            <div class="test-section-text">Kora's product metadata already includes detailed skin concern tags: <em>Dryness, Dullness + Uneven Texture, Lines + Wrinkles, Sensitivity + Redness, Uneven Tone + Dark Spots, Aging Protection</em>. These are unused as collection filters. The current sidebar only filters by product type (Moisturizers, Oils, etc.) — the opposite of how skincare shoppers browse.</div>
+          </div>
+          <div>
+            <div class="test-section-label">Hypothesis</div>
+            <div class="test-section-text">If we expose Kora's existing skin concern product tags as <span class="hl">filterable facets in the PLP sidebar</span> (above or alongside the current category filters), then time-to-add-to-cart will decrease and browse-to-PDP click-through rate will increase — because shoppers can self-select into the right product category based on their primary skin concern.</div>
+          </div>
+          <div class="mockup-box">
+            <div class="mockup-label">PLP Sidebar — Variant B</div>
+            <div class="wireframe">
+Sort By
+<span class="wf-highlight">BESTSELLING ▾</span>
+
+<span class="wf-new">Skin Concern
+□ Dryness
+□ Dullness + Uneven Texture
+□ Lines + Wrinkles
+□ Sensitivity + Redness
+□ Uneven Tone + Dark Spots
+□ Aging Protection</span>
+
+Category
+□ Cleansers + Mists
+□ Serums + Treatments
+□ Moisturizers
+□ Oils
+□ Eye Care
+□ Exfoliators
+            </div>
+          </div>
+          <div>
+            <div class="test-section-label">Implementation (Shopify)</div>
+            <div class="test-section-text">All required tags already exist in Kora's product catalogue. Add <code>Filter: [Concern]</code> tag format to the Shopify storefront filter configuration in Online Store → Navigation → Search &amp; Discovery. Zero product-level changes required — this is a pure storefront filter configuration update. Test via GrowthBook with a feature flag toggling the filter visibility.</div>
+          </div>
+          <div>
+            <div class="test-section-label">Why We Expect It to Work</div>
+            <div class="test-section-text">Sephora and Clinique usability studies show shoppers who filter by concern convert 23–35% faster. Kora already has the Skin Quiz (which also maps to concerns) — surfacing concern filters on the PLP aligns the browse experience with how customers are already thinking. This is one of the lowest-effort, highest-potential changes on the roadmap given the metadata already exists.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEST 4 -->
+      <div class="test-card">
+        <div class="test-header">
+          <div class="test-num">4</div>
+          <div class="test-header-text">
+            <div class="test-name">"Complete Your Ritual" PDP Cross-Sell</div>
+            <div class="test-meta">
+              <span class="test-tag tag-pdp">PDP</span>
+              <div class="ice-scores">
+                <span class="ice-pill">I <span>7</span></span>
+                <span class="ice-pill">C <span>6</span></span>
+                <span class="ice-pill">E <span>5</span></span>
+                <span class="ice-total">ICE <span>6.0</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="test-body">
+          <div>
+            <div class="test-section-label">Insight</div>
+            <div class="test-section-text">Kora's homepage already features "Miranda Kerr's Routine" — a curated product carousel with real purchase intent context. The cart page has "Customers Who Bought These Also Bought." But the highest-intent page in the funnel — the PDP — has no routine or cross-sell mechanic. Customers viewing the Noni Glow Face Oil are already in a purchasing mindset and open to complementary suggestions.</div>
+          </div>
+          <div>
+            <div class="test-section-label">Hypothesis</div>
+            <div class="test-section-text">If we add a <span class="hl">"Complete Your Ritual"</span> section below the product accordions on the Noni Glow Face Oil PDP (showing 2–3 complementary products with individual "Add to Bag" buttons), then AOV will increase — because customers in a high-intent state are primed to build a routine when shown specific pairings with a clear rationale.</div>
+          </div>
+          <div class="mockup-box">
+            <div class="mockup-label">PDP — Complete Your Ritual section (below accordions)</div>
+            <div class="wireframe">
+────────────────────────────────────────────
+<span class="wf-new">COMPLETE YOUR RITUAL</span>  <span style="color:#666">Miranda Kerr pairs the Noni Glow Face Oil with:</span>
+
+┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+│  [Cleanser]  │  │  [Moisturis] │  │  [Eye Oil]   │
+│  Turmeric    │  │  Noni Glow   │  │  Noni Radiant│
+│  Foaming     │  │  Sleeping    │  │  Eye Oil     │
+│  Cleanser    │  │  Mask        │  │              │
+│  $42         │  │  $60         │  │  $64         │
+│ <span class="wf-button">Add to Bag</span>  │  │ <span class="wf-button">Add to Bag</span>  │  │ <span class="wf-button">Add to Bag</span>  │
+└──────────────┘  └──────────────┘  └──────────────┘
+
+<span style="color:#666">or  <span class="wf-button" style="color:#0d9488">Add All 3 to Bag  (+save 10% with Subscribe)</span></span>
+            </div>
+          </div>
+          <div>
+            <div class="test-section-label">Implementation (Shopify)</div>
+            <div class="test-section-text">Build as a Shopify section using metafields or a manually curated product list defined in the product template. Alternatively use Nosto (already installed) to power the product recommendations dynamically. GrowthBook feature flag to A/B test variant with and without the section. Medium complexity — requires Liquid template work or Nosto configuration.</div>
+          </div>
+          <div>
+            <div class="test-section-label">Why We Expect It to Work</div>
+            <div class="test-section-text">Kora's cart already shows cross-sells (below the fold) and they have the "routine" concept baked into their brand identity. This test simply surfaces it at the highest-intent moment — on the PDP — rather than waiting for the customer to reach the cart. With 1,865 reviews on the face oil alone, the trust to buy a second product exists; it just needs to be prompted at the right moment.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ───────────────── TEST PRIORITY TABLE ───────────────── -->
+  <div class="section">
+    <div class="section-label">Summary</div>
+    <div class="section-title">Test Priority at a Glance</div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Test</th>
+            <th>Page</th>
+            <th>Impact</th>
+            <th>Confidence</th>
+            <th>Ease</th>
+            <th>ICE</th>
+            <th>Effort</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="num">1</td>
+            <td>BNPL Instalment Display</td>
+            <td><span class="test-tag tag-cart" style="font-size:10px">Cart</span> <span class="test-tag tag-pdp" style="font-size:10px">PDP</span></td>
+            <td class="num">8</td><td class="num">6</td><td class="num">7</td>
+            <td class="num" style="color:#0d9488">7.0</td>
+            <td>Low — JS snippet or Liquid</td>
+          </tr>
+          <tr>
+            <td class="num">2</td>
+            <td>Cart Trust Block + Delay Reframe</td>
+            <td><span class="test-tag tag-cart" style="font-size:10px">Cart</span></td>
+            <td class="num">7</td><td class="num">6</td><td class="num">8</td>
+            <td class="num" style="color:#0d9488">7.0</td>
+            <td>Low — copy + Liquid</td>
+          </tr>
+          <tr>
+            <td class="num">3</td>
+            <td>Skin Concern Filters on PLP</td>
+            <td><span class="test-tag tag-plp" style="font-size:10px">PLP</span></td>
+            <td class="num">6</td><td class="num">6</td><td class="num">8</td>
+            <td class="num" style="color:#d97706">6.7</td>
+            <td>Very Low — filter config only</td>
+          </tr>
+          <tr>
+            <td class="num">4</td>
+            <td>"Complete Your Ritual" Cross-Sell</td>
+            <td><span class="test-tag tag-pdp" style="font-size:10px">PDP</span></td>
+            <td class="num">7</td><td class="num">6</td><td class="num">5</td>
+            <td class="num" style="color:#d97706">6.0</td>
+            <td>Medium — Liquid or Nosto config</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="conf-notice" style="margin-top:14px;">
+      Confidence scores are capped at 6/10 for all Stage 1 findings. These scores will increase materially once 90-day order data, co-purchase rates, and GA4 funnel drop-off data are connected in Stage 2.
+    </div>
+  </div>
+
+  <!-- ───────────────── RISKS ───────────────── -->
+  <div class="section">
+    <div class="section-label">Risk Assessment</div>
+    <div class="section-title">Risks and Mitigations</div>
+    <div class="risk-list">
+      <div class="risk-item">
+        <div class="risk-icon">⚠</div>
+        <div>
+          <div class="risk-sublabel">Risk</div>
+          <div class="risk-risk">BNPL messaging may not match Kora's premium brand positioning — budget payment options can feel incongruent with a certified organic, luxury skincare brand.</div>
+        </div>
+        <div>
+          <div class="risk-sublabel">Mitigation</div>
+          <div class="risk-mitig">Use clean, minimal BNPL presentation without emphasising affordability. Frame as "flexibility" not "budget". Keep styling consistent with KORA's existing design language. Test before committing to site-wide rollout.</div>
+        </div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-icon">📦</div>
+        <div>
+          <div class="risk-sublabel">Risk</div>
+          <div class="risk-risk">Reframing the shipping delay banner may be seen as dishonest or minimising a real operational issue that customers are already experiencing.</div>
+        </div>
+        <div>
+          <div class="risk-sublabel">Mitigation</div>
+          <div class="risk-mitig">The proposed variant is transparent — it still communicates the delay with specific timeframes, it just removes the alarming yellow styling and leads with a specific estimate. Honesty is preserved; anxiety is not amplified unnecessarily.</div>
+        </div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-icon">🔍</div>
+        <div>
+          <div class="risk-sublabel">Risk</div>
+          <div class="risk-risk">Adding skin concern filters to the PLP without GA4 data means we don't know which concerns are driving the most traffic — we could surface the wrong filters prominently.</div>
+        </div>
+        <div>
+          <div class="risk-sublabel">Mitigation</div>
+          <div class="risk-mitig">Surface all concern filters equally in alphabetical order for the initial test. Once GA4 is connected, reorder by search volume and click frequency. This is low-risk given the tags already exist.</div>
+        </div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-icon">🛍</div>
+        <div>
+          <div class="risk-sublabel">Risk</div>
+          <div class="risk-risk">The "Complete Your Ritual" cross-sell could increase page complexity and cause decision paralysis, actually reducing single-product conversion rates.</div>
+        </div>
+        <div>
+          <div class="risk-sublabel">Mitigation</div>
+          <div class="risk-mitig">Place the cross-sell below the fold (after all accordions). Monitor both ATC rate for the primary product AND cross-sell add rate independently. If primary ATC drops, pull the test. Track AOV as the primary success metric, not just CVR.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────────── KPIs ───────────────── -->
+  <div class="section">
+    <div class="section-label">Success Metrics</div>
+    <div class="section-title">What Success Looks Like</div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-metric">+5–10%</div>
+        <div class="kpi-label">Cart → Checkout Rate</div>
+        <div class="kpi-target">Tests 1 &amp; 2 combined. Measured via GrowthBook and GA4 funnel analysis.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-metric">+3–8%</div>
+        <div class="kpi-label">PDP Add-to-Cart Rate</div>
+        <div class="kpi-target">Tests 1 &amp; 4. Primary metric for PDP BNPL and cross-sell tests.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-metric">+6–12%</div>
+        <div class="kpi-label">AOV Uplift</div>
+        <div class="kpi-target">Test 4 (cross-sell). AOV measured across orders containing the Noni Face Oil.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-metric">+10–18%</div>
+        <div class="kpi-label">PLP → PDP Click-Through</div>
+        <div class="kpi-target">Test 3 (concern filters). Users who filter should show higher intent and CTR.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-metric">–</div>
+        <div class="kpi-label">Guardrail: ATC Rate</div>
+        <div class="kpi-target">PDP primary ATC rate must not drop &gt;3% in Test 4 before cross-sell is declared winning.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-metric">2 wks</div>
+        <div class="kpi-label">Minimum Test Duration</div>
+        <div class="kpi-target">Run each test for at least 14 days to account for weekly traffic patterns. Target 500+ sessions per variant.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────────── OFFER / CTA ───────────────── -->
+  <div class="section">
+    <div class="offer-block">
+      <div class="offer-left">
+        <div class="offer-eyebrow">Ready to act on these findings?</div>
+        <h2 class="offer-heading">Get Measurable Revenue Gains<br>In 60 Days — Guaranteed</h2>
+        <p class="offer-body">The tests in this audit are just the beginning. The RevenueLift system turns findings like these into live, data-backed A/B experiments — fixing the hidden friction points that are quietly costing you revenue every day, without spending another dollar on ads.</p>
+        <ul class="offer-list">
+          <li>Proven system refined from hundreds of real-world experiments</li>
+          <li>Results tracked by conversion rate — measurable, not theoretical</li>
+          <li>Limited client roster — personalised, hands-on optimization</li>
+          <li>First quick wins often visible within days of implementation</li>
+        </ul>
+        <div class="offer-guarantee">
+          <div class="guarantee-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="13" stroke="#0d9488" stroke-width="1.8"/><polyline points="8,14 12,18 20,10" stroke="#0d9488" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <div class="guarantee-title">4× ROI Guarantee — Zero Risk</div>
+            <div class="guarantee-text">If I can't help you achieve at least a <strong>4× ROI</strong> on your conversion optimization within 60 days, I'll refund every cent — no hassle, no questions asked. You get breakthrough CRO growth, or you get your money back.</div>
+          </div>
+        </div>
+        <a href="https://revenueliftcro.com/revenue-lift-cro-offer/" class="cta-button" target="_blank">Claim Your Free 30-Minute Consultation →</a>
+        <div class="cta-sub">No obligation · Valued at $245 · Limited spots available</div>
+      </div>
+      <div class="offer-right">
+        <div class="offer-stat-card">
+          <div class="offer-stat">17%</div>
+          <div class="offer-stat-label">Conversion increase</div>
+          <div class="offer-stat-sub">$156k additional yearly revenue</div>
+        </div>
+        <div class="offer-stat-card">
+          <div class="offer-stat">20%</div>
+          <div class="offer-stat-label">Conversion increase</div>
+          <div class="offer-stat-sub">Real client A/B test result</div>
+        </div>
+        <div class="offer-stat-card accent">
+          <div class="offer-stat">$400k</div>
+          <div class="offer-stat-label">Yearly revenue added</div>
+          <div class="offer-stat-sub">From a 13.4% conversion lift</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .offer-block {
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      gap: 32px;
+      background: linear-gradient(135deg, #eff6ff 0%, #f0fdfa 100%);
+      border: 1px solid #bfdbfe;
+      border-radius: 16px;
+      padding: 36px;
+      margin-top: 8px;
+    }
+    @media (max-width: 700px) { .offer-block { grid-template-columns: 1fr; } }
+    .offer-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
+    .offer-heading { font-family: 'Playfair Display', Georgia, serif; font-size: 22px; font-weight: 600; color: var(--text); line-height: 1.25; margin-bottom: 14px; }
+    .offer-body { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+    .offer-list { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-bottom: 22px; }
+    .offer-list li { font-size: 13px; color: var(--text); padding-left: 20px; position: relative; line-height: 1.45; }
+    .offer-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+    .offer-guarantee {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: rgba(13,148,136,0.06);
+      border: 1px solid rgba(13,148,136,0.2);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 22px;
+    }
+    .guarantee-icon { flex-shrink: 0; margin-top: 1px; }
+    .guarantee-title { font-size: 13px; font-weight: 700; color: #0f766e; margin-bottom: 4px; }
+    .guarantee-text { font-size: 12px; color: var(--muted); line-height: 1.55; }
+    .guarantee-text strong { color: #0f766e; }
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #2563eb, #0d9488);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 13px 26px;
+      border-radius: 8px;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      box-shadow: 0 2px 12px rgba(37,99,235,0.25);
+    }
+    .cta-sub { font-size: 11px; color: var(--muted); margin-top: 9px; }
+    .offer-right { display: flex; flex-direction: column; gap: 12px; }
+    .offer-stat-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 1px 4px rgba(15,23,42,0.05);
+    }
+    .offer-stat-card.accent { background: linear-gradient(135deg, #eff6ff, #f0fdfa); border-color: #bfdbfe; }
+    .offer-stat { font-size: 28px; font-weight: 700; color: var(--accent); font-family: 'Playfair Display', Georgia, serif; line-height: 1; margin-bottom: 4px; }
+    .offer-stat-label { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .offer-stat-sub { font-size: 11px; color: var(--muted); }
+  </style>
+
+  <!-- ───────────────── FOOTER ───────────────── -->
+  <div class="footer">
+    <div>
+      <div class="footer-brand">
+        <svg width="20" height="20" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="15" cy="15" r="14" stroke="#2563eb" stroke-width="2.2" fill="none" stroke-dasharray="60 28" stroke-dashoffset="-7"/>
+          <polyline points="4,24 8,17 12,20.5 16.5,12 22,18" stroke="#2563eb" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="22" cy="18" r="2" fill="#0d9488"/>
+        </svg>
+        Revenue <em>Lift</em> CRO
+      </div>
+      <div style="margin-top:3px;">revenueliftcro.com &nbsp;·&nbsp; cavell@revenueliftcro.com</div>
+    </div>
+    <div style="text-align:right;">
+      <div>Kora Organics · Stage 1 Prospect Audit</div>
+      <div>Generated March 2026 · Shopify · Skincare</div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+</body>
+</html>
