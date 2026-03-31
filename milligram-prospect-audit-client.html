@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Milligram — CRO Opportunity Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --surface2: #f1f5f9;
+    --border: #e2e8f0;
+    --text: #0f172a;
+    --muted: #64748b;
+    --blue: #2563eb;
+    --blue-dim: rgba(37,99,235,0.08);
+    --blue-mid: #3b82f6;
+    --teal: #0d9488;
+    --teal-dim: rgba(13,148,136,0.08);
+    --green: #16a34a;
+    --green-dim: rgba(22,163,74,0.08);
+    --red: #dc2626;
+    --red-dim: rgba(220,38,38,0.08);
+    --amber: #d97706;
+    --amber-dim: rgba(217,119,6,0.08);
+    --slate: #475569;
+    --home-col: #7c3aed;
+    --plp-col: #2563eb;
+    --pdp-col: #0d9488;
+    --cart-col: #16a34a;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.6; }
+
+  .badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+  .badge-blue   { background: var(--blue-dim);  color: var(--blue);  border: 1px solid rgba(37,99,235,0.2); }
+  .badge-green  { background: var(--green-dim); color: var(--green); border: 1px solid rgba(22,163,74,0.2); }
+  .badge-teal   { background: var(--teal-dim);  color: var(--teal);  border: 1px solid rgba(13,148,136,0.2); }
+  .badge-amber  { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(217,119,6,0.2); }
+  .badge-red    { background: var(--red-dim);   color: var(--red);   border: 1px solid rgba(220,38,38,0.2); }
+  .badge-slate  { background: #f1f5f9; color: var(--slate); border: 1px solid var(--border); }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 64px 0; }
+  section + section { border-top: 1px solid var(--border); }
+
+  h1 { font-size: 46px; font-weight: 900; line-height: 1.1; letter-spacing: -0.02em; }
+  h2 { font-size: 28px; font-weight: 800; letter-spacing: -0.01em; color: var(--text); }
+  h3 { font-size: 20px; font-weight: 700; }
+  h4 { font-size: 16px; font-weight: 600; }
+
+  .section-label { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+  .section-label .num { width: 28px; height: 28px; border-radius: 50%; background: var(--blue-dim); border: 1px solid rgba(37,99,235,0.2); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: var(--blue); }
+  .section-label .lbl { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #0369a1 100%); padding: 80px 0 64px; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%); pointer-events: none; }
+  .hero-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+  .hero-logo-wrap { display: flex; align-items: center; gap: 10px; }
+  .hero-title { color: #fff; margin-bottom: 16px; }
+  .hero-title .accent { color: #93c5fd; }
+  .hero-sub { font-size: 18px; color: rgba(255,255,255,0.75); max-width: 620px; margin-bottom: 40px; line-height: 1.75; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 40px; }
+  .hero-stat { display: flex; flex-direction: column; gap: 4px; padding: 16px 24px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; min-width: 140px; backdrop-filter: blur(4px); }
+  .hero-stat .val { font-size: 24px; font-weight: 900; color: #fff; }
+  .hero-stat .val.accent { color: #93c5fd; }
+  .hero-stat .key { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+  .hero-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .hero-chip { padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); border: 1px solid rgba(255,255,255,0.2); }
+
+  /* FUNNEL */
+  .funnel-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .funnel-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; position: relative; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .funnel-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .funnel-home::before  { background: var(--home-col); }
+  .funnel-plp::before   { background: var(--plp-col); }
+  .funnel-pdp::before   { background: var(--pdp-col); }
+  .funnel-cart::before  { background: var(--cart-col); }
+  .funnel-page-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
+  .funnel-home .funnel-page-label  { color: var(--home-col); }
+  .funnel-plp  .funnel-page-label  { color: var(--plp-col); }
+  .funnel-pdp  .funnel-page-label  { color: var(--pdp-col); }
+  .funnel-cart .funnel-page-label  { color: var(--cart-col); }
+  .funnel-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 16px; color: var(--text); }
+  .funnel-finding { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 13px; line-height: 1.5; color: var(--muted); }
+  .funnel-finding:last-child { margin-bottom: 0; }
+  .funnel-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+  .dot-red    { background: var(--red); }
+  .dot-amber  { background: var(--amber); }
+  .dot-green  { background: var(--green); }
+
+  /* INSIGHTS */
+  .insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .insight-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; border-left: 3px solid var(--blue); box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .insight-card .stat-big { font-size: 40px; font-weight: 900; color: var(--blue); line-height: 1; margin-bottom: 6px; }
+  .insight-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+  .insight-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* TESTS */
+  .test-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 32px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .test-header { padding: 24px 28px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; background: linear-gradient(135deg, #f8fafc, #eff6ff); }
+  .test-num { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 6px; }
+  .test-title { font-size: 22px; font-weight: 800; margin-bottom: 10px; color: var(--text); }
+  .test-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ice-row { display: flex; gap: 10px; flex-shrink: 0; }
+  .ice-box { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 60px; height: 60px; border-radius: 10px; }
+  .ice-impact { background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.2); }
+  .ice-conf   { background: rgba(13,148,136,0.08); border: 1px solid rgba(13,148,136,0.2); }
+  .ice-ease   { background: rgba(22,163,74,0.08); border: 1px solid rgba(22,163,74,0.2); }
+  .ice-box .score { font-size: 22px; font-weight: 900; line-height: 1; }
+  .ice-impact .score { color: var(--blue); }
+  .ice-conf   .score { color: var(--teal); }
+  .ice-ease   .score { color: var(--green); }
+  .ice-box .lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+  .test-body { padding: 28px; }
+  .test-body-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .field-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); margin-bottom: 8px; }
+  .field-value { font-size: 14px; color: var(--muted); line-height: 1.65; }
+  .field-block { margin-bottom: 20px; }
+  .field-block:last-child { margin-bottom: 0; }
+
+  /* MOCKUP */
+  .mockup-section { padding: 24px 28px; background: var(--surface2); border-top: 1px solid var(--border); }
+  .mockup-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+  .mockup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .mockup-box { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .mockup-tag { padding: 8px 14px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+  .mockup-tag.control { background: var(--surface2); color: var(--muted); }
+  .mockup-tag.variant { background: rgba(22,163,74,0.07); color: var(--green); }
+  .mockup-content { padding: 16px; }
+
+  /* Mockup atoms — light theme */
+  .m-product-name { font-size: 14px; font-weight: 800; margin-bottom: 3px; color: var(--text); }
+  .m-product-price { font-size: 13px; font-weight: 700; color: var(--blue); margin-bottom: 6px; }
+  .m-afterpay { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+  .m-atc { display: block; padding: 12px; background: #0f172a; color: #fff; border-radius: 6px; text-align: center; font-size: 13px; font-weight: 800; margin-bottom: 8px; }
+  .m-trust-bar { display: flex; gap: 6px; font-size: 10px; color: var(--green); margin-bottom: 8px; justify-content: space-between; padding: 8px 10px; background: rgba(22,163,74,0.06); border-radius: 6px; border: 1px solid rgba(22,163,74,0.15); }
+  .m-trust-item { display: flex; align-items: center; gap: 4px; }
+  .m-loyalty-nudge { padding: 8px 10px; background: rgba(37,99,235,0.06); border: 1px solid rgba(37,99,235,0.15); border-radius: 6px; font-size: 10px; color: var(--blue); margin-top: 6px; }
+  .m-cart-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; display: flex; gap: 10px; align-items: center; }
+  .m-cart-thumb { width: 38px; height: 44px; background: var(--border); border-radius: 5px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .m-cart-info { flex: 1; }
+  .m-cart-name { font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+  .m-cart-meta { font-size: 10px; color: var(--muted); }
+  .m-cart-price { font-size: 12px; font-weight: 700; color: var(--blue); }
+  .m-xsell-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); margin: 10px 0 8px; }
+  .m-xsell-label.green-label { color: var(--green); }
+  .m-xsell-row { display: flex; gap: 8px; }
+  .m-xsell-tile { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 8px; text-align: center; }
+  .m-xsell-tile .thumb { height: 44px; background: var(--border); border-radius: 5px; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .m-xsell-tile .name { font-size: 9px; font-weight: 600; margin-bottom: 2px; color: var(--text); }
+  .m-xsell-tile .price { font-size: 10px; color: var(--blue); font-weight: 700; }
+  .m-xsell-tile .add-btn { margin-top: 5px; font-size: 10px; padding: 4px 0; background: var(--surface); border: 1px dashed var(--border); border-radius: 4px; display: block; text-align: center; font-weight: 700; color: var(--muted); }
+  .m-xsell-tile .add-btn.active { background: rgba(22,163,74,0.07); border: 1px solid rgba(22,163,74,0.25); color: var(--green); }
+  .m-checkout-btn { display: block; padding: 11px; background: #0f172a; color: #fff; border-radius: 6px; text-align: center; font-size: 13px; font-weight: 800; margin-top: 10px; }
+  .m-plp-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .m-plp-img { height: 90px; background: var(--border); display: flex; align-items: center; justify-content: center; font-size: 26px; }
+  .m-plp-info { padding: 9px; }
+  .m-plp-brand { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+  .m-plp-name { font-size: 10px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .m-plp-price { font-size: 10px; color: var(--muted); margin-bottom: 4px; }
+  .m-plp-stars-row { display: flex; align-items: center; gap: 5px; }
+  .m-plp-stars { font-size: 9px; color: var(--amber); }
+  .m-plp-count { font-size: 9px; color: var(--muted); }
+  .m-plp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .m-no-reviews { font-size: 11px; color: var(--muted); padding: 10px; background: var(--surface2); border-radius: 6px; text-align: center; border: 1px dashed var(--border); margin-top: 8px; }
+  .m-shipping-bar-wrap { margin-bottom: 10px; }
+  .m-shipping-bar { height: 5px; background: var(--border); border-radius: 3px; margin-bottom: 3px; overflow: hidden; }
+  .m-shipping-fill { height: 5px; background: var(--teal); border-radius: 3px; }
+  .m-shipping-copy { font-size: 10px; color: var(--teal); }
+
+  /* REVENUE */
+  .rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+  .rev-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .rev-card.highlight { border-color: rgba(37,99,235,0.3); background: rgba(37,99,235,0.04); }
+  .rev-card .scenario { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .rev-card .amount { font-size: 32px; font-weight: 900; color: var(--text); margin-bottom: 4px; }
+  .rev-card.highlight .amount { color: var(--blue); }
+  .rev-card .sub { font-size: 12px; color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: var(--surface2); padding: 12px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: left; border: 1px solid var(--border); }
+  td { padding: 12px 16px; font-size: 13px; border: 1px solid var(--border); color: var(--text); }
+  tr:nth-child(even) td { background: rgba(0,0,0,0.01); }
+  .td-green  { color: var(--green);  font-weight: 700; }
+  .td-blue   { color: var(--blue);   font-weight: 700; }
+  .td-amber  { color: var(--amber);  font-weight: 700; }
+  .td-bold   { font-weight: 700; }
+  .assumptions-box { background: var(--surface2); border: 1px solid var(--border); border-left: 3px solid var(--amber); border-radius: 8px; padding: 16px 20px; margin-top: 20px; }
+  .assumptions-box h4 { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
+  .assumptions-box ul { list-style: none; padding: 0; }
+  .assumptions-box li { font-size: 13px; color: var(--muted); padding-left: 14px; position: relative; margin-bottom: 4px; }
+  .assumptions-box li::before { content: '·'; position: absolute; left: 0; color: var(--amber); }
+
+  /* WHY */
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .why-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; gap: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .why-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--blue-dim); border: 1px solid rgba(37,99,235,0.15); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .why-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+  .why-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* RISKS */
+  .risk-row { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; display: grid; grid-template-columns: 180px 1fr 1fr; gap: 16px; align-items: start; margin-bottom: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+  .risk-name { font-size: 13px; font-weight: 700; color: var(--text); }
+  .risk-desc { font-size: 13px; color: var(--muted); }
+  .risk-mit  { font-size: 13px; color: var(--green); }
+  .col-header { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+
+  /* KPIs */
+  .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .kpi-metric { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .kpi-baseline { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  .kpi-target { font-size: 22px; font-weight: 900; color: var(--green); }
+  .kpi-target-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* NEXT STEPS */
+  .step-row { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--border); }
+  .step-row:last-child { border-bottom: none; }
+  .step-num { width: 36px; height: 36px; border-radius: 50%; background: var(--blue-dim); border: 1px solid rgba(37,99,235,0.2); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: var(--blue); flex-shrink: 0; margin-top: 2px; }
+  .step-content h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+  .step-content p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+  .step-content .tag { margin-top: 8px; }
+
+  /* OFFER BLOCK */
+  .offer-block { background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 60%, #0369a1 100%); border-radius: 20px; padding: 56px 48px; text-align: center; position: relative; overflow: hidden; margin-top: 48px; }
+  .offer-block::before { content: ''; position: absolute; top: -80px; right: -80px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%); }
+  .offer-block h2 { color: #fff; font-size: 34px; margin-bottom: 16px; }
+  .offer-block p { color: rgba(255,255,255,0.75); font-size: 17px; max-width: 560px; margin: 0 auto 36px; line-height: 1.7; }
+  .offer-pills { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 36px; }
+  .offer-pill { padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+  .offer-cta { display: inline-block; padding: 16px 40px; background: #fff; color: #1e3a8a; border-radius: 10px; font-size: 16px; font-weight: 800; text-decoration: none; }
+  .offer-sub { margin-top: 20px; font-size: 13px; color: rgba(255,255,255,0.55); }
+
+  /* FOOTER */
+  .footer { padding: 40px 0; border-top: 1px solid var(--border); background: var(--surface); }
+  .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .footer-left { font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">
+      <div class="hero-logo-wrap">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="white"/>
+          <text x="16" y="22" text-anchor="middle" font-size="14" font-weight="900" fill="#1d4ed8" font-family="Inter,sans-serif">RL</text>
+        </svg>
+        <span style="color:#93c5fd;font-weight:800;font-size:14px;letter-spacing:0.02em;">Revenue Lift CRO</span>
+      </div>
+      <span style="color:rgba(255,255,255,0.4);font-size:20px;">·</span>
+      <span style="color:rgba(255,255,255,0.6);font-size:13px;font-weight:600;">Prepared for Milligram · April 2026</span>
+    </div>
+
+    <h1 class="hero-title">
+      3 revenue opportunities<br>we found on <span class="accent">milligram.com</span>
+    </h1>
+    <p class="hero-sub">A full-funnel audit of your Shopify store identified three specific, testable changes that could meaningfully improve average order value and conversion — without discounting, redesigning, or rebuilding anything.</p>
+
+    <div class="hero-meta">
+      <div class="hero-stat">
+        <div class="val accent">3</div>
+        <div class="key">Tests Ready to Run</div>
+      </div>
+      <div class="hero-stat">
+        <div class="val">$38,700</div>
+        <div class="key">Projected Rev / Qtr (Expected)</div>
+      </div>
+      <div class="hero-stat">
+        <div class="val">No</div>
+        <div class="key">Discounts Required</div>
+      </div>
+      <div class="hero-stat">
+        <div class="val">Shopify</div>
+        <div class="key">Platform</div>
+      </div>
+    </div>
+
+    <div class="hero-chips">
+      <div class="hero-chip">Cart AOV</div>
+      <div class="hero-chip">PDP Trust Signals</div>
+      <div class="hero-chip">PLP Social Proof</div>
+      <div class="hero-chip">Free Shipping Nudge</div>
+      <div class="hero-chip">GrowthBook A/B Testing</div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════ FUNNEL AUDIT ═══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">
+      <div class="num">1</div>
+      <div class="lbl">What We Found — Full Funnel Audit</div>
+    </div>
+    <h2 style="margin-bottom:8px;">Page-by-page findings</h2>
+    <p style="color:var(--muted); margin-bottom:32px; font-size:15px;">We audited your homepage, product listing pages, product detail pages, and cart drawer. Here's what the funnel looks like right now.</p>
+
+    <div class="funnel-grid">
+
+      <div class="funnel-card funnel-home">
+        <div class="funnel-page-label">🏠 Homepage</div>
+        <h4>Brand presence strong, conversion signals missing</h4>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-amber"></div>
+          <span>Beautiful editorial hero — but no benefit-led messaging or offer visible above the fold. "SHOP NOW" CTA gives no scent about what to shop for.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-red"></div>
+          <span>No social proof above the fold — no review count, no customer number, no star aggregates anywhere on the homepage.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-green"></div>
+          <span>Announcement bar rotating the BOGO notebook offer and $69 free shipping threshold — good promotional visibility throughout the session.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-red"></div>
+          <span>"Our Favourites" product carousel displays with no star ratings — a customer browsing can't identify your most-loved products at a glance.</span>
+        </div>
+      </div>
+
+      <div class="funnel-card funnel-plp">
+        <div class="funnel-page-label">📋 Product Listing</div>
+        <h4>256 products, zero social proof signals</h4>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-red"></div>
+          <span>Category banner takes up the full first viewport — products don't appear until significant scroll, increasing browse drop-off before customers can engage.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-red"></div>
+          <span>Product cards show brand, name, price, and add button — but no star ratings on any of 256 products. Customers have no confidence signal to filter by.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-amber"></div>
+          <span>Six filter categories all collapsed by default. For a 256-product catalogue, customers need help narrowing quickly — collapsed filters add friction.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-green"></div>
+          <span>Quick-add "Add to Bag" button on PLP cards — good friction reduction for decisive buyers who already know what they want.</span>
+        </div>
+      </div>
+
+      <div class="funnel-card funnel-pdp">
+        <div class="funnel-page-label">🛍 Product Page</div>
+        <h4>Add-to-cart moment lacks reassurance</h4>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-red"></div>
+          <span>No reviews visible anywhere in the add-to-cart zone. The reviews widget is installed, but most products show "No reviews collected yet."</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-red"></div>
+          <span>Delivery promise ("Ready to ship · Click &amp; Collect") is positioned below the Add to Cart button — customers don't see it before they decide whether to buy.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-amber"></div>
+          <span>"Customers Also Bought" section exists but is 3+ scrolls below the fold, after a brand block and an empty reviews section — very few customers reach it.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-green"></div>
+          <span>Afterpay shown near price — smart for reducing perceived price barrier. Prominent full-width Add to Cart button with clear visual hierarchy.</span>
+        </div>
+      </div>
+
+      <div class="funnel-card funnel-cart">
+        <div class="funnel-page-label">🛒 Cart Drawer</div>
+        <h4>Cross-sell in place — but no way to add</h4>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-red"></div>
+          <span>"You May Also Like" cross-sell shows products with images and prices — but has no add-to-cart button. Customers must navigate away to a product page to add any recommended item.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-amber"></div>
+          <span>Free shipping progress bar is live ($49.01 gap on a $19.99 cart) but the recommended products aren't framed around closing that gap — missing the most compelling nudge.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-green"></div>
+          <span>Cart drawer opens on add-to-cart click (no full page redirect) — modern UX that keeps context. Clear CHECKOUT button with total displayed.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-green"></div>
+          <span>Friends For Life loyalty program referenced in cart — good for account creation, though placement between cross-sell and checkout could be refined.</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ INSIGHTS ═══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">
+      <div class="num">2</div>
+      <div class="lbl">The Headline Numbers</div>
+    </div>
+    <h2 style="margin-bottom:8px;">Three specific gaps driving revenue loss</h2>
+    <p style="color:var(--muted); margin-bottom:32px; font-size:15px;">Each of these is measurable, testable, and fixable without a redesign.</p>
+
+    <div class="insights-grid">
+      <div class="insight-card">
+        <div class="stat-big">0</div>
+        <h4>Quick-add buttons in your cart cross-sell</h4>
+        <p>Your cart drawer already recommends products — but there's no button to add them. Every customer who wants to add a second item has to navigate away from the cart, find the product, and add it from the PDP. Most don't come back. A single "+ Add" button on each recommended product removes that friction entirely.</p>
+      </div>
+      <div class="insight-card">
+        <div class="stat-big">$49</div>
+        <h4>Average gap to free shipping on a single-notebook order</h4>
+        <p>Your free shipping threshold is $69. A customer buying one notebook at $19.99 is $49 away. The progress bar tells them the gap — but nothing tells them what to add to close it. Reframing the cross-sell around "here's what gets you to free shipping" turns passive discovery into active goal completion.</p>
+      </div>
+      <div class="insight-card">
+        <div class="stat-big">3+</div>
+        <h4>Scrolls required to reach a cross-sell on your product pages</h4>
+        <p>Your "Customers Also Bought" section sits below the product description, specifications, a full-width brand block, and an empty reviews section. On mobile, fewer than 20% of users scroll that far. Moving the cross-sell above the fold — or relocating it adjacent to the ATC button — would expose it to the majority of your traffic.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ TESTS ═══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">
+      <div class="num">3</div>
+      <div class="lbl">The Tests We Propose</div>
+    </div>
+    <h2 style="margin-bottom:8px;">3 A/B tests, ordered by impact</h2>
+    <p style="color:var(--muted); margin-bottom:40px; font-size:15px;">Each test runs independently. We use GrowthBook for experiment management and declare results at 95% statistical confidence.</p>
+
+    <!-- ─── TEST 1 ─── -->
+    <div class="test-card">
+      <div class="test-header">
+        <div>
+          <div class="test-num">Test 01 — Cart Drawer</div>
+          <div class="test-title">Free Shipping–Led Quick-Add Cross-Sell</div>
+          <div class="test-tags">
+            <span class="badge badge-green">Cart</span>
+            <span class="badge badge-blue">AOV Focus</span>
+            <span class="badge badge-teal">No New Apps</span>
+          </div>
+        </div>
+        <div class="ice-row">
+          <div class="ice-box ice-impact"><div class="score">8</div><div class="lbl">Impact</div></div>
+          <div class="ice-box ice-conf"><div class="score">8</div><div class="lbl">Confidence</div></div>
+          <div class="ice-box ice-ease"><div class="score">7</div><div class="lbl">Ease</div></div>
+        </div>
+      </div>
+
+      <div class="test-body">
+        <div class="test-body-grid">
+          <div>
+            <div class="field-block">
+              <div class="field-label">What the problem is</div>
+              <div class="field-value">Your cart drawer already recommends products in a "You May Also Like" carousel — but there's no button to add them to the cart. A customer who sees the Smiley Sticky Note Pad recommended and wants to add it has to click through to its PDP and add from there. This navigation away from the cart increases the chance they don't return to complete the purchase.</div>
+            </div>
+            <div class="field-block">
+              <div class="field-label">What we'll test</div>
+              <div class="field-value">
+                <strong>Control (current):</strong> Cart cross-sell tiles show image, name, price. No add button. Headline: "You May Also Like."<br><br>
+                <strong>Variant:</strong> Each cross-sell tile gets a quick-add "+" button that adds the item to cart via AJAX (no page navigation). Headline dynamically shows: "You're $49 from free shipping — these pair well." Product selection also expands to include cross-category complements (pens paired with notebooks, pen holders, etc.).
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="field-block">
+              <div class="field-label">Why we expect it to work</div>
+              <div class="field-value">Goal-gradient psychology: the closer a customer is to a reward (free shipping), the more motivated they become to close the gap. Your progress bar already creates the goal — we just need to connect it to the right products with a clear action. Removing the navigation step from "see recommendation" to "add to cart" directly reduces the drop-off between these two states.</div>
+            </div>
+            <div class="field-block">
+              <div class="field-label">What we measure</div>
+              <div class="field-value">Primary: average order value<br>Secondary: cart cross-sell conversion rate, cart abandonment rate (guardrail — must not increase)<br>Runtime: 14 days minimum · 50/50 split · All cart sessions</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mockup-section">
+        <div class="mockup-label">Before &amp; After — Cart Drawer</div>
+        <div class="mockup-grid">
+          <div class="mockup-box">
+            <div class="mockup-tag control">Before — Current State</div>
+            <div class="mockup-content">
+              <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">SHOPPING BAG (1)</div>
+              <div class="m-shipping-bar-wrap">
+                <div class="m-shipping-bar"><div class="m-shipping-fill" style="width:29%;"></div></div>
+                <div class="m-shipping-copy">You are $49.01 away from free shipping.</div>
+              </div>
+              <div class="m-cart-item">
+                <div class="m-cart-thumb">📓</div>
+                <div class="m-cart-info">
+                  <div class="m-cart-name">Butter Any Day Notebook Dot Grid A5</div>
+                  <div class="m-cart-meta">Any Day Now · Qty: 1</div>
+                </div>
+                <div class="m-cart-price">$19.99</div>
+              </div>
+              <div class="m-xsell-label">You May Also Like</div>
+              <div class="m-xsell-row">
+                <div class="m-xsell-tile">
+                  <div class="thumb">🗒️</div>
+                  <div class="name">Smiley Sticky Note Pad</div>
+                  <div class="price">$9.99</div>
+                  <div class="add-btn" style="font-style:italic;opacity:0.4;">no button</div>
+                </div>
+                <div class="m-xsell-tile">
+                  <div class="thumb">📔</div>
+                  <div class="name">Indigo Any Day Notebook A5</div>
+                  <div class="price">$19.99</div>
+                  <div class="add-btn" style="font-style:italic;opacity:0.4;">no button</div>
+                </div>
+              </div>
+              <div class="m-checkout-btn">CHECK OUT</div>
+            </div>
+          </div>
+          <div class="mockup-box">
+            <div class="mockup-tag variant">✦ After — Free Shipping–Led Quick-Add</div>
+            <div class="mockup-content">
+              <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;">SHOPPING BAG (1)</div>
+              <div class="m-shipping-bar-wrap">
+                <div class="m-shipping-bar"><div class="m-shipping-fill" style="width:29%;"></div></div>
+                <div class="m-shipping-copy">You are $49.01 away from free shipping.</div>
+              </div>
+              <div class="m-cart-item">
+                <div class="m-cart-thumb">📓</div>
+                <div class="m-cart-info">
+                  <div class="m-cart-name">Butter Any Day Notebook Dot Grid A5</div>
+                  <div class="m-cart-meta">Any Day Now · Qty: 1</div>
+                </div>
+                <div class="m-cart-price">$19.99</div>
+              </div>
+              <div class="m-xsell-label green-label">You're $49 from free shipping — these pair well:</div>
+              <div class="m-xsell-row">
+                <div class="m-xsell-tile">
+                  <div class="thumb">✒️</div>
+                  <div class="name">Lamy Safari Fountain Pen</div>
+                  <div class="price">$39.99</div>
+                  <div class="add-btn active">+ Add</div>
+                </div>
+                <div class="m-xsell-tile">
+                  <div class="thumb">🗒️</div>
+                  <div class="name">Smiley Sticky Note Pad</div>
+                  <div class="price">$9.99</div>
+                  <div class="add-btn active">+ Add</div>
+                </div>
+              </div>
+              <div class="m-checkout-btn">CHECK OUT</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── TEST 2 ─── -->
+    <div class="test-card">
+      <div class="test-header">
+        <div>
+          <div class="test-num">Test 02 — Product Page</div>
+          <div class="test-title">ATC Zone Trust Stack</div>
+          <div class="test-tags">
+            <span class="badge badge-teal">Product Page</span>
+            <span class="badge badge-blue">CVR Focus</span>
+            <span class="badge badge-green">No New Apps</span>
+          </div>
+        </div>
+        <div class="ice-row">
+          <div class="ice-box ice-impact"><div class="score">7</div><div class="lbl">Impact</div></div>
+          <div class="ice-box ice-conf"><div class="score">8</div><div class="lbl">Confidence</div></div>
+          <div class="ice-box ice-ease"><div class="score">7</div><div class="lbl">Ease</div></div>
+        </div>
+      </div>
+
+      <div class="test-body">
+        <div class="test-body-grid">
+          <div>
+            <div class="field-block">
+              <div class="field-label">What the problem is</div>
+              <div class="field-value">Your product pages show price, Afterpay, and an Add to Cart button — then nothing else until the customer scrolls. The delivery information ("Ready to ship · Click &amp; Collect") exists, but it's positioned below the ATC button, which means most customers never see it before they make their decision. Shipping uncertainty is one of the most common reasons customers hesitate before adding to cart.</div>
+            </div>
+            <div class="field-block">
+              <div class="field-label">What we'll test</div>
+              <div class="field-value">
+                <strong>Control (current):</strong> Price → Afterpay → ATC button → [scroll] → Delivery info.<br><br>
+                <strong>Variant:</strong> Price → Afterpay → a compact 3-element trust bar ("✓ Ready to ship today · ✓ Free returns · ✓ Secure checkout") → ATC button. Optionally, a loyalty micro-nudge below the button ("Earn points with Friends For Life — join free") to promote account creation at the highest-intent moment.
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="field-block">
+              <div class="field-label">Why we expect it to work</div>
+              <div class="field-value">Research from the Baymard Institute consistently identifies shipping cost and delivery uncertainty as top-3 reasons for checkout abandonment. Customers experience purchase anxiety before clicking Add to Cart — not just at checkout. Moving the delivery reassurance to before the click addresses the hesitation before it becomes an exit.</div>
+            </div>
+            <div class="field-block">
+              <div class="field-label">What we measure</div>
+              <div class="field-value">Primary: add-to-cart rate (per PDP session)<br>Secondary: session conversion rate, PDP bounce rate<br>Runtime: 21 days minimum · 50/50 split · All PDP sessions</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mockup-section">
+        <div class="mockup-label">Before &amp; After — Product Page ATC Zone</div>
+        <div class="mockup-grid">
+          <div class="mockup-box">
+            <div class="mockup-tag control">Before — Current State</div>
+            <div class="mockup-content">
+              <div class="m-product-name">Butter Any Day Notebook Dot Grid A5</div>
+              <div class="m-product-price">$19.99 AUD</div>
+              <div class="m-afterpay">4 payments of $5.00 with Afterpay ⓘ</div>
+              <div class="m-atc">ADD TO CART</div>
+              <div style="font-size:10px;color:var(--muted);padding:8px 10px;background:var(--surface2);border-radius:6px;margin-top:6px;border:1px solid var(--border);">
+                ↓ Delivery info only visible after scrolling past this button
+              </div>
+              <div class="m-no-reviews">— No reviews collected for this product yet —</div>
+            </div>
+          </div>
+          <div class="mockup-box">
+            <div class="mockup-tag variant">✦ After — ATC Zone Trust Stack</div>
+            <div class="mockup-content">
+              <div class="m-product-name">Butter Any Day Notebook Dot Grid A5</div>
+              <div class="m-product-price">$19.99 AUD</div>
+              <div class="m-afterpay">4 payments of $5.00 with Afterpay ⓘ</div>
+              <div class="m-trust-bar">
+                <div class="m-trust-item">✓ Ready to ship</div>
+                <div class="m-trust-item">✓ Free returns</div>
+                <div class="m-trust-item">✓ Secure checkout</div>
+              </div>
+              <div class="m-atc">ADD TO CART</div>
+              <div class="m-loyalty-nudge">⭐ Earn points on this purchase · Friends For Life — join free</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── TEST 3 ─── -->
+    <div class="test-card">
+      <div class="test-header">
+        <div>
+          <div class="test-num">Test 03 — Product Listing</div>
+          <div class="test-title">Star Ratings on Product Cards</div>
+          <div class="test-tags">
+            <span class="badge badge-blue">PLP</span>
+            <span class="badge badge-blue">Browse → CVR</span>
+            <span class="badge badge-amber">Review Collection First</span>
+          </div>
+        </div>
+        <div class="ice-row">
+          <div class="ice-box ice-impact"><div class="score">7</div><div class="lbl">Impact</div></div>
+          <div class="ice-box ice-conf"><div class="score">7</div><div class="lbl">Confidence</div></div>
+          <div class="ice-box ice-ease"><div class="score">6</div><div class="lbl">Ease</div></div>
+        </div>
+      </div>
+
+      <div class="test-body">
+        <div class="test-body-grid">
+          <div>
+            <div class="field-block">
+              <div class="field-label">What the problem is</div>
+              <div class="field-value">Your product listing pages show 256 notebooks with brand, name, and price — but no star ratings. For a customer browsing a large catalogue, there's no shortcut to identify your most-loved products. The reviews infrastructure is already installed and rendering on PDPs — it just isn't surfaced at the browse stage where it could most influence which products get clicked.</div>
+            </div>
+            <div class="field-block">
+              <div class="field-label">What we'll test</div>
+              <div class="field-value">
+                <strong>Control (current):</strong> Product cards with brand, name, price, Add button — no ratings.<br><br>
+                <strong>Variant:</strong> Star rating summary (e.g. ★★★★★ · 47 reviews) displayed on cards for products with 5+ reviews. Products without sufficient reviews render unchanged — avoiding the risk of showing low-confidence ratings.
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="field-block">
+              <div class="field-label">What to set up first</div>
+              <div class="field-value">Several audited product pages showed "No reviews collected yet." Before this test runs, we recommend activating a post-purchase review request email — either via Shopify's built-in flow or Judge.me. This takes 1–2 days to configure and should run as a parallel track. We suggest a 60-day window before launching Test 3 to build sufficient review volume.</div>
+            </div>
+            <div class="field-block">
+              <div class="field-label">What we measure</div>
+              <div class="field-value">Primary: PDP click-through rate from PLP (on rated products)<br>Secondary: add-to-cart rate, session CVR<br>Runtime: 21 days minimum · 50/50 split · All PLP sessions</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mockup-section">
+        <div class="mockup-label">Before &amp; After — Product Listing Card</div>
+        <div class="mockup-grid">
+          <div class="mockup-box">
+            <div class="mockup-tag control">Before — Current State</div>
+            <div class="mockup-content">
+              <div class="m-plp-grid">
+                <div class="m-plp-card">
+                  <div class="m-plp-img">📓</div>
+                  <div class="m-plp-info">
+                    <div class="m-plp-brand">Any Day Now</div>
+                    <div class="m-plp-name">Butter Any Day Notebook A5</div>
+                    <div class="m-plp-price">$19.99</div>
+                    <div style="font-size:9px;color:var(--muted);font-style:italic;">no rating shown</div>
+                  </div>
+                </div>
+                <div class="m-plp-card">
+                  <div class="m-plp-img">✒️</div>
+                  <div class="m-plp-info">
+                    <div class="m-plp-brand">Lamy</div>
+                    <div class="m-plp-name">Safari Fountain Pen EF Nib</div>
+                    <div class="m-plp-price">$39.99</div>
+                    <div style="font-size:9px;color:var(--muted);font-style:italic;">no rating shown</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mockup-box">
+            <div class="mockup-tag variant">✦ After — Star Ratings on Cards</div>
+            <div class="mockup-content">
+              <div class="m-plp-grid">
+                <div class="m-plp-card">
+                  <div class="m-plp-img">📓</div>
+                  <div class="m-plp-info">
+                    <div class="m-plp-brand">Any Day Now</div>
+                    <div class="m-plp-name">Butter Any Day Notebook A5</div>
+                    <div class="m-plp-price">$19.99</div>
+                    <div class="m-plp-stars-row">
+                      <span class="m-plp-stars">★★★★★</span>
+                      <span class="m-plp-count">(47)</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="m-plp-card">
+                  <div class="m-plp-img">✒️</div>
+                  <div class="m-plp-info">
+                    <div class="m-plp-brand">Lamy</div>
+                    <div class="m-plp-name">Safari Fountain Pen EF Nib</div>
+                    <div class="m-plp-price">$39.99</div>
+                    <div class="m-plp-stars-row">
+                      <span class="m-plp-stars">★★★★★</span>
+                      <span class="m-plp-count">(124)</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════ REVENUE ═══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">
+      <div class="num">4</div>
+      <div class="lbl">Revenue Projections</div>
+    </div>
+    <h2 style="margin-bottom:8px;">What the numbers could look like</h2>
+    <p style="color:var(--muted); margin-bottom:32px; font-size:15px;">All three scenarios are conservative and modelled from your current site structure. Exact projections will be refined once we have access to your GA4 and Shopify order data in Stage 2.</p>
+
+    <div class="rev-grid">
+      <div class="rev-card">
+        <div class="scenario">Conservative</div>
+        <div class="amount">$18,900</div>
+        <div class="sub">per quarter · 7% cross-sell capture</div>
+      </div>
+      <div class="rev-card highlight">
+        <div class="scenario">Expected</div>
+        <div class="amount">$38,700</div>
+        <div class="sub">per quarter · 12% cross-sell capture</div>
+      </div>
+      <div class="rev-card">
+        <div class="scenario">Strong</div>
+        <div class="amount">$64,800</div>
+        <div class="sub">per quarter · 18% cross-sell capture</div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Test</th>
+          <th>Metric Improved</th>
+          <th>Scenario</th>
+          <th>Expected Lift</th>
+          <th>Incremental Rev / Qtr (AUD)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-bold" rowspan="3">Test 1 — Cart Quick-Add</td>
+          <td rowspan="3">Average Order Value</td>
+          <td>Conservative</td>
+          <td class="td-green">AOV +$8 · 7% cross-sell capture</td>
+          <td class="td-green">$10,800</td>
+        </tr>
+        <tr>
+          <td>Expected</td>
+          <td class="td-blue">AOV +$13 · 12% cross-sell capture</td>
+          <td class="td-blue">$21,060</td>
+        </tr>
+        <tr>
+          <td>Strong</td>
+          <td class="td-amber">AOV +$18 · 18% cross-sell capture</td>
+          <td class="td-amber">$38,880</td>
+        </tr>
+        <tr>
+          <td class="td-bold" rowspan="3">Test 2 — PDP Trust Stack</td>
+          <td rowspan="3">Add-to-Cart → CVR</td>
+          <td>Conservative</td>
+          <td class="td-green">ATC +3% · CVR +2%</td>
+          <td class="td-green">$4,860</td>
+        </tr>
+        <tr>
+          <td>Expected</td>
+          <td class="td-blue">ATC +5% · CVR +3%</td>
+          <td class="td-blue">$10,530</td>
+        </tr>
+        <tr>
+          <td>Strong</td>
+          <td class="td-amber">ATC +7% · CVR +5%</td>
+          <td class="td-amber">$17,550</td>
+        </tr>
+        <tr>
+          <td class="td-bold" rowspan="3">Test 3 — PLP Star Ratings</td>
+          <td rowspan="3">PLP CTR → CVR</td>
+          <td>Conservative</td>
+          <td class="td-green">CTR +10% · CVR +1.5%</td>
+          <td class="td-green">$3,240</td>
+        </tr>
+        <tr>
+          <td>Expected</td>
+          <td class="td-blue">CTR +14% · CVR +2.5%</td>
+          <td class="td-blue">$7,110</td>
+        </tr>
+        <tr>
+          <td>Strong</td>
+          <td class="td-amber">CTR +18% · CVR +4%</td>
+          <td class="td-amber">$8,370</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="assumptions-box">
+      <h4>How we calculated this</h4>
+      <ul>
+        <li>Estimated monthly online orders: ~3,000 (conservative for an established multi-location AU stationery retailer)</li>
+        <li>Estimated AOV: ~$45 AUD (based on observed product prices and typical 2–3 item baskets)</li>
+        <li>No discounts required — all three tests improve conversion through friction removal and trust, not promotional mechanics</li>
+        <li>Test 3 impact scales with review volume — projections assume at least 60 days of review collection prior to launch</li>
+        <li>All projections are Stage 1 estimates. Stage 2 analysis with your GA4 and Shopify data will produce exact, model-backed projections</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ WHY ═══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">
+      <div class="num">5</div>
+      <div class="lbl">The Evidence Behind Each Test</div>
+    </div>
+    <h2 style="margin-bottom:32px;">Why we expect these to move the needle</h2>
+
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🛒</div>
+        <div>
+          <h4>Cart friction is the most expensive problem in e-commerce</h4>
+          <p>Average cart abandonment sits at 70%. The most common cause is friction between "I want something" and "I added it." Your cross-sell has the right intent — it just needs an add button to execute on it.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🎯</div>
+        <div>
+          <h4>Free shipping thresholds create natural AOV momentum</h4>
+          <p>Showing customers they're close to a goal (free shipping) and giving them easy options to close that gap is one of the highest-ROI cart interventions available. No discount needed — the "reward" is already in your site architecture.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📦</div>
+        <div>
+          <h4>Delivery certainty reduces add-to-cart hesitation</h4>
+          <p>Baymard Institute research shows shipping uncertainty is a top-3 reason customers don't complete a purchase. "Ready to ship" is a powerful reassurance — but only if the customer sees it before they decide, not after scrolling past the Add to Cart button.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">⭐</div>
+        <div>
+          <h4>Social proof at the browse stage filters intent, not just informs</h4>
+          <p>A customer who clicks through to a PDP having already seen 4.8★ from 124 reviews arrives in a fundamentally different buying state. Star ratings on PLP cards improve the quality of intent reaching your product pages — and the add-to-cart rate that follows.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🔁</div>
+        <div>
+          <h4>Your reviews infrastructure is already installed</h4>
+          <p>The reviews widget renders on every product page — it's just showing "No reviews yet" because the post-purchase request sequence hasn't been activated. This is a quick operational fix that unlocks both Test 2 and Test 3 power.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📊</div>
+        <div>
+          <h4>All tests are controlled — no risk of launching a losing change site-wide</h4>
+          <p>Every test runs as a GrowthBook A/B experiment with a 50/50 traffic split. If a variant doesn't win at 95% confidence, it doesn't ship. You only deploy what the data confirms works for your customers specifically.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ NEXT STEPS ═══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">
+      <div class="num">6</div>
+      <div class="lbl">How We Work Together</div>
+    </div>
+    <h2 style="margin-bottom:32px;">From this audit to live tests</h2>
+
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Scoping call — confirm access and priorities</h4>
+        <p>We'll review this audit together and confirm which tests to prioritise first. We'll request read-only GA4 access and a Shopify collaborator invite to validate our traffic estimates and sharpen the revenue projections with your real data.</p>
+        <span class="badge badge-blue tag">Week 1</span>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Stage 2 data analysis — exact projections</h4>
+        <p>With GA4 and Shopify order data, we'll run a co-purchase frequency analysis to identify the highest-performing product pairings for Test 1's cross-sell, and confirm per-page drop-off rates to size Tests 2 and 3 precisely.</p>
+        <span class="badge badge-teal tag">Week 1–2</span>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Activate review collection (parallel track — starts immediately)</h4>
+        <p>Set up a post-purchase review request sequence using Shopify's built-in flow or Judge.me. This runs independently of the A/B tests and seeds the social proof that powers Tests 2 and 3 at full strength. 60-day window to build review volume.</p>
+        <span class="badge badge-green tag">Week 1 · Parallel</span>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Build Tests 1 &amp; 2 — Shopify Liquid edits only</h4>
+        <p>Cart drawer quick-add and PDP trust stack are both Shopify Liquid template changes — no new apps, no backend work. Estimated 1–2 days of development. We handle build, QA, and GrowthBook experiment setup.</p>
+        <span class="badge badge-blue tag">Week 2–3</span>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>Launch and read results</h4>
+        <p>Tests 1 and 2 go live simultaneously on a 50/50 traffic split. We monitor daily for the first week, send you weekly performance updates, and declare results at 95% statistical significance — minimum 14 days for Test 1, 21 days for Test 2.</p>
+        <span class="badge badge-teal tag">Week 3–6</span>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">6</div>
+      <div class="step-content">
+        <h4>Ship winners, launch Test 3, plan next quarter</h4>
+        <p>Winning variants ship to 100% of traffic. Test 3 (PLP star ratings) launches once review volume is sufficient. We debrief on results and propose the next 3 tests for the following quarter — continuous iteration cycle.</p>
+        <span class="badge badge-green tag">Week 6+</span>
+      </div>
+    </div>
+
+    <!-- OFFER BLOCK -->
+    <div class="offer-block">
+      <h2>Ready to run Test 1 this month?</h2>
+      <p>The cart quick-add test requires no new apps, no design work, and no discounting. It's the fastest path from "we saw the audit" to "we have results" — and it addresses your highest-intent page first.</p>
+      <div class="offer-pills">
+        <div class="offer-pill">✓ No discount required</div>
+        <div class="offer-pill">✓ 2-day build</div>
+        <div class="offer-pill">✓ 14-day test window</div>
+        <div class="offer-pill">✓ Results-or-rollback guarantee</div>
+      </div>
+      <a href="mailto:cavell@evensongraphics.co.nz" class="offer-cta">Book a scoping call</a>
+      <div class="offer-sub">Revenue Lift CRO · cavell@evensongraphics.co.nz</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <strong style="color:var(--text);">Revenue Lift CRO</strong><br>
+        Prepared for Milligram · milligram.com · April 2026<br>
+        <span style="color:var(--muted);font-size:12px;">This report is confidential and prepared exclusively for Milligram.</span>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <span class="badge badge-blue">3 Tests Proposed</span>
+        <span class="badge badge-green">No Discounting Required</span>
+        <span class="badge badge-teal">GrowthBook A/B Testing</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
