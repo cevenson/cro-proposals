@@ -6,44 +6,81 @@
     <title>CRO Proposals Directory</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: #0f1115;
             color: #e2e8f0;
             max-width: 800px;
             margin: 40px auto;
             padding: 20px;
+            line-height: 1.6;
         }
         h1 {
-            border-bottom: 1px solid #334155;
+            border-bottom: 2px solid #3b82f6;
             padding-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
         }
         ul {
             list-style-type: none;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
         li {
-            margin: 15px 0;
-            padding: 15px;
-            background-color: #1a1d24;
-            border-radius: 8px;
-            border-left: 4px solid #3b82f6;
+            padding: 18px;
+            background: linear-gradient(145deg, #1a1d24, #14171c);
+            border-radius: 12px;
+            border: 1px solid #334155;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li:hover {
+            transform: translateX(5px);
+            border-color: #3b82f6;
+            background: linear-gradient(145deg, #1e222b, #161a21);
         }
         a {
             color: #60a5fa;
             text-decoration: none;
             font-size: 1.1em;
             font-weight: 500;
+            flex-grow: 1;
         }
-        a:hover {
-            text-decoration: underline;
+        .badge {
+            background-color: #1e3a8a;
+            color: #93c5fd;
+            padding: 4px 10px;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-left: 10px;
+            border: 1px solid #3b82f6;
         }
+
     </style>
 </head>
 <body>
     <h1>CRO Proposals Directory</h1>
     <p>Select a proposal to view:</p>
     <ul>
-        <li><a href="demo_cro_proposal.html">Lumina Skincare — Demo Proposal</a></li>
+        <li><a href="odyssey-marriage-prospect-audit-client.html">Odyssey Marriage — Stage 1 CRO Audit <span class='badge'>Client View</span></a></li>
+        <li><a href="odyssey-marriage-prospect-audit.html">Odyssey Marriage — Stage 1 Prospect Audit</a></li>
+        <li><a href="milligram-prospect-audit-client.html">Milligram — CRO Opportunity Report <span class='badge'>Client View</span></a></li>
+        <li><a href="milligram-prospect-audit.html">Milligram — Stage 1 Prospect Audit (Internal)</a></li>
+        <li><a href="ziwi-prospect-audit.html">ZIWI — Stage 1 Prospect Audit</a></li>
+        <li><a href="ziwi-prospect-audit-client.html">ZIWI — Stage 1 CRO Audit <span class='badge'>Client View</span></a></li>
+        <li><a href="wicked-weasel-prospect-audit.html">Wicked Weasel — Stage 1 Prospect Audit</a></li>
+        <li><a href="wicked-weasel-prospect-audit-client.html">Wicked Weasel — Stage 1 CRO Audit <span class='badge'>Client View</span></a></li>
+        <li><a href="lskd-prospect-audit.html">LSKD — Stage 1 Prospect Audit | Revenue Lift CRO</a></li>
+        <li><a href="lskd-prospect-audit-client.html">LSKD — Stage 1 CRO Audit | Revenue Lift CRO <span class='badge'>Client View</span></a></li>
+        <li><a href="kora-organics-prospect-audit.html">Kora Organics — Stage 1 Prospect Audit | Revenue Lift CRO</a></li>
+        <li><a href="kora-organics-prospect-audit-client.html">Kora Organics — Stage 1 Prospect Audit | Revenue Lift CRO <span class='badge'>Client View</span></a></li>
+        <li><a href="demo_cro_proposal.html">Lumina Skincare — Bundle & Volume Discount CRO Proposal</a></li>
     </ul>
 </body>
 </html>
