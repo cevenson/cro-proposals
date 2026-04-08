@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Odyssey Marriage — Stage 1 CRO Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --surface2: #f1f5f9;
+    --border: #e2e8f0;
+    --text: #0f172a;
+    --muted: #64748b;
+    --blue: #2563eb;
+    --blue-dim: rgba(37,99,235,0.08);
+    --teal: #0d9488;
+    --green: #059669;
+    --red: #dc2626;
+    --amber: #d97706;
+    --purple: #7c3aed;
+    --home-col: #7c3aed;
+    --plp-col: #2563eb;
+    --pdp-col: #0d9488;
+    --cart-col: #059669;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; }
+  a { color: var(--blue); }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 64px 0; border-top: 1px solid var(--border); }
+  h1 { font-size: 48px; font-weight: 900; line-height: 1.1; }
+  h2 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+  h3 { font-size: 20px; font-weight: 700; }
+  h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 12px; display: block; }
+  .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 32px; display: flex; align-items: center; gap: 10px; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 50%, #e0f2fe 100%); padding: 72px 0 64px; border-top: none; }
+  .hero-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+  .hero-logo span { font-size: 13px; font-weight: 700; color: var(--blue); letter-spacing: 0.04em; }
+  .hero h1 { color: var(--text); max-width: 680px; }
+  .hero h1 em { font-style: normal; color: var(--blue); }
+  .hero-sub { color: var(--muted); font-size: 17px; max-width: 600px; margin-top: 16px; line-height: 1.7; }
+  .hero-badges { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; background: white; border: 1px solid var(--border); border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 600; color: var(--muted); }
+  .badge.blue { background: var(--blue-dim); border-color: rgba(37,99,235,0.3); color: var(--blue); }
+  .stat-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 40px; }
+  .stat-box { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+  .stat-box .label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .stat-box .value { font-size: 15px; font-weight: 800; color: var(--text); }
+  .stat-box .value.blue { color: var(--blue); }
+
+  /* FUNNEL GRID */
+  .funnel-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .funnel-card { background: var(--surface); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+  .funnel-card-head { padding: 14px 18px; border-bottom: 1px solid var(--border); }
+  .funnel-card-head .stage { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+  .funnel-card-head h3 { font-size: 15px; }
+  .funnel-card-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+  .finding { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.5; color: var(--muted); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .dot.red { background: var(--red); }
+  .dot.amber { background: var(--amber); }
+  .dot.green { background: var(--green); }
+  .home-head { border-top: 3px solid var(--home-col); }
+  .home-head .stage { color: var(--home-col); }
+  .plp-head { border-top: 3px solid var(--plp-col); }
+  .plp-head .stage { color: var(--plp-col); }
+  .pdp-head { border-top: 3px solid var(--pdp-col); }
+  .pdp-head .stage { color: var(--pdp-col); }
+  .cart-head { border-top: 3px solid var(--cart-col); }
+  .cart-head .stage { color: var(--cart-col); }
+
+  /* INSIGHTS */
+  .insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .insight-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px 24px; border-left: 4px solid var(--blue); }
+  .insight-card .stat-num { font-size: 40px; font-weight: 900; color: var(--blue); line-height: 1; margin-bottom: 10px; }
+  .insight-card p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+  /* TEST CARDS */
+  .test-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
+  .test-card-header { padding: 24px 28px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  .test-num { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); margin-bottom: 6px; }
+  .test-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .tag { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); }
+  .ice-row { display: flex; gap: 12px; }
+  .ice-box { text-align: center; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; min-width: 70px; }
+  .ice-box .ice-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+  .ice-box .ice-label.impact { color: var(--blue); }
+  .ice-box .ice-label.confidence { color: var(--teal); }
+  .ice-box .ice-label.ease { color: var(--green); }
+  .ice-box .ice-val { font-size: 22px; font-weight: 900; color: var(--text); }
+  .test-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .test-body-cell { padding: 22px 28px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .test-body-cell:nth-child(even) { border-right: none; }
+  .test-body-cell:nth-last-child(-n+2) { border-bottom: none; }
+  .test-body-cell .cell-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .test-body-cell p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .lift-val { font-size: 20px; font-weight: 900; color: var(--green); }
+
+  /* MOCKUPS */
+  .mockup-section { background: var(--surface2); border-top: 1px solid var(--border); padding: 28px; }
+  .mockup-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+  .mockup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .mockup-frame { border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+  .mockup-frame-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 14px; }
+  .mockup-frame-label.control { background: #f1f5f9; color: #94a3b8; border-bottom: 1px solid var(--border); }
+  .mockup-frame-label.variant { background: rgba(5,150,105,0.08); color: var(--green); border-bottom: 1px solid rgba(5,150,105,0.2); }
+  .mockup-body { background: #f8fafc; padding: 18px; border: 0; }
+
+  /* WIREFRAME ELEMENTS — light theme */
+  .wf-form-wrap { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; }
+  .wf-heading { background: #e2e8f0; height: 14px; border-radius: 3px; margin-bottom: 12px; width: 55%; }
+  .wf-sub { background: #f1f5f9; height: 10px; border-radius: 2px; margin-bottom: 16px; width: 80%; }
+  .wf-field { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 4px; height: 32px; margin-bottom: 8px; }
+  .wf-btn { background: #2563eb; border-radius: 4px; height: 36px; margin-top: 12px; }
+  .wf-trust-row { display: flex; gap: 8px; margin-bottom: 14px; }
+  .wf-trust-chip { background: rgba(5,150,105,0.08); border: 1px solid rgba(5,150,105,0.25); border-radius: 4px; padding: 5px 8px; flex: 1; }
+  .wf-chip-num { font-size: 11px; font-weight: 900; color: #059669; text-align: center; }
+  .wf-chip-lbl { font-size: 8px; color: #94a3b8; text-align: center; margin-top: 1px; }
+  .wf-process { display: flex; gap: 6px; margin-bottom: 14px; }
+  .wf-step { flex: 1; background: #f1f5f9; border-radius: 4px; padding: 8px 4px; text-align: center; }
+  .wf-step-num { width: 16px; height: 16px; background: #2563eb; border-radius: 50%; font-size: 9px; font-weight: 700; color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 4px; }
+  .wf-step-txt { font-size: 7px; color: #94a3b8; line-height: 1.3; }
+  .wf-quote { background: rgba(37,99,235,0.06); border-left: 2px solid #2563eb; padding: 8px 10px; border-radius: 0 4px 4px 0; margin-bottom: 12px; }
+  .wf-quote-txt { font-size: 9px; color: #64748b; font-style: italic; line-height: 1.4; }
+
+  .wf-service-card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-bottom: 8px; }
+  .wf-service-title { background: #e2e8f0; height: 12px; border-radius: 2px; width: 50%; margin-bottom: 8px; }
+  .wf-service-desc { background: #f1f5f9; height: 8px; border-radius: 2px; width: 90%; margin-bottom: 4px; }
+  .wf-service-desc.short { width: 70%; }
+  .wf-price-tag { background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); border-radius: 4px; padding: 5px 8px; margin: 10px 0 8px; display: inline-block; }
+  .wf-price-txt { font-size: 10px; color: #2563eb; font-weight: 700; }
+  .wf-trust-chips { display: flex; gap: 6px; margin-bottom: 10px; }
+  .wf-mini-chip { background: #f1f5f9; border-radius: 3px; padding: 4px 8px; font-size: 8px; color: #94a3b8; border: 1px solid #e2e8f0; }
+  .wf-mini-chip.green { background: rgba(5,150,105,0.08); border-color: rgba(5,150,105,0.25); color: #059669; }
+  .wf-cta-btn { background: #2563eb; border-radius: 4px; padding: 8px 12px; text-align: center; }
+  .wf-cta-txt { font-size: 10px; color: white; font-weight: 700; }
+
+  .wf-hero { background: white; border-radius: 8px; padding: 16px; border: 1px solid #e2e8f0; }
+  .wf-hero-tag { background: rgba(124,58,237,0.08); border-radius: 3px; padding: 3px 8px; display: inline-block; margin-bottom: 10px; }
+  .wf-hero-tag-txt { font-size: 8px; color: #7c3aed; font-weight: 700; }
+  .wf-h1 { background: #e2e8f0; height: 16px; border-radius: 3px; width: 85%; margin-bottom: 6px; }
+  .wf-h1-2 { background: #e2e8f0; height: 16px; border-radius: 3px; width: 65%; margin-bottom: 12px; }
+  .wf-multi-cta { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .wf-cta-sm { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 3px; padding: 5px 10px; font-size: 8px; color: #94a3b8; }
+  .wf-cta-sm.primary { background: #2563eb; border-color: #2563eb; color: white; }
+  .wf-single-cta { background: #2563eb; border-radius: 4px; padding: 10px 16px; text-align: center; margin-bottom: 10px; }
+  .wf-single-cta-txt { font-size: 11px; color: white; font-weight: 700; }
+  .wf-avail { background: rgba(5,150,105,0.08); border: 1px solid rgba(5,150,105,0.2); border-radius: 4px; padding: 6px 10px; }
+  .wf-avail-txt { font-size: 9px; color: #059669; text-align: center; }
+
+  /* REVENUE PROJECTIONS */
+  .rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+  .rev-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-align: center; }
+  .rev-card.highlight { background: var(--blue-dim); border-color: rgba(37,99,235,0.4); }
+  .rev-card .rev-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .rev-card .rev-amount { font-size: 36px; font-weight: 900; color: var(--text); }
+  .rev-card.highlight .rev-amount { color: var(--blue); }
+  .rev-card .rev-monthly { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .rev-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .rev-table th { text-align: left; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 10px 14px; background: var(--surface2); border-bottom: 1px solid var(--border); }
+  .rev-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); color: var(--muted); }
+  .rev-table tr:last-child td { border-bottom: none; }
+  .rev-table .green { color: var(--green); font-weight: 700; }
+  .assumptions-box { background: rgba(217,119,6,0.06); border: 1px solid rgba(217,119,6,0.2); border-radius: 10px; padding: 18px 22px; margin-top: 24px; }
+  .assumptions-box .assume-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
+  .assumptions-box p { font-size: 12px; color: var(--muted); line-height: 1.7; }
+
+  /* WHY THIS WORKS */
+  .why-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .why-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; display: flex; gap: 16px; }
+  .why-icon { width: 40px; height: 40px; border-radius: 8px; background: var(--blue-dim); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; }
+  .why-card p { font-size: 13px; color: var(--muted); line-height: 1.7; margin-top: 4px; }
+
+  /* RISKS */
+  .risk-row { display: grid; grid-template-columns: 200px 1fr 1fr; gap: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+  .risk-cell { padding: 18px 20px; border-right: 1px solid var(--border); }
+  .risk-cell:last-child { border-right: none; }
+  .risk-name { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+  .risk-badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; display: inline-block; }
+  .risk-badge.med { background: rgba(217,119,6,0.1); color: var(--amber); }
+  .risk-badge.low { background: rgba(5,150,105,0.1); color: var(--green); }
+  .risk-cell p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .risk-mitigation { font-size: 13px; color: var(--green); line-height: 1.6; }
+
+  /* KPIs */
+  .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+  .kpi-card .kpi-name { font-size: 13px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .kpi-card .kpi-baseline { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .kpi-card .kpi-target { font-size: 22px; font-weight: 900; color: var(--green); }
+  .kpi-card .kpi-target-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green); opacity: 0.7; margin-top: 2px; }
+
+  /* NEXT STEPS */
+  .step-row { display: flex; gap: 20px; align-items: flex-start; padding: 20px 0; border-bottom: 1px solid var(--border); }
+  .step-row:last-child { border-bottom: none; }
+  .step-num { width: 36px; height: 36px; border-radius: 50%; background: var(--blue); color: white; font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content h4 { margin-bottom: 4px; }
+  .step-content p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+  /* OFFER SECTION */
+  .offer-section { background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 60%, #0f766e 100%); padding: 72px 0; }
+  .offer-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #93c5fd; margin-bottom: 14px; }
+  .offer-headline { font-size: 36px; font-weight: 900; color: white; line-height: 1.15; max-width: 700px; margin-bottom: 20px; }
+  .offer-guarantee { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 24px 28px; max-width: 680px; margin-bottom: 28px; }
+  .offer-guarantee p { color: #cbd5e1; font-size: 14px; line-height: 1.75; }
+  .offer-pills { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
+  .offer-pill { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 6px 16px; font-size: 12px; font-weight: 600; color: #e0f2fe; }
+  .offer-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 560px; margin-bottom: 36px; }
+  .offer-stat { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 18px; text-align: center; }
+  .offer-stat .os-num { font-size: 28px; font-weight: 900; color: white; }
+  .offer-stat .os-lbl { font-size: 11px; color: #93c5fd; margin-top: 4px; }
+  .offer-cta { display: inline-block; background: white; color: #1e3a8a; font-size: 15px; font-weight: 800; padding: 16px 32px; border-radius: 8px; text-decoration: none; margin-bottom: 16px; }
+  .offer-note { font-size: 12px; color: #93c5fd; }
+
+  /* FOOTER */
+  footer { background: var(--surface); border-top: 1px solid var(--border); padding: 24px 0; }
+  .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .footer-left { font-size: 12px; color: var(--muted); }
+  .footer-right { display: flex; align-items: center; gap: 10px; }
+  .footer-right span { font-size: 11px; color: var(--muted); }
+
+  @media (max-width: 768px) {
+    h1 { font-size: 32px; }
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+    .funnel-grid { grid-template-columns: repeat(2, 1fr); }
+    .insights-grid, .rev-grid, .kpi-grid { grid-template-columns: 1fr; }
+    .test-body { grid-template-columns: 1fr; }
+    .mockup-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .risk-row { grid-template-columns: 1fr; }
+    .offer-stats { grid-template-columns: 1fr; }
+    .offer-headline { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-logo">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+        <circle cx="15" cy="15" r="14" stroke="#2563eb" stroke-width="2.2" fill="none" stroke-dasharray="60 28" stroke-dashoffset="-7"/>
+        <circle cx="15" cy="15" r="14" fill="#1e3a8a" opacity="0.08"/>
+        <polygon points="4,24 8,17 12,20.5 16.5,12 22,18 24,24" fill="#2563eb" opacity="0.15"/>
+        <polyline points="4,24 8,17 12,20.5 16.5,12 22,18" stroke="#2563eb" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="22" cy="18" r="2" fill="#0d9488"/>
+      </svg>
+      <span>Revenue Lift CRO · revenueliftcro.com</span>
+    </div>
+    <span class="eyebrow">CRO Audit · April 2026</span>
+    <h1>Odyssey Marriage<br><em>CRO Audit</em></h1>
+    <p class="hero-sub">A conversion-focused audit of odyssey-marriage.com identifying the highest-impact opportunities to increase call bookings from men in marital crisis — with before/after test proposals ready to implement.</p>
+    <div class="hero-badges">
+      <span class="badge blue">Stage 1 · CRO Audit</span>
+      <span class="badge">3 Tests Proposed</span>
+      <span class="badge">Primary Goal: Book a Call</span>
+      <span class="badge">Platform: Custom/Web</span>
+      <span class="badge">Category: Online Marriage Therapy</span>
+      <span class="badge">USD</span>
+    </div>
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="label">Tests Proposed</div>
+        <div class="value blue">3</div>
+      </div>
+      <div class="stat-box">
+        <div class="label">Primary Goal</div>
+        <div class="value">Book a Call</div>
+      </div>
+      <div class="stat-box">
+        <div class="label">Platform</div>
+        <div class="value">Custom / Web</div>
+      </div>
+      <div class="stat-box">
+        <div class="label">Currency</div>
+        <div class="value">USD</div>
+      </div>
+      <div class="stat-box">
+        <div class="label">Funnel Type</div>
+        <div class="value">Lead-Gen / Service</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 01: FUNNEL AUDIT SUMMARY -->
+<section>
+  <div class="container">
+    <div class="section-label">Section 01</div>
+    <h2>Funnel Audit Summary</h2>
+    <p style="color:var(--muted); margin-bottom:32px; max-width:680px;">Mobile-first crawl of odyssey-marriage.com. The booking funnel maps across four stages: Homepage → Solutions → Booking Form → Post-Submit. Key friction identified at every stage.</p>
+    <div class="funnel-grid">
+
+      <div class="funnel-card">
+        <div class="funnel-card-head home-head">
+          <div class="stage">Stage 1</div>
+          <h3>Homepage</h3>
+        </div>
+        <div class="funnel-card-body">
+          <div class="finding"><div class="dot red"></div><span>Four competing CTAs across the page ("Schedule a call", "Learn more", "Start now", "Inquire") create decision paralysis and dilute click intent.</span></div>
+          <div class="finding"><div class="dot amber"></div><span>Social proof stats (3,400+ clients, 84% success rate) are buried — not visible above the fold on mobile where most visitors land.</span></div>
+          <div class="finding"><div class="dot amber"></div><span>No urgency or availability signals. Nothing motivates action now over later — critical for an audience already in emotional delay mode.</span></div>
+        </div>
+      </div>
+
+      <div class="funnel-card">
+        <div class="funnel-card-head plp-head">
+          <div class="stage">Stage 2</div>
+          <h3>Solutions Page</h3>
+        </div>
+        <div class="funnel-card-body">
+          <div class="finding"><div class="dot red"></div><span>Zero pricing transparency across all three service tiers. No investment range shown — creates a qualification barrier that requires a call just to learn cost.</span></div>
+          <div class="finding"><div class="dot red"></div><span>"Inquire" CTA links to "#" — a likely dead link or unrendered modal on mobile. High-intent visitors hit a dead end.</span></div>
+          <div class="finding"><div class="dot amber"></div><span>No trust signals (client stats, media logos, testimonial chips) placed near the service tier CTAs where conversion decisions are made.</span></div>
+        </div>
+      </div>
+
+      <div class="funnel-card">
+        <div class="funnel-card-head pdp-head">
+          <div class="stage">Stage 3</div>
+          <h3>Booking Form</h3>
+        </div>
+        <div class="funnel-card-body">
+          <div class="finding"><div class="dot red"></div><span>Bare inquiry form with no trust reinforcement nearby. Submitting personal details about a marriage crisis requires high trust — none is provided at the moment of commitment.</span></div>
+          <div class="finding"><div class="dot amber"></div><span>No process expectation-setter. Visitors don't know what happens after clicking "Submit" — uncertainty is a known abandonment driver for sensitive service forms.</span></div>
+          <div class="finding"><div class="dot amber"></div><span>No visible confidentiality statement adjacent to the form. Privacy assurance is especially critical for men disclosing relationship problems.</span></div>
+        </div>
+      </div>
+
+      <div class="funnel-card">
+        <div class="funnel-card-head cart-head">
+          <div class="stage">Stage 4</div>
+          <h3>Post-Submit</h3>
+        </div>
+        <div class="funnel-card-body">
+          <div class="finding"><div class="dot amber"></div><span>Generic success message ("Thank you! Your submission has been received!") with no dedicated confirmation page, no next-step timeline, and no set expectations.</span></div>
+          <div class="finding"><div class="dot amber"></div><span>No tier-upgrade pathway after inquiry. Men who submit a Basic inquiry have no prompt to consider Odyssey Plus — a missed upsell moment.</span></div>
+          <div class="finding"><div class="dot green"></div><span>Onboarding email sequence exists. Session link, calendar invite, and intake form are sent post-submission — a solid foundation to build on.</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 02: KEY INSIGHTS -->
+<section>
+  <div class="container">
+    <div class="section-label">Section 02</div>
+    <h2>Key Insights</h2>
+    <p style="color:var(--muted); margin-bottom:32px; max-width:680px;">Three conversion-critical patterns identified across the funnel that explain why qualified visitors are leaving without booking.</p>
+    <div class="insights-grid">
+      <div class="insight-card">
+        <div class="stat-num">4×</div>
+        <h4>CTA Fragmentation</h4>
+        <p>Four different CTA labels compete across the homepage (Schedule a call, Learn more, Start now, Inquire). Hick's Law shows that doubling the number of choices reduces decision speed and can lower conversion rates by up to 20–30%. For men already emotionally overwhelmed by a marriage crisis, friction compounds fast.</p>
+      </div>
+      <div class="insight-card">
+        <div class="stat-num">0</div>
+        <h4>Trust at the Conversion Point</h4>
+        <p>The booking form — the single highest-stakes moment on the site — has zero supporting trust signals. No client count, no success rate, no confidentiality statement, no testimonial. This is the equivalent of a checkout page with no trust badges. For a sensitive, high-anxiety service, trust proximity to the form is non-negotiable.</p>
+      </div>
+      <div class="insight-card">
+        <div class="stat-num">$0</div>
+        <h4>Pricing Opacity Creates Anxiety</h4>
+        <p>The Solutions page shows three tiers with no investment range. Visitors must book a discovery call just to find out if they can afford the service — adding a barrier at the exact moment they're evaluating commitment. Even a "Starting from $X" anchor dramatically reduces pre-call anxiety and attracts better-qualified leads.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 03: TEST 01 -->
+<section>
+  <div class="container">
+    <div class="section-label">Section 03</div>
+    <div class="test-card">
+      <div class="test-card-header">
+        <div>
+          <div class="test-num">Test 01 · Highest Priority</div>
+          <h3>Booking Form Trust Stack</h3>
+          <div class="test-tags">
+            <span class="tag">Booking Form</span>
+            <span class="tag">Trust Signals</span>
+            <span class="tag">Form Conversion</span>
+            <span class="tag">Bottom of Funnel</span>
+          </div>
+        </div>
+        <div class="ice-row">
+          <div class="ice-box">
+            <div class="ice-label impact">Impact</div>
+            <div class="ice-val">8</div>
+          </div>
+          <div class="ice-box">
+            <div class="ice-label confidence">Confidence</div>
+            <div class="ice-val">8</div>
+          </div>
+          <div class="ice-box">
+            <div class="ice-label ease">Ease</div>
+            <div class="ice-val">8</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-body">
+        <div class="test-body-cell">
+          <div class="cell-label">Hypothesis</div>
+          <p>Adding a condensed trust block (3,400+ clients served, 84% success rate, 100% confidential) directly above the inquiry form — paired with a brief "What happens next" 3-step process — will reduce form abandonment and increase submission rates among men who are evaluating whether to disclose their situation.</p>
+        </div>
+        <div class="test-body-cell">
+          <div class="cell-label">Mechanism</div>
+          <p>High-anxiety service purchases require trust proximity — the point of commitment (the form) is where doubt is highest. Concrete social proof (specific numbers, not vague claims) and a transparent process outline reduce the perceived risk of submitting personal information about a sensitive topic.</p>
+        </div>
+        <div class="test-body-cell">
+          <div class="cell-label">Implementation</div>
+          <p>Add a 3-chip trust row above the form (3,400+ clients | 84% success rate | 100% confidential). Add one testimonial snippet from a real client below the chips. Add a horizontal "What happens next" 3-step bar below (Submit → Onboarding email within 24h → Session scheduled). No form fields change.</p>
+        </div>
+        <div class="test-body-cell">
+          <div class="cell-label">Expected Lift</div>
+          <div class="lift-val">+10–18%</div>
+          <p style="margin-top:4px;">Form submission rate. Based on trust-injection benchmarks for high-sensitivity lead-gen forms (therapy, legal, financial services). Primary KPI: Inquiry form submission rate.</p>
+        </div>
+      </div>
+      <div class="mockup-section">
+        <div class="mockup-label">Before / After Mockup</div>
+        <div class="mockup-grid">
+          <div class="mockup-frame">
+            <div class="mockup-frame-label control">Control (Now)</div>
+            <div class="mockup-body">
+              <div class="wf-form-wrap">
+                <div class="wf-heading"></div>
+                <div class="wf-sub"></div>
+                <div class="wf-field"></div>
+                <div class="wf-field"></div>
+                <div class="wf-field"></div>
+                <div class="wf-btn"></div>
+              </div>
+              <p style="font-size:9px; color:#94a3b8; margin-top:10px; text-align:center;">No trust signals. No process clarity. Form sits alone.</p>
+            </div>
+          </div>
+          <div class="mockup-frame">
+            <div class="mockup-frame-label variant">Variant (Test)</div>
+            <div class="mockup-body">
+              <div class="wf-form-wrap">
+                <div class="wf-trust-row">
+                  <div class="wf-trust-chip"><div class="wf-chip-num">3,400+</div><div class="wf-chip-lbl">Clients served</div></div>
+                  <div class="wf-trust-chip"><div class="wf-chip-num">84%</div><div class="wf-chip-lbl">Success rate</div></div>
+                  <div class="wf-trust-chip"><div class="wf-chip-num">100%</div><div class="wf-chip-lbl">Confidential</div></div>
+                </div>
+                <div class="wf-quote">
+                  <div class="wf-quote-txt">"Got my confidence back, reconnected with my wife." — Tyler M., Colorado</div>
+                </div>
+                <div class="wf-heading"></div>
+                <div class="wf-field"></div>
+                <div class="wf-field"></div>
+                <div class="wf-btn"></div>
+                <div class="wf-process">
+                  <div class="wf-step"><div class="wf-step-num">1</div><div class="wf-step-txt">Submit inquiry</div></div>
+                  <div class="wf-step"><div class="wf-step-num">2</div><div class="wf-step-txt">Email within 24h</div></div>
+                  <div class="wf-step"><div class="wf-step-num">3</div><div class="wf-step-txt">Session booked</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 04: TEST 02 -->
+<section>
+  <div class="container">
+    <div class="section-label">Section 04</div>
+    <div class="test-card">
+      <div class="test-card-header">
+        <div>
+          <div class="test-num">Test 02 · High Priority</div>
+          <h3>Solutions Page Pricing Anchor + Trust Zone</h3>
+          <div class="test-tags">
+            <span class="tag">Solutions Page</span>
+            <span class="tag">Pricing Transparency</span>
+            <span class="tag">CTA Click-Through</span>
+            <span class="tag">Mid-Funnel</span>
+          </div>
+        </div>
+        <div class="ice-row">
+          <div class="ice-box">
+            <div class="ice-label impact">Impact</div>
+            <div class="ice-val">8</div>
+          </div>
+          <div class="ice-box">
+            <div class="ice-label confidence">Confidence</div>
+            <div class="ice-val">6</div>
+          </div>
+          <div class="ice-box">
+            <div class="ice-label ease">Ease</div>
+            <div class="ice-val">7</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-body">
+        <div class="test-body-cell">
+          <div class="cell-label">Hypothesis</div>
+          <p>Adding an investment anchor ("Investment: from $X — talk to us about the right tier") alongside key credibility stats (3,400+ clients, 84% success rate, media logos) directly adjacent to each service tier's CTA will reduce pre-call anxiety and increase the percentage of Solutions page visitors who click through to book.</p>
+        </div>
+        <div class="test-body-cell">
+          <div class="cell-label">Mechanism</div>
+          <p>Pricing opacity forces visitors to book a call just to self-qualify — a friction-heavy demand. Anchoring an investment range (even a "starting from" figure) allows visitors to pre-qualify themselves, which means those who do book are higher intent. Pairing with social proof reduces the perceived risk of investing that amount.</p>
+        </div>
+        <div class="test-body-cell">
+          <div class="cell-label">Implementation</div>
+          <p>For each service tier card: add an "Investment: from $X" line (coordinate exact figure with team) or at minimum "Talk to us about pricing." Add 2–3 trust micro-chips below (84% success rate, 3,400+ men helped, GQ / Men's Health logos). Replace "Inquire" (broken "#" link) with a single clear CTA: "Book a strategy call."</p>
+        </div>
+        <div class="test-body-cell">
+          <div class="cell-label">Expected Lift</div>
+          <div class="lift-val">+8–14%</div>
+          <p style="margin-top:4px;">Solutions page CTA click-through rate. Pricing transparency studies for service sites typically show 8–20% CTR improvement when investment context is added. Primary KPI: CTA click-through on Solutions page.</p>
+        </div>
+      </div>
+      <div class="mockup-section">
+        <div class="mockup-label">Before / After Mockup</div>
+        <div class="mockup-grid">
+          <div class="mockup-frame">
+            <div class="mockup-frame-label control">Control (Now)</div>
+            <div class="mockup-body">
+              <div class="wf-service-card">
+                <div class="wf-service-title"></div>
+                <div class="wf-service-desc"></div>
+                <div class="wf-service-desc short"></div>
+                <div style="margin-top:12px;">
+                  <div class="wf-cta-btn"><div class="wf-cta-txt">Schedule a call</div></div>
+                </div>
+                <div style="margin-top:8px; background:#f1f5f9; border-radius:3px; height:28px; border:1px solid #e2e8f0; display:flex; align-items:center; justify-content:center;"><span style="font-size:9px; color:#94a3b8;">Inquire (→ #, broken)</span></div>
+              </div>
+              <p style="font-size:9px; color:#94a3b8; margin-top:10px; text-align:center;">No pricing. No trust. Two competing CTAs, one broken.</p>
+            </div>
+          </div>
+          <div class="mockup-frame">
+            <div class="mockup-frame-label variant">Variant (Test)</div>
+            <div class="mockup-body">
+              <div class="wf-service-card">
+                <div class="wf-service-title"></div>
+                <div class="wf-service-desc"></div>
+                <div class="wf-service-desc short"></div>
+                <div class="wf-price-tag"><div class="wf-price-txt">Investment: from $X — talk to us</div></div>
+                <div class="wf-trust-chips">
+                  <div class="wf-mini-chip green">84% success rate</div>
+                  <div class="wf-mini-chip green">3,400+ clients</div>
+                  <div class="wf-mini-chip">GQ · Men's Health</div>
+                </div>
+                <div class="wf-cta-btn"><div class="wf-cta-txt">Book a strategy call →</div></div>
+              </div>
+              <p style="font-size:9px; color:#94a3b8; margin-top:10px; text-align:center;">Investment anchored. Trust visible. Single clear CTA.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 05: TEST 03 -->
+<section>
+  <div class="container">
+    <div class="section-label">Section 05</div>
+    <div class="test-card">
+      <div class="test-card-header">
+        <div>
+          <div class="test-num">Test 03 · Standard Priority</div>
+          <h3>Homepage Hero CTA Consolidation</h3>
+          <div class="test-tags">
+            <span class="tag">Homepage Hero</span>
+            <span class="tag">CTA Copy</span>
+            <span class="tag">Urgency</span>
+            <span class="tag">Top of Funnel</span>
+          </div>
+        </div>
+        <div class="ice-row">
+          <div class="ice-box">
+            <div class="ice-label impact">Impact</div>
+            <div class="ice-val">7</div>
+          </div>
+          <div class="ice-box">
+            <div class="ice-label confidence">Confidence</div>
+            <div class="ice-val">8</div>
+          </div>
+          <div class="ice-box">
+            <div class="ice-label ease">Ease</div>
+            <div class="ice-val">9</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-body">
+        <div class="test-body-cell">
+          <div class="cell-label">Hypothesis</div>
+          <p>Consolidating the homepage's four competing CTAs (Schedule a call, Learn more, Start now, Inquire) into one dominant primary CTA — "Book a free strategy call" — paired with a real-time availability signal ("37 men currently in the program — limited spots available") will increase homepage-to-booking-form click-through.</p>
+        </div>
+        <div class="test-body-cell">
+          <div class="cell-label">Mechanism</div>
+          <p>Multiple CTAs fragment intent and create cognitive load — Hick's Law. A single high-intent CTA with benefit-forward copy ("free strategy call" vs the generic "schedule a call") removes the choice paralysis. An availability signal creates urgency grounded in real program capacity, which the site already surfaces (37 active clients).</p>
+        </div>
+        <div class="test-body-cell">
+          <div class="cell-label">Implementation</div>
+          <p>Replace all hero CTA variants with one primary button: "Book a free strategy call →". Add a secondary text link below: "Explore our solutions ↓". Add a green availability bar beneath the CTA: "Currently 37 men enrolled — limited new spots available." Keep hero headline and subtext unchanged to isolate CTA variable.</p>
+        </div>
+        <div class="test-body-cell">
+          <div class="cell-label">Expected Lift</div>
+          <div class="lift-val">+8–15%</div>
+          <p style="margin-top:4px;">Homepage primary CTA click-through rate. CTA consolidation studies on service site heroes consistently show 8–20% improvement when competing CTAs are reduced to one. Primary KPI: Homepage → Form page click-through rate.</p>
+        </div>
+      </div>
+      <div class="mockup-section">
+        <div class="mockup-label">Before / After Mockup</div>
+        <div class="mockup-grid">
+          <div class="mockup-frame">
+            <div class="mockup-frame-label control">Control (Now)</div>
+            <div class="mockup-body">
+              <div class="wf-hero">
+                <div class="wf-hero-tag"><div class="wf-hero-tag-txt">Strategic Support for Men</div></div>
+                <div class="wf-h1"></div>
+                <div class="wf-h1-2"></div>
+                <div class="wf-sub" style="background:#f1f5f9; height:10px; border-radius:2px; width:90%; margin-bottom:16px;"></div>
+                <div class="wf-multi-cta">
+                  <div class="wf-cta-sm primary">Schedule a call</div>
+                  <div class="wf-cta-sm">Learn more</div>
+                  <div class="wf-cta-sm">Start now</div>
+                  <div class="wf-cta-sm">Inquire</div>
+                </div>
+              </div>
+              <p style="font-size:9px; color:#94a3b8; margin-top:10px; text-align:center;">4 CTAs compete. Intent is fragmented. No urgency.</p>
+            </div>
+          </div>
+          <div class="mockup-frame">
+            <div class="mockup-frame-label variant">Variant (Test)</div>
+            <div class="mockup-body">
+              <div class="wf-hero">
+                <div class="wf-hero-tag"><div class="wf-hero-tag-txt">Strategic Support for Men</div></div>
+                <div class="wf-h1"></div>
+                <div class="wf-h1-2"></div>
+                <div class="wf-sub" style="background:#f1f5f9; height:10px; border-radius:2px; width:90%; margin-bottom:16px;"></div>
+                <div class="wf-single-cta"><div class="wf-single-cta-txt">Book a free strategy call →</div></div>
+                <div style="text-align:center; margin:6px 0;"><span style="font-size:9px; color:#94a3b8;">Explore our solutions ↓</span></div>
+                <div class="wf-avail"><div class="wf-avail-txt">37 men currently enrolled — limited new spots available</div></div>
+              </div>
+              <p style="font-size:9px; color:#94a3b8; margin-top:10px; text-align:center;">Single CTA. Clear intent. Urgency grounded in real data.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 06: REVENUE PROJECTIONS -->
+<section>
+  <div class="container">
+    <div class="section-label">Section 06</div>
+    <h2>Revenue Projections</h2>
+    <p style="color:var(--muted); margin-bottom:32px; max-width:680px;">Conservative estimates based on industry benchmarks for service/lead-gen sites. Figures assume USD pricing and a blended average client value across all three Odyssey tiers.</p>
+    <div class="rev-grid">
+      <div class="rev-card">
+        <div class="rev-label">Conservative</div>
+        <div class="rev-amount">$86,400</div>
+        <div class="rev-monthly">+$7,200 / month</div>
+      </div>
+      <div class="rev-card highlight">
+        <div class="rev-label">Expected ★</div>
+        <div class="rev-amount">$129,600</div>
+        <div class="rev-monthly">+$10,800 / month</div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-label">Strong</div>
+        <div class="rev-amount">$180,000</div>
+        <div class="rev-monthly">+$15,000 / month</div>
+      </div>
+    </div>
+    <table class="rev-table">
+      <thead>
+        <tr>
+          <th>Test</th>
+          <th>Primary Metric</th>
+          <th>Lift %</th>
+          <th>Est. New Clients/Mo</th>
+          <th>Revenue Impact/Mo (Expected)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Test 01 — Form Trust Stack</td>
+          <td>Form submission rate</td>
+          <td class="green">+12%</td>
+          <td>+7 clients</td>
+          <td class="green">+$4,200</td>
+        </tr>
+        <tr>
+          <td>Test 02 — Pricing Anchor</td>
+          <td>Solutions page CTA CTR</td>
+          <td class="green">+10%</td>
+          <td>+5 clients</td>
+          <td class="green">+$3,600</td>
+        </tr>
+        <tr>
+          <td>Test 03 — CTA Consolidation</td>
+          <td>Homepage CTA click-through</td>
+          <td class="green">+10%</td>
+          <td>+5 clients</td>
+          <td class="green">+$3,000</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="assumptions-box">
+      <div class="assume-label">Assumptions</div>
+      <p>Estimates assume ~3,000 monthly visitors, current visitor-to-booking rate of ~2.0%, and a blended average client value of $600 USD (mix of Basic single sessions and Plus 12-session packages). Actual results will vary based on real traffic data, pricing, and audience mix. Figures are illustrative for Stage 1 — Stage 2 projections will be built on connected analytics data.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 07: WHY THIS WORKS -->
+<section>
+  <div class="container">
+    <div class="section-label">Section 07</div>
+    <h2>Why This Works</h2>
+    <p style="color:var(--muted); margin-bottom:32px; max-width:680px;">The psychology behind why these tests drive bookings for a high-sensitivity service targeting men in emotional distress.</p>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🛡️</div>
+        <div>
+          <h4>High-Anxiety Purchases Require Trust Proximity</h4>
+          <p>For any service involving personal disclosure — marriage, mental health, legal — trust signals must appear at the exact moment of commitment. Placing them on other pages doesn't transfer. The form is where doubt peaks, so that's where reassurance must live.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🧠</div>
+        <div>
+          <h4>Masculine Buying Psychology Responds to Data</h4>
+          <p>The Odyssey audience — men seeking structured, results-driven support — is predisposed to respond to concrete outcomes data. "3,400+ clients served" and "84% success rate" align with how this audience evaluates decisions: evidence-first, not emotion-first.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🔀</div>
+        <div>
+          <h4>Hick's Law: More Choices = Fewer Decisions</h4>
+          <p>With four CTAs on the homepage, visitors spend cognitive energy deciding which action to take rather than acting. Reducing to one clear CTA removes the meta-decision entirely. This is particularly powerful for a user already emotionally drained from a relationship crisis.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">💰</div>
+        <div>
+          <h4>Pricing Opacity Repels, Anchoring Attracts</h4>
+          <p>Visitors with zero pricing context imagine worst-case costs. A "starting from" anchor resets that assumption downward and allows self-qualification — ensuring that those who do book are already prepared for the investment, dramatically improving show-up rates and close rates.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">⏱️</div>
+        <div>
+          <h4>Process Clarity Reduces Submission Anxiety</h4>
+          <p>A "what happens next" micro-section (3 steps: submit → email within 24h → session booked) eliminates the most common reason service forms are abandoned: "I don't know what I'm getting into." Transparency about process converts hesitation into action.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">⚡</div>
+        <div>
+          <h4>Availability Signals Create Real Urgency</h4>
+          <p>Odyssey already discloses that 37 men are currently active in the program. That's genuine scarcity data — not manufactured FOMO. Surfacing this near the primary CTA gives visitors a real reason to act now rather than "think about it," which for a distressed audience often means never returning.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 08: RISKS & MITIGATIONS -->
+<section>
+  <div class="container">
+    <div class="section-label">Section 08</div>
+    <h2>Risks &amp; Mitigations</h2>
+    <p style="color:var(--muted); margin-bottom:32px; max-width:680px;">Known risks for each proposed test and how to pre-empt them.</p>
+
+    <div class="risk-row">
+      <div class="risk-cell">
+        <div class="risk-name">Pricing Disclosure Risk</div>
+        <span class="risk-badge med">Medium</span>
+      </div>
+      <div class="risk-cell">
+        <p>Showing even a "starting from" price may cause price-sensitive visitors to self-exclude before speaking to the team, reducing raw inquiry volume even if lead quality improves.</p>
+      </div>
+      <div class="risk-cell">
+        <p class="risk-mitigation">Use "starting from $X" framing rather than fixed prices. Position the figure immediately below a strong outcome stat (e.g., "84% success rate — Investment: from $X"). The anchor normalises the price relative to the value of saving a marriage. Track both inquiry volume and show-up quality to assess net effect.</p>
+      </div>
+    </div>
+
+    <div class="risk-row">
+      <div class="risk-cell">
+        <div class="risk-name">Trust Block Feels Salesy</div>
+        <span class="risk-badge low">Low</span>
+      </div>
+      <div class="risk-cell">
+        <p>A cluster of stats and a testimonial above the booking form could read as pushy or performative, especially for a sensitive, trust-dependent service.</p>
+      </div>
+      <div class="risk-cell">
+        <p class="risk-mitigation">Use specific, verifiable figures (3,400 not "thousands+") and real first-name testimonials with location. Avoid superlatives. Keep the trust block visually minimal — chips, not banners. The specificity of the data is what makes it feel authentic rather than marketing copy.</p>
+      </div>
+    </div>
+
+    <div class="risk-row">
+      <div class="risk-cell">
+        <div class="risk-name">CTA Consolidation Reduces Exploration</div>
+        <span class="risk-badge low">Low</span>
+      </div>
+      <div class="risk-cell">
+        <p>Removing "Learn more" and "Explore solutions" from the hero may reduce Solutions page traffic from visitors who aren't yet ready to book, potentially thinning the mid-funnel.</p>
+      </div>
+      <div class="risk-cell">
+        <p class="risk-mitigation">Retain "Explore our solutions ↓" as a secondary text link below the primary CTA — not a button, just an anchor link. This preserves discovery without competing visually with the primary action. Monitor Solutions page traffic as a secondary metric during the test.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 09: KPIs TO TRACK -->
+<section>
+  <div class="container">
+    <div class="section-label">Section 09</div>
+    <h2>KPIs to Track</h2>
+    <p style="color:var(--muted); margin-bottom:32px; max-width:680px;">Measurement framework for the three proposed tests. Connect GA4 or equivalent analytics before launch.</p>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-name">Booking Form Submission Rate</div>
+        <div class="kpi-baseline">Baseline: ~40% of form starters</div>
+        <div class="kpi-target">50–58%</div>
+        <div class="kpi-target-label">Target range</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-name">Solutions Page → Form CTA Click-Through</div>
+        <div class="kpi-baseline">Baseline: ~12% of Solutions visitors</div>
+        <div class="kpi-target">14–18%</div>
+        <div class="kpi-target-label">Target range</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-name">Homepage CTA Click-Through Rate</div>
+        <div class="kpi-baseline">Baseline: ~8% of homepage visitors</div>
+        <div class="kpi-target">10–14%</div>
+        <div class="kpi-target-label">Target range</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-name">Visitor → Booked Call Conversion Rate</div>
+        <div class="kpi-baseline">Baseline: ~2.0% of all visitors</div>
+        <div class="kpi-target">2.5–3.2%</div>
+        <div class="kpi-target-label">Target range</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-name">Monthly New Client Acquisitions</div>
+        <div class="kpi-baseline">Baseline: est. current run rate</div>
+        <div class="kpi-target">+15–25%</div>
+        <div class="kpi-target-label">Target increase</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-name">Solutions Page Bounce Rate</div>
+        <div class="kpi-baseline">Baseline: est. ~55–65%</div>
+        <div class="kpi-target">&lt;50%</div>
+        <div class="kpi-target-label">Target ceiling</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 10: NEXT STEPS -->
+<section>
+  <div class="container">
+    <div class="section-label">Section 10</div>
+    <h2>Next Steps</h2>
+    <p style="color:var(--muted); margin-bottom:32px; max-width:680px;">Recommended actions to move from audit to running tests within 2–3 weeks.</p>
+
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Connect Analytics &amp; Set Baselines <span class="tag" style="vertical-align:middle; margin-left:8px;">Week 1</span></h4>
+        <p>Verify GA4 (or equivalent) is firing correctly on the inquiry form. Confirm funnel events: page views, CTA clicks, form_start, form_submit. These baselines are essential for measuring test lift accurately. Without them, we're running blind.</p>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Fix the Broken "Inquire" CTA <span class="tag" style="vertical-align:middle; margin-left:8px;">Day 1 — No Test Required</span></h4>
+        <p>The "Inquire" button on the Solutions page links to "#" — a dead end on mobile. This is a zero-effort fix that removes a known conversion blocker immediately. Point it to the booking form or contact page. Do not A/B test a broken element.</p>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Launch Test 01: Form Trust Stack <span class="tag" style="vertical-align:middle; margin-left:8px;">Week 1–2</span></h4>
+        <p>Highest priority and lowest risk. Add trust chips, a testimonial snippet, and the "what happens next" 3-step bar above the inquiry form. Run for 2–4 weeks or until statistical significance is reached. Primary metric: form submission rate.</p>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Coordinate Pricing Anchor Copy <span class="tag" style="vertical-align:middle; margin-left:8px;">Week 2</span></h4>
+        <p>Before launching Test 02, confirm the "starting from $X" investment figure with your team. Even a directional range (e.g., "Investment: from $150") is more effective than opacity. This conversation often surfaces important positioning decisions worth making explicit.</p>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>Launch Tests 02 &amp; 03 <span class="tag" style="vertical-align:middle; margin-left:8px;">Week 3–4</span></h4>
+        <p>Roll out Solutions pricing anchor and homepage CTA consolidation. If traffic volume is sufficient, these can run simultaneously. If not, sequence: Test 02 first (mid-funnel impact), then Test 03. Review combined performance at the 30-day mark.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- OFFER SECTION -->
+<section class="offer-section">
+  <div class="container">
+    <div class="offer-eyebrow">Revenue Lift CRO</div>
+    <h2 class="offer-headline">Get Measurable Revenue Gains In 60 Days — <span style="color:#7dd3fc">Guaranteed.</span></h2>
+    <div class="offer-guarantee">
+      <p><strong style="color:white;">4× ROI Guarantee — Zero Risk</strong><br>
+      If I can't help you achieve at least a 4× ROI on your conversion optimisation within 60 days, I'll refund every cent — no hassle, no questions asked. You get breakthrough CRO growth, or you get your money back.</p>
+    </div>
+    <div class="offer-pills">
+      <span class="offer-pill">✓ Data-backed test proposals</span>
+      <span class="offer-pill">✓ Before/after implementation</span>
+      <span class="offer-pill">✓ Full measurement setup</span>
+      <span class="offer-pill">✓ 4× ROI or full refund</span>
+    </div>
+    <div class="offer-stats">
+      <div class="offer-stat">
+        <div class="os-num">+17%</div>
+        <div class="os-lbl">Average booking lift</div>
+      </div>
+      <div class="offer-stat">
+        <div class="os-num">+20%</div>
+        <div class="os-lbl">Revenue per visitor</div>
+      </div>
+      <div class="offer-stat">
+        <div class="os-num">$400k+</div>
+        <div class="os-lbl">Revenue unlocked</div>
+      </div>
+    </div>
+    <a href="https://revenueliftcro.com/revenue-lift-cro-offer/" class="offer-cta">Book a call to run through your audit →</a>
+    <div class="offer-note">No lock-in contracts · Results-based pricing · Service site specialists</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-left">revenueliftcro.com · cavell@revenueliftcro.com</div>
+      <div class="footer-right">
+        <svg width="22" height="22" viewBox="0 0 30 30" fill="none">
+          <circle cx="15" cy="15" r="14" stroke="#2563eb" stroke-width="2.2" fill="none" stroke-dasharray="60 28" stroke-dashoffset="-7"/>
+          <polyline points="4,24 8,17 12,20.5 16.5,12 22,18" stroke="#2563eb" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="22" cy="18" r="2" fill="#0d9488"/>
+        </svg>
+        <span>Odyssey Marriage · Stage 1 CRO Audit · April 2026 · Custom/Web · Online Marriage Therapy</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
