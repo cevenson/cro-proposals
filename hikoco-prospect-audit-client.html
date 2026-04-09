@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hikoco — Stage 1 CRO Audit</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --surface2: #f1f5f9;
+    --border: #e2e8f0;
+    --text: #0f172a;
+    --muted: #64748b;
+    --blue: #2563eb;
+    --blue-dim: rgba(37,99,235,0.08);
+    --teal: #0d9488;
+    --green: #059669;
+    --green-dim: rgba(5,150,105,0.08);
+    --red: #dc2626;
+    --red-dim: rgba(220,38,38,0.08);
+    --amber: #d97706;
+    --amber-dim: rgba(217,119,6,0.08);
+    --purple: #7c3aed;
+    --home-col: #7c3aed;
+    --plp-col: #2563eb;
+    --pdp-col: #0d9488;
+    --cart-col: #059669;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.6; }
+
+  .label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .badge-blue   { background: var(--blue-dim);  color: var(--blue);  border: 1px solid rgba(37,99,235,0.25); }
+  .badge-green  { background: var(--green-dim); color: var(--green); border: 1px solid rgba(5,150,105,0.25); }
+  .badge-red    { background: var(--red-dim);   color: var(--red);   border: 1px solid rgba(220,38,38,0.25); }
+  .badge-amber  { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(217,119,6,0.25); }
+  .badge-teal   { background: rgba(13,148,136,0.08); color: var(--teal);  border: 1px solid rgba(13,148,136,0.25); }
+  .badge-purple { background: rgba(124,58,237,0.08); color: var(--purple); border: 1px solid rgba(124,58,237,0.25); }
+
+  .sev-high   { background: var(--red-dim);   color: var(--red);   border: 1px solid rgba(220,38,38,0.25); }
+  .sev-medium { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(217,119,6,0.25); }
+  .sev-low    { background: var(--green-dim); color: var(--green); border: 1px solid rgba(5,150,105,0.25); }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+  .card-inner { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 64px 0; }
+  section + section { border-top: 1px solid var(--border); }
+
+  h1 { font-size: 48px; font-weight: 900; line-height: 1.1; letter-spacing: -0.02em; }
+  h2 { font-size: 28px; font-weight: 800; letter-spacing: -0.01em; }
+  h3 { font-size: 20px; font-weight: 700; }
+  h4 { font-size: 16px; font-weight: 600; }
+
+  .section-label { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+  .section-label .num { width: 28px; height: 28px; border-radius: 50%; background: var(--blue-dim); border: 1px solid rgba(37,99,235,0.3); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: var(--blue); }
+  .section-label .lbl { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 40%, #e0f2fe 100%); padding: 80px 0 64px; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -150px; right: -150px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 70%); pointer-events: none; }
+  .hero-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+  .hero-brand { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .hero-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); }
+  .hero-title { margin-bottom: 16px; }
+  .hero-title .accent { color: var(--blue); }
+  .hero-sub { font-size: 18px; color: var(--muted); max-width: 580px; margin-bottom: 36px; line-height: 1.7; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 40px; }
+  .hero-stat { display: flex; flex-direction: column; gap: 4px; padding: 16px 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; min-width: 140px; }
+  .hero-stat .val { font-size: 22px; font-weight: 800; color: var(--text); }
+  .hero-stat .val.blue { color: var(--blue); }
+  .hero-stat .key { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .hero-logo { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; color: var(--muted); }
+
+  /* FUNNEL AUDIT */
+  .funnel-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .funnel-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; position: relative; overflow: hidden; }
+  .funnel-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .funnel-home::before  { background: var(--home-col); }
+  .funnel-plp::before   { background: var(--plp-col); }
+  .funnel-pdp::before   { background: var(--pdp-col); }
+  .funnel-cart::before  { background: var(--cart-col); }
+  .funnel-page-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
+  .funnel-home .funnel-page-label  { color: var(--home-col); }
+  .funnel-plp  .funnel-page-label  { color: var(--plp-col); }
+  .funnel-pdp  .funnel-page-label  { color: var(--pdp-col); }
+  .funnel-cart .funnel-page-label  { color: var(--cart-col); }
+  .funnel-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+  .funnel-finding { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 13px; line-height: 1.5; color: var(--muted); }
+  .funnel-finding:last-child { margin-bottom: 0; }
+  .funnel-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+  .dot-red    { background: var(--red); }
+  .dot-amber  { background: var(--amber); }
+  .dot-green  { background: var(--green); }
+
+  /* INSIGHTS */
+  .insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .insight-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; border-left: 3px solid var(--blue); }
+  .insight-card .stat-big { font-size: 38px; font-weight: 900; color: var(--blue); line-height: 1; margin-bottom: 6px; }
+  .insight-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .insight-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* TESTS */
+  .test-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 32px; }
+  .test-header { padding: 24px 28px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; background: linear-gradient(135deg, #f8fafc, #eff6ff); }
+  .test-num { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 6px; }
+  .test-title { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
+  .test-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ice-row { display: flex; gap: 10px; flex-shrink: 0; }
+  .ice-box { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 60px; height: 60px; border-radius: 10px; }
+  .ice-impact  { background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); }
+  .ice-conf    { background: rgba(13,148,136,0.08); border: 1px solid rgba(13,148,136,0.25); }
+  .ice-ease    { background: rgba(5,150,105,0.08);  border: 1px solid rgba(5,150,105,0.25); }
+  .ice-box .score { font-size: 22px; font-weight: 900; line-height: 1; }
+  .ice-impact .score { color: var(--blue); }
+  .ice-conf   .score { color: var(--teal); }
+  .ice-ease   .score { color: var(--green); }
+  .ice-box .lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+
+  .test-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .test-body-cell { padding: 24px 28px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .test-body-cell:nth-child(even) { border-right: none; }
+  .test-body-cell:nth-last-child(-n+2) { border-bottom: none; }
+  .test-body-cell h4 { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .test-body-cell p { font-size: 14px; line-height: 1.65; color: var(--text); }
+
+  /* MOCKUP */
+  .mockup-section { background: #f1f5f9; border-top: 1px solid var(--border); padding: 28px; }
+  .mockup-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+  .mockup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .mockup-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .mockup-card-label { padding: 8px 14px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+  .mockup-card-label.control { color: var(--muted); background: var(--surface2); }
+  .mockup-card-label.variant { color: var(--green); background: rgba(5,150,105,0.06); }
+  .mockup-card-body { padding: 16px; }
+
+  /* REVENUE */
+  .rev-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+  .rev-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-align: center; }
+  .rev-card.featured { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+  .rev-card .scenario { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .rev-card .amount { font-size: 36px; font-weight: 900; color: var(--text); line-height: 1; margin-bottom: 4px; }
+  .rev-card.featured .amount { color: var(--blue); }
+  .rev-card .period { font-size: 12px; color: var(--muted); }
+
+  .rev-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 20px; }
+  .rev-table th { background: var(--surface2); padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border); }
+  .rev-table td { padding: 11px 14px; border: 1px solid var(--border); color: var(--text); }
+  .rev-table tr:hover td { background: var(--surface2); }
+  .rev-table .td-green { color: var(--green); font-weight: 700; }
+  .rev-table .td-blue  { color: var(--blue);  font-weight: 700; }
+
+  .assumptions-box { background: var(--amber-dim); border: 1px solid rgba(217,119,6,0.25); border-radius: 10px; padding: 18px 22px; }
+  .assumptions-box h4 { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
+  .assumptions-box p { font-size: 13px; color: var(--text); line-height: 1.6; }
+
+  /* WHY GRID */
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .why-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px; display: flex; gap: 16px; }
+  .why-icon { width: 40px; height: 40px; border-radius: 8px; background: var(--blue-dim); border: 1px solid rgba(37,99,235,0.2); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .why-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .why-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* RISKS */
+  .risk-row { display: grid; grid-template-columns: 220px 1fr 1fr; gap: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 12px; }
+  .risk-cell { padding: 18px 22px; }
+  .risk-cell + .risk-cell { border-left: 1px solid var(--border); }
+  .risk-name { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .risk-cell p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .risk-cell .mitigation { font-size: 13px; color: var(--green); line-height: 1.6; }
+
+  /* KPIS */
+  .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+  .kpi-card .kpi-metric { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .kpi-card .kpi-baseline { font-size: 13px; color: var(--text); margin-bottom: 8px; }
+  .kpi-card .kpi-target { font-size: 22px; font-weight: 900; color: var(--green); line-height: 1; }
+  .kpi-card .kpi-target-label { font-size: 11px; color: var(--green); font-weight: 600; margin-top: 2px; }
+
+  /* NEXT STEPS */
+  .step-row { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 24px; }
+  .step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--blue); color: #fff; font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .step-content p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* OFFER */
+  .offer-section { background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #0f766e 100%); padding: 72px 0; }
+  .offer-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 16px; }
+  .offer-headline { font-size: 42px; font-weight: 900; color: #fff; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 20px; }
+  .offer-guarantee { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 22px 26px; margin-bottom: 24px; }
+  .offer-guarantee p { font-size: 15px; color: rgba(255,255,255,0.9); line-height: 1.7; }
+  .offer-guarantee strong { color: #fff; }
+  .offer-bullets { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
+  .offer-pill { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 6px 14px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.9); }
+  .offer-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+  .offer-stat { text-align: center; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 20px; }
+  .offer-stat .val { font-size: 32px; font-weight: 900; color: #7dd3fc; line-height: 1; margin-bottom: 4px; }
+  .offer-stat .lbl { font-size: 12px; color: rgba(255,255,255,0.65); font-weight: 500; }
+  .offer-cta { display: inline-block; background: #fff; color: #1e3a8a; font-size: 15px; font-weight: 800; padding: 16px 32px; border-radius: 10px; text-decoration: none; margin-bottom: 14px; letter-spacing: -0.01em; }
+  .offer-note { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+  /* FOOTER */
+  footer { background: var(--surface); border-top: 1px solid var(--border); padding: 24px 0; }
+  .footer-inner { display: flex; align-items: center; justify-content: space-between; }
+  .footer-left { font-size: 13px; color: var(--muted); }
+  .footer-right { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">
+      <div class="hero-logo">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+          <circle cx="15" cy="15" r="14" stroke="#2563eb" stroke-width="2.2" fill="none" stroke-dasharray="60 28" stroke-dashoffset="-7"/>
+          <circle cx="15" cy="15" r="14" fill="#1e3a8a" opacity="0.08"/>
+          <polygon points="4,24 8,17 12,20.5 16.5,12 22,18 24,24" fill="#2563eb" opacity="0.15"/>
+          <polyline points="4,24 8,17 12,20.5 16.5,12 22,18" stroke="#2563eb" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="22" cy="18" r="2" fill="#0d9488"/>
+        </svg>
+        Revenue Lift CRO · revenueliftcro.com
+      </div>
+      <div class="hero-dot"></div>
+      <span class="hero-brand">CRO Audit · April 2026</span>
+      <div class="hero-dot"></div>
+      <span class="badge badge-blue">Stage 1 · CRO Audit</span>
+    </div>
+    <h1 class="hero-title">Hikoco <span class="accent">CRO Audit</span></h1>
+    <p class="hero-sub">A full-funnel conversion analysis of hikoco.co.nz — identifying the highest-leverage friction points across your Korean beauty store and quantifying the revenue sitting on the table.</p>
+    <div class="hero-meta">
+      <div class="hero-stat">
+        <span class="val blue">3</span>
+        <span class="key">Tests Proposed</span>
+      </div>
+      <div class="hero-stat">
+        <span class="val">CVR + AOV</span>
+        <span class="key">Primary Goal</span>
+      </div>
+      <div class="hero-stat">
+        <span class="val">Shopify</span>
+        <span class="key">Platform</span>
+      </div>
+      <div class="hero-stat">
+        <span class="val">Beauty</span>
+        <span class="key">Category</span>
+      </div>
+      <div class="hero-stat">
+        <span class="val">NZD</span>
+        <span class="key">Currency</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- SECTION 01: FUNNEL AUDIT SUMMARY -->
+<section>
+  <div class="container">
+    <div class="section-label">
+      <div class="num">01</div>
+      <div class="lbl">Funnel Audit Summary</div>
+    </div>
+    <h2 style="margin-bottom:8px;">Where Hikoco is losing revenue</h2>
+    <p style="color:var(--muted);margin-bottom:28px;max-width:620px;">Live crawl of your homepage, PLP, PDP, and cart against the full conversion checklist — colour-coded by severity.</p>
+
+    <div class="funnel-grid">
+      <!-- HOME -->
+      <div class="funnel-card funnel-home">
+        <div class="funnel-page-label">Homepage</div>
+        <h4>Seasonal hero, strong community proof</h4>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-amber"></div>
+          <span>Hero slides lead with seasonal promotions ("It's Cosy Szn", "Easter Hasn't Ended") — no immediate Korean beauty value proposition above fold.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-green"></div>
+          <span>39,293 reviews badge (4.61 stars) present — strong community social proof and major trust asset.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-green"></div>
+          <span>Multiple editorial sections (Flash Sale, New Arrivals, KOCO TV) create good browse depth and engagement pathways.</span>
+        </div>
+      </div>
+
+      <!-- PLP -->
+      <div class="funnel-card funnel-plp">
+        <div class="funnel-page-label">Collection (PLP)</div>
+        <h4>1,215 products, zero star ratings visible</h4>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-red"></div>
+          <span>Critical: All product cards show "0.00 stars" — Judge.me ratings not rendering on collection page templates despite being installed.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-amber"></div>
+          <span>1,215 products in Skincare alone with no visible social proof differentiation — browse paralysis risk is high for first-time visitors.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-green"></div>
+          <span>Filter and Sort controls present; brand name visible on cards; price clearly displayed in NZD.</span>
+        </div>
+      </div>
+
+      <!-- PDP -->
+      <div class="funnel-card funnel-pdp">
+        <div class="funnel-page-label">Product Page (PDP)</div>
+        <h4>Strong reviews, no sticky ATC</h4>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-red"></div>
+          <span>No sticky add-to-cart bar — shoppers reading ingredient lists and reviews (scrolling deep) lose the buy button and must scroll back to convert.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-amber"></div>
+          <span>Variant selector uses a dropdown combobox rather than visual swatches — adds friction for products with size/shade options.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-green"></div>
+          <span>Reviews visible on PDP (4.80 stars, 586 reviews on top products); "You may also like" cross-sell and free shipping threshold messaging present.</span>
+        </div>
+      </div>
+
+      <!-- CART -->
+      <div class="funnel-card funnel-cart">
+        <div class="funnel-page-label">Cart</div>
+        <h4>No trust badges, no cross-sell</h4>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-red"></div>
+          <span>No trust badge cluster near the checkout CTA — only payment icons lower on page. Beauty shoppers need security reassurance at the point of commitment.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-red"></div>
+          <span>No product recommendations in cart — a significant missed AOV opportunity at highest-intent moment in the funnel.</span>
+        </div>
+        <div class="funnel-finding">
+          <div class="funnel-dot dot-green"></div>
+          <span>Free shipping progress bar ("You're only $X away") present — smart threshold nudge that's proven to increase AOV.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 02: KEY INSIGHTS -->
+<section>
+  <div class="container">
+    <div class="section-label">
+      <div class="num">02</div>
+      <div class="lbl">Key Insights</div>
+    </div>
+    <h2 style="margin-bottom:28px;">Three data points that define this audit</h2>
+    <div class="insights-grid">
+      <div class="insight-card">
+        <div class="stat-big">1,215</div>
+        <h4>Products, Zero Star Ratings on PLP</h4>
+        <p>Despite 39,293+ total reviews and Judge.me installed, not a single product card displays a star rating on collection pages. With a catalogue this size, social proof is the only scalable way to help shoppers pick with confidence — and it's silently broken.</p>
+      </div>
+      <div class="insight-card">
+        <div class="stat-big">0</div>
+        <h4>Trust Signals at the Cart Checkout CTA</h4>
+        <p>The cart's "Check out" button has no trust reinforcement immediately adjacent. Research consistently shows that purchase anxiety spikes in the cart — especially for international or first-time beauty shoppers discovering a new brand. The gap here is costing conversions.</p>
+      </div>
+      <div class="insight-card">
+        <div class="stat-big">4.80★</div>
+        <h4>Top Products Have Exceptional Reviews — Hidden on PLP</h4>
+        <p>Beauty of Joseon Relief Sun has 586 reviews at 4.80 stars. Dr. Althea 345 Relief Cream has 103 reviews at 4.62. These are powerful signals — yet every shopper browsing the collection page sees nothing. Fixing this is the single highest-ease, highest-confidence test in this audit.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 03: TEST 01 — CART TRUST STACK -->
+<section>
+  <div class="container">
+    <div class="section-label">
+      <div class="num">03</div>
+      <div class="lbl">Test Proposals</div>
+    </div>
+    <h2 style="margin-bottom:28px;">3 prioritised A/B tests — bottom of funnel first</h2>
+
+    <div class="test-card">
+      <div class="test-header">
+        <div>
+          <div class="test-num">Test 01 · Cart</div>
+          <div class="test-title">Trust Stack + Cross-sell Above Checkout</div>
+          <div class="test-tags">
+            <span class="badge badge-green">Cart</span>
+            <span class="badge badge-blue">Trust Signals</span>
+            <span class="badge badge-teal">AOV</span>
+            <span class="badge badge-purple">Highest Funnel Priority</span>
+          </div>
+        </div>
+        <div class="ice-row">
+          <div class="ice-box ice-impact">
+            <span class="score">8</span>
+            <span class="lbl">Impact</span>
+          </div>
+          <div class="ice-box ice-conf">
+            <span class="score">8</span>
+            <span class="lbl">Conf.</span>
+          </div>
+          <div class="ice-box ice-ease">
+            <span class="score">7</span>
+            <span class="lbl">Ease</span>
+          </div>
+        </div>
+      </div>
+      <div class="test-body">
+        <div class="test-body-cell">
+          <h4>Hypothesis</h4>
+          <p>If we add a trust badge cluster (🔒 Secure Checkout · 🇳🇿 NZ-Based · ↩ Easy Returns) directly above the "Check out" CTA and insert 2–3 "You may also like" product tiles below the cart summary, then cart-to-checkout rate and AOV will both increase — because beauty shoppers experience peak purchase anxiety at checkout and need explicit reassurance, while product recommendations capitalise on the highest-intent moment in the funnel.</p>
+        </div>
+        <div class="test-body-cell">
+          <h4>Mechanism</h4>
+          <p>Purchase anxiety is highest when a shopper is about to commit. Trust signals reduce perceived risk. For a Korean beauty brand selling to NZ shoppers, localised signals (NZ-based, easy returns, secure checkout) are particularly effective. Cross-sell tiles in the cart leverage the "foot-in-the-door" effect — shoppers who've already decided to buy are the most receptive to complementary recommendations.</p>
+        </div>
+        <div class="test-body-cell">
+          <h4>Implementation</h4>
+          <p>Add a trust badge row to the Shopify cart template (<code>cart.liquid</code>) immediately above the checkout button — three inline pills with icon + short text. Below the cart items, inject a "Complete your routine" section using a featured collection or metafield-driven cross-sell logic. Wrap in a GrowthBook feature flag for clean A/B split.</p>
+        </div>
+        <div class="test-body-cell">
+          <h4>Expected Lift &amp; Feature Flag</h4>
+          <p><strong>Cart → Checkout Rate:</strong> +5–8%<br><strong>AOV:</strong> +4–8% (cross-sell lift)<br><strong>Feature flag:</strong> <code>cart-trust-crosssell-v1</code><br><strong>Runtime:</strong> 3–4 weeks at typical traffic</p>
+        </div>
+      </div>
+
+      <!-- MOCKUP -->
+      <div class="mockup-section">
+        <div class="mockup-label">Before / After Mockup</div>
+        <div class="mockup-grid">
+          <!-- CONTROL -->
+          <div class="mockup-card">
+            <div class="mockup-card-label control">Control (Now)</div>
+            <div class="mockup-card-body">
+              <!-- Cart mockup - control -->
+              <div style="border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:10px;background:#f8fafc;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                  <div style="font-size:12px;font-weight:700;color:#0f172a;">Your Shopping Cart</div>
+                </div>
+                <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #e2e8f0;margin-bottom:10px;">
+                  <div style="width:44px;height:44px;background:#f1f5f9;border-radius:6px;border:1px solid #e2e8f0;flex-shrink:0;"></div>
+                  <div style="flex:1;">
+                    <div style="font-size:11px;font-weight:600;color:#0f172a;margin-bottom:2px;">Beauty of Joseon Relief Sun SPF50+</div>
+                    <div style="font-size:11px;color:#64748b;">Qty: 1</div>
+                  </div>
+                  <div style="font-size:12px;font-weight:700;color:#0f172a;">$31.00</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:12px;color:#64748b;">Subtotal</span>
+                  <span style="font-size:12px;font-weight:700;color:#0f172a;">$31.00</span>
+                </div>
+                <div style="font-size:10px;color:#94a3b8;margin-bottom:12px;">GST included. Shipping and discount codes calculated at checkout.</div>
+                <!-- No trust badges - just the checkout button -->
+                <div style="background:#0f172a;color:#fff;text-align:center;padding:11px;border-radius:8px;font-size:12px;font-weight:700;">Check out</div>
+              </div>
+              <div style="text-align:center;padding:6px 0;">
+                <div style="font-size:10px;color:#94a3b8;">We accept</div>
+                <div style="display:flex;gap:4px;justify-content:center;margin-top:4px;">
+                  <div style="width:28px;height:18px;background:#e2e8f0;border-radius:3px;"></div>
+                  <div style="width:28px;height:18px;background:#e2e8f0;border-radius:3px;"></div>
+                  <div style="width:28px;height:18px;background:#e2e8f0;border-radius:3px;"></div>
+                </div>
+              </div>
+              <div style="margin-top:8px;padding:8px;background:#fef3c7;border-radius:6px;text-align:center;font-size:10px;color:#92400e;">⚠ No trust signals near CTA · No cross-sell tiles</div>
+            </div>
+          </div>
+
+          <!-- VARIANT -->
+          <div class="mockup-card">
+            <div class="mockup-card-label variant">Variant (Test)</div>
+            <div class="mockup-card-body">
+              <div style="border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:10px;background:#f8fafc;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                  <div style="font-size:12px;font-weight:700;color:#0f172a;">Your Shopping Cart</div>
+                </div>
+                <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #e2e8f0;margin-bottom:10px;">
+                  <div style="width:44px;height:44px;background:#f1f5f9;border-radius:6px;border:1px solid #e2e8f0;flex-shrink:0;"></div>
+                  <div style="flex:1;">
+                    <div style="font-size:11px;font-weight:600;color:#0f172a;margin-bottom:2px;">Beauty of Joseon Relief Sun SPF50+</div>
+                    <div style="font-size:11px;color:#64748b;">Qty: 1</div>
+                  </div>
+                  <div style="font-size:12px;font-weight:700;color:#0f172a;">$31.00</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:12px;color:#64748b;">Subtotal</span>
+                  <span style="font-size:12px;font-weight:700;color:#0f172a;">$31.00</span>
+                </div>
+                <div style="font-size:10px;color:#94a3b8;margin-bottom:10px;">GST included. Shipping and discount codes calculated at checkout.</div>
+                <!-- Trust badge cluster -->
+                <div style="display:flex;gap:6px;justify-content:center;margin-bottom:10px;flex-wrap:wrap;">
+                  <div style="display:flex;align-items:center;gap:4px;padding:4px 8px;background:#f0fdf4;border:1px solid #86efac;border-radius:6px;font-size:9px;font-weight:700;color:#166534;">🔒 Secure Checkout</div>
+                  <div style="display:flex;align-items:center;gap:4px;padding:4px 8px;background:#f0fdf4;border:1px solid #86efac;border-radius:6px;font-size:9px;font-weight:700;color:#166534;">🇳🇿 NZ-Based</div>
+                  <div style="display:flex;align-items:center;gap:4px;padding:4px 8px;background:#f0fdf4;border:1px solid #86efac;border-radius:6px;font-size:9px;font-weight:700;color:#166534;">↩ Easy Returns</div>
+                </div>
+                <div style="background:#0f172a;color:#fff;text-align:center;padding:11px;border-radius:8px;font-size:12px;font-weight:700;margin-bottom:10px;">Check out</div>
+                <!-- Cross-sell strip -->
+                <div style="border-top:1px solid #e2e8f0;padding-top:10px;">
+                  <div style="font-size:10px;font-weight:700;color:#64748b;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">Complete your routine</div>
+                  <div style="display:flex;gap:6px;">
+                    <div style="flex:1;border:1px solid #e2e8f0;border-radius:6px;padding:6px;background:#fff;">
+                      <div style="width:100%;height:36px;background:#f1f5f9;border-radius:4px;margin-bottom:4px;"></div>
+                      <div style="font-size:9px;font-weight:600;color:#0f172a;line-height:1.2;">COSRX Snail 96 Essence</div>
+                      <div style="font-size:9px;color:#059669;font-weight:700;margin-top:2px;">$38</div>
+                    </div>
+                    <div style="flex:1;border:1px solid #e2e8f0;border-radius:6px;padding:6px;background:#fff;">
+                      <div style="width:100%;height:36px;background:#f1f5f9;border-radius:4px;margin-bottom:4px;"></div>
+                      <div style="font-size:9px;font-weight:600;color:#0f172a;line-height:1.2;">Anua Heartleaf Toner</div>
+                      <div style="font-size:9px;color:#059669;font-weight:700;margin-top:2px;">$34</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top:4px;padding:8px;background:#f0fdf4;border-radius:6px;text-align:center;font-size:10px;color:#166534;">✓ Trust stack above CTA · Cross-sell tiles for AOV lift</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEST 02: PDP STICKY ATC -->
+    <div class="test-card">
+      <div class="test-header">
+        <div>
+          <div class="test-num">Test 02 · PDP</div>
+          <div class="test-title">Sticky Add-to-Cart Bar</div>
+          <div class="test-tags">
+            <span class="badge badge-teal">PDP</span>
+            <span class="badge badge-blue">ATC Rate</span>
+            <span class="badge badge-amber">Mobile-First</span>
+          </div>
+        </div>
+        <div class="ice-row">
+          <div class="ice-box ice-impact">
+            <span class="score">7</span>
+            <span class="lbl">Impact</span>
+          </div>
+          <div class="ice-box ice-conf">
+            <span class="score">8</span>
+            <span class="lbl">Conf.</span>
+          </div>
+          <div class="ice-box ice-ease">
+            <span class="score">7</span>
+            <span class="lbl">Ease</span>
+          </div>
+        </div>
+      </div>
+      <div class="test-body">
+        <div class="test-body-cell">
+          <h4>Hypothesis</h4>
+          <p>If we implement a sticky bottom bar that appears once the static "Add to cart" button scrolls out of view — showing the product name, price, and a prominent CTA — then add-to-cart rate will increase because Korean beauty shoppers are ingredient-conscious researchers who scroll deep into product descriptions, "How to use" and reviews before buying, and currently must scroll back to the top to convert.</p>
+        </div>
+        <div class="test-body-cell">
+          <h4>Mechanism</h4>
+          <p>Hikoco's PDP structure includes multiple accordion sections (How to Use, Ingredients, Beauties' Say) that encourage deep scrolling. Shoppers who reach the bottom of the page with high purchase intent have no persistent buying mechanism — the friction of scrolling back up is enough to cause drop-off, especially on mobile. A sticky bar eliminates this micro-friction entirely.</p>
+        </div>
+        <div class="test-body-cell">
+          <h4>Implementation</h4>
+          <p>Inject a sticky footer bar via JavaScript into the PDP template (<code>product.liquid</code>). Bar appears when the main ATC button's bounding rect top exceeds the viewport height. Contains: thumbnail, product name (truncated), price, and "Add to cart" button. On mobile, occupies the bottom safe zone. Wrap in GrowthBook flag <code>pdp-sticky-atc-v1</code>.</p>
+        </div>
+        <div class="test-body-cell">
+          <h4>Expected Lift &amp; Feature Flag</h4>
+          <p><strong>Add-to-Cart Rate:</strong> +3–6%<br><strong>Mobile ATC Rate:</strong> +5–9% (mobile impact typically higher)<br><strong>Feature flag:</strong> <code>pdp-sticky-atc-v1</code><br><strong>Runtime:</strong> 3–4 weeks</p>
+        </div>
+      </div>
+
+      <!-- MOCKUP -->
+      <div class="mockup-section">
+        <div class="mockup-label">Before / After Mockup</div>
+        <div class="mockup-grid">
+          <!-- CONTROL -->
+          <div class="mockup-card">
+            <div class="mockup-card-label control">Control (Now)</div>
+            <div class="mockup-card-body">
+              <!-- Simulated mobile PDP view scrolled down -->
+              <div style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;background:#f8fafc;">
+                <div style="padding:12px 14px;border-bottom:1px solid #e2e8f0;">
+                  <div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">Ingredients</div>
+                  <div style="font-size:10px;color:#94a3b8;line-height:1.5;">Aqua, Zinc Oxide, Niacinamide, Oryza Sativa Bran Extract, Lactobacillus Ferment Lysate, Butylene Glycol, Glycerin…</div>
+                </div>
+                <div style="padding:12px 14px;border-bottom:1px solid #e2e8f0;">
+                  <div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Beauties' Say (586 reviews)</div>
+                  <div style="display:flex;gap:2px;margin-bottom:6px;">
+                    <span style="color:#f59e0b;font-size:12px;">★★★★★</span>
+                    <span style="font-size:10px;color:#64748b;margin-left:4px;">4.80 / 5</span>
+                  </div>
+                  <div style="font-size:10px;color:#94a3b8;line-height:1.4;">"This sunscreen is incredible! No white cast at all and it feels so lightweight..."</div>
+                </div>
+                <div style="padding:12px 14px;">
+                  <div style="font-size:10px;color:#94a3b8;font-style:italic;text-align:center;">← Shopper must scroll all the way back up to find the Add to Cart button</div>
+                </div>
+                <!-- No sticky bar -->
+                <div style="height:4px;background:#f1f5f9;"></div>
+              </div>
+              <div style="margin-top:8px;padding:8px;background:#fef3c7;border-radius:6px;text-align:center;font-size:10px;color:#92400e;">⚠ ATC button scrolled off screen — shopper stuck</div>
+            </div>
+          </div>
+
+          <!-- VARIANT -->
+          <div class="mockup-card">
+            <div class="mockup-card-label variant">Variant (Test)</div>
+            <div class="mockup-card-body">
+              <div style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;background:#f8fafc;position:relative;">
+                <div style="padding:12px 14px;border-bottom:1px solid #e2e8f0;">
+                  <div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">Ingredients</div>
+                  <div style="font-size:10px;color:#94a3b8;line-height:1.5;">Aqua, Zinc Oxide, Niacinamide, Oryza Sativa Bran Extract, Lactobacillus Ferment Lysate, Butylene Glycol, Glycerin…</div>
+                </div>
+                <div style="padding:12px 14px;border-bottom:1px solid #e2e8f0;">
+                  <div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Beauties' Say (586 reviews)</div>
+                  <div style="display:flex;gap:2px;margin-bottom:6px;">
+                    <span style="color:#f59e0b;font-size:12px;">★★★★★</span>
+                    <span style="font-size:10px;color:#64748b;margin-left:4px;">4.80 / 5</span>
+                  </div>
+                  <div style="font-size:10px;color:#94a3b8;line-height:1.4;">"This sunscreen is incredible! No white cast at all and it feels so lightweight..."</div>
+                </div>
+                <!-- Sticky ATC bar -->
+                <div style="background:#fff;border-top:2px solid #2563eb;padding:10px 12px;display:flex;align-items:center;gap:8px;">
+                  <div style="width:32px;height:32px;background:#f1f5f9;border-radius:4px;border:1px solid #e2e8f0;flex-shrink:0;"></div>
+                  <div style="flex:1;min-width:0;">
+                    <div style="font-size:9px;font-weight:700;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Relief Sun: Rice + Probiotics</div>
+                    <div style="font-size:9px;font-weight:800;color:#2563eb;">$31.00 NZD</div>
+                  </div>
+                  <div style="background:#0f172a;color:#fff;padding:8px 12px;border-radius:6px;font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0;">Add to cart</div>
+                </div>
+              </div>
+              <div style="margin-top:8px;padding:8px;background:#f0fdf4;border-radius:6px;text-align:center;font-size:10px;color:#166534;">✓ Sticky bar always visible — buy at any scroll depth</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEST 03: PLP STAR CHIPS -->
+    <div class="test-card">
+      <div class="test-header">
+        <div>
+          <div class="test-num">Test 03 · PLP</div>
+          <div class="test-title">Star Rating Chips on Product Cards</div>
+          <div class="test-tags">
+            <span class="badge badge-blue">PLP</span>
+            <span class="badge badge-purple">Social Proof</span>
+            <span class="badge badge-green">Highest ICE Score</span>
+          </div>
+        </div>
+        <div class="ice-row">
+          <div class="ice-box ice-impact">
+            <span class="score">8</span>
+            <span class="lbl">Impact</span>
+          </div>
+          <div class="ice-box ice-conf">
+            <span class="score">9</span>
+            <span class="lbl">Conf.</span>
+          </div>
+          <div class="ice-box ice-ease">
+            <span class="score">8</span>
+            <span class="lbl">Ease</span>
+          </div>
+        </div>
+      </div>
+      <div class="test-body">
+        <div class="test-body-cell">
+          <h4>Hypothesis</h4>
+          <p>If we display actual Judge.me star ratings and review counts on every product card across collection pages, then PLP-to-PDP click-through rate will increase because shoppers browsing 1,215+ products use ratings as a primary filter signal — and currently every card appears equally unvalidated, creating decision paralysis and suppressing click depth. Top-rated products like Beauty of Joseon (4.80★, 586 reviews) will see outsized lifts.</p>
+        </div>
+        <div class="test-body-cell">
+          <h4>Mechanism</h4>
+          <p>This is the highest-confidence test in the audit — the evidence is direct and the fix is architectural. Judge.me is already installed and firing correctly on PDPs. The collection page product card template simply isn't rendering the widget. With 39,293 total reviews across the catalogue, Hikoco has more social proof than most beauty brands — it just isn't surfaced where browse decisions are made.</p>
+        </div>
+        <div class="test-body-cell">
+          <h4>Implementation</h4>
+          <p>Add the Judge.me collection widget snippet to the product card template (<code>product-card.liquid</code> or equivalent in the Fetch theme). Configure the widget to display inline star chips with review count. For products with zero reviews, show no widget (not 0 stars). Enable via GrowthBook flag <code>plp-star-chips-v1</code> to measure incremental CTR lift cleanly.</p>
+        </div>
+        <div class="test-body-cell">
+          <h4>Expected Lift &amp; Feature Flag</h4>
+          <p><strong>PLP → PDP Click-Through Rate:</strong> +10–18%<br><strong>Downstream CVR lift:</strong> +2–4% (more qualified clickers)<br><strong>Feature flag:</strong> <code>plp-star-chips-v1</code><br><strong>Runtime:</strong> 2–3 weeks (high-traffic PLP)</p>
+        </div>
+      </div>
+
+      <!-- MOCKUP -->
+      <div class="mockup-section">
+        <div class="mockup-label">Before / After Mockup</div>
+        <div class="mockup-grid">
+          <!-- CONTROL -->
+          <div class="mockup-card">
+            <div class="mockup-card-label control">Control (Now)</div>
+            <div class="mockup-card-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <!-- Product card 1 - no stars -->
+                <div style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;background:#fff;">
+                  <div style="height:80px;background:linear-gradient(135deg,#f1f5f9,#e2e8f0);display:flex;align-items:center;justify-content:center;">
+                    <div style="width:44px;height:44px;background:#cbd5e1;border-radius:50%;"></div>
+                  </div>
+                  <div style="padding:8px;">
+                    <div style="font-size:9px;color:#94a3b8;margin-bottom:2px;">Beauty of Joseon</div>
+                    <div style="font-size:10px;font-weight:700;color:#0f172a;line-height:1.3;margin-bottom:4px;">Relief Sun: Rice + Probiotics SPF50+</div>
+                    <!-- No stars shown -->
+                    <div style="height:12px;"></div>
+                    <div style="font-size:11px;font-weight:800;color:#0f172a;">$31.00</div>
+                  </div>
+                </div>
+                <!-- Product card 2 - no stars -->
+                <div style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;background:#fff;">
+                  <div style="height:80px;background:linear-gradient(135deg,#f1f5f9,#e2e8f0);display:flex;align-items:center;justify-content:center;">
+                    <div style="width:44px;height:44px;background:#cbd5e1;border-radius:50%;"></div>
+                  </div>
+                  <div style="padding:8px;">
+                    <div style="font-size:9px;color:#94a3b8;margin-bottom:2px;">COSRX</div>
+                    <div style="font-size:10px;font-weight:700;color:#0f172a;line-height:1.3;margin-bottom:4px;">Advanced Snail 96 Mucin Power Essence</div>
+                    <div style="height:12px;"></div>
+                    <div style="font-size:11px;font-weight:800;color:#0f172a;">$44.00</div>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top:8px;padding:8px;background:#fef3c7;border-radius:6px;text-align:center;font-size:10px;color:#92400e;">⚠ All cards look identical — no social proof to guide choice</div>
+            </div>
+          </div>
+
+          <!-- VARIANT -->
+          <div class="mockup-card">
+            <div class="mockup-card-label variant">Variant (Test)</div>
+            <div class="mockup-card-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <!-- Product card 1 - with stars -->
+                <div style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;background:#fff;">
+                  <div style="height:80px;background:linear-gradient(135deg,#f1f5f9,#e2e8f0);display:flex;align-items:center;justify-content:center;">
+                    <div style="width:44px;height:44px;background:#cbd5e1;border-radius:50%;"></div>
+                  </div>
+                  <div style="padding:8px;">
+                    <div style="font-size:9px;color:#94a3b8;margin-bottom:2px;">Beauty of Joseon</div>
+                    <div style="font-size:10px;font-weight:700;color:#0f172a;line-height:1.3;margin-bottom:4px;">Relief Sun: Rice + Probiotics SPF50+</div>
+                    <!-- Star chip -->
+                    <div style="display:flex;align-items:center;gap:3px;margin-bottom:4px;">
+                      <span style="color:#f59e0b;font-size:10px;">★★★★★</span>
+                      <span style="font-size:9px;color:#64748b;font-weight:600;">4.8 (586)</span>
+                    </div>
+                    <div style="font-size:11px;font-weight:800;color:#0f172a;">$31.00</div>
+                  </div>
+                </div>
+                <!-- Product card 2 - with stars -->
+                <div style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;background:#fff;">
+                  <div style="height:80px;background:linear-gradient(135deg,#f1f5f9,#e2e8f0);display:flex;align-items:center;justify-content:center;">
+                    <div style="width:44px;height:44px;background:#cbd5e1;border-radius:50%;"></div>
+                  </div>
+                  <div style="padding:8px;">
+                    <div style="font-size:9px;color:#94a3b8;margin-bottom:2px;">COSRX</div>
+                    <div style="font-size:10px;font-weight:700;color:#0f172a;line-height:1.3;margin-bottom:4px;">Advanced Snail 96 Mucin Power Essence</div>
+                    <div style="display:flex;align-items:center;gap:3px;margin-bottom:4px;">
+                      <span style="color:#f59e0b;font-size:10px;">★★★★★</span>
+                      <span style="font-size:9px;color:#64748b;font-weight:600;">4.7 (312)</span>
+                    </div>
+                    <div style="font-size:11px;font-weight:800;color:#0f172a;">$44.00</div>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top:8px;padding:8px;background:#f0fdf4;border-radius:6px;text-align:center;font-size:10px;color:#166534;">✓ Ratings guide choice — high-review products stand out instantly</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 04: REVENUE PROJECTIONS -->
+<section>
+  <div class="container">
+    <div class="section-label">
+      <div class="num">04</div>
+      <div class="lbl">Revenue Projections</div>
+    </div>
+    <h2 style="margin-bottom:8px;">What these 3 tests could be worth</h2>
+    <p style="color:var(--muted);margin-bottom:28px;max-width:620px;">Projected monthly revenue uplift across three scenarios, based on industry benchmarks for beauty e-commerce at similar traffic volumes.</p>
+
+    <div class="rev-grid">
+      <div class="rev-card">
+        <div class="scenario">Conservative</div>
+        <div class="amount">$8,600</div>
+        <div class="period">per month · NZD</div>
+      </div>
+      <div class="rev-card featured">
+        <div class="scenario">Expected</div>
+        <div class="amount">$12,700</div>
+        <div class="period">per month · NZD</div>
+      </div>
+      <div class="rev-card">
+        <div class="scenario">Strong</div>
+        <div class="amount">$18,000</div>
+        <div class="period">per month · NZD</div>
+      </div>
+    </div>
+
+    <table class="rev-table">
+      <thead>
+        <tr>
+          <th>Test</th>
+          <th>Metric</th>
+          <th>Lift Range</th>
+          <th>Est. Sessions</th>
+          <th class="td-green">Revenue Impact / Mo.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Test 01</strong> — Cart Trust Stack + Cross-sell</td>
+          <td>Cart → Checkout Rate</td>
+          <td>+5–10%</td>
+          <td>~9,000 cart sessions</td>
+          <td class="td-green">$3,400 – $6,800</td>
+        </tr>
+        <tr>
+          <td><strong>Test 02</strong> — PDP Sticky ATC Bar</td>
+          <td>Add-to-Cart Rate</td>
+          <td>+3–8%</td>
+          <td>65,000 sessions</td>
+          <td class="td-green">$2,000 – $5,400</td>
+        </tr>
+        <tr>
+          <td><strong>Test 03</strong> — PLP Star Rating Chips</td>
+          <td>PLP → PDP Click-Through</td>
+          <td>+10–18%</td>
+          <td>~38,000 PLP sessions</td>
+          <td class="td-green">$3,200 – $5,800</td>
+        </tr>
+        <tr style="background:var(--blue-dim);">
+          <td colspan="4"><strong>Combined Annual Potential</strong></td>
+          <td class="td-blue"><strong>$103,200 – $216,000</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="assumptions-box">
+      <h4>⚠ Assumptions</h4>
+      <p>Projections assume ~65,000 monthly sessions, 1.7% baseline CVR, $62 NZD AOV. Lift ranges use Stage 1 conservative benchmarks for beauty e-commerce. Actual results depend on traffic mix, device split, and test runtime. All figures in NZD. These are directional estimates — real impact measured via GrowthBook A/B split.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 05: WHY THIS WORKS -->
+<section>
+  <div class="container">
+    <div class="section-label">
+      <div class="num">05</div>
+      <div class="lbl">Why This Works</div>
+    </div>
+    <h2 style="margin-bottom:28px;">The psychology behind each test</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🔒</div>
+        <div>
+          <h4>Purchase Anxiety Peaks at Checkout</h4>
+          <p>The moment before clicking "Check out" is when doubt spikes. Trust signals at that exact moment — secure checkout, local fulfilment, easy returns — directly reduce abandonment by addressing the "what if something goes wrong" fear.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">⭐</div>
+        <div>
+          <h4>Social Proof is a Beauty Category Superpower</h4>
+          <p>Beauty shoppers are risk-averse when trying new products — will this break me out? Is this worth the money? Star ratings answer both questions instantly. For a multi-brand retailer with 1,215+ SKUs, ratings are the primary navigation shortcut available at the browse stage.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📍</div>
+        <div>
+          <h4>The Sticky ATC Eliminates the Most Common Drop Point</h4>
+          <p>On a beauty PDP, the scroll journey from ATC button to ingredient list to reviews is routinely 3–5 screen heights. Every shopper who reaches the bottom has shown deep engagement — the sticky bar converts that engagement into action without friction.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🛒</div>
+        <div>
+          <h4>Cart Cross-sells Hit the Highest-Intent Moment</h4>
+          <p>Shoppers in the cart have already committed psychologically. They're in "buy mode." Relevant complementary products shown here (tonerthat pairs with a cleanser, SPF that goes with a serum) see click-to-purchase rates 3–4× higher than homepage or PLP recommendations.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🧪</div>
+        <div>
+          <h4>K-Beauty Shoppers Are Research-Driven</h4>
+          <p>The Korean beauty community skews toward ingredient-conscious, research-first shoppers who cross-reference products before buying. This means longer PDP sessions, deeper scroll depth, and a genuine need for a persistent ATC that survives the research phase.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📈</div>
+        <div>
+          <h4>Bottom-of-Funnel First Means Faster Returns</h4>
+          <p>The cart and PDP already have traffic. Tests here don't need to grow the audience — they convert the audience that already exists. Every percentage point gained at the bottom of the funnel has direct, immediate revenue impact with no ad spend required.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 06: RISKS & MITIGATIONS -->
+<section>
+  <div class="container">
+    <div class="section-label">
+      <div class="num">06</div>
+      <div class="lbl">Risks &amp; Mitigations</div>
+    </div>
+    <h2 style="margin-bottom:28px;">What we'll watch for</h2>
+
+    <div class="risk-row">
+      <div class="risk-cell">
+        <div class="risk-name">Trust Badge Design Fit</div>
+        <span class="badge badge-amber">Medium Risk</span>
+      </div>
+      <div class="risk-cell">
+        <p>Generic trust badges can look inconsistent with Hikoco's playful Korean beauty aesthetic and undermine brand credibility if not styled carefully.</p>
+      </div>
+      <div class="risk-cell">
+        <p class="mitigation">Design badges to match Hikoco's colour palette and typography. Use illustrated or emoji-style icons rather than generic stock badges. A/B test with two badge style variants if needed.</p>
+      </div>
+    </div>
+
+    <div class="risk-row">
+      <div class="risk-cell">
+        <div class="risk-name">Sticky ATC Mobile Performance</div>
+        <span class="badge badge-amber">Medium Risk</span>
+      </div>
+      <div class="risk-cell">
+        <p>A poorly implemented sticky bar can trigger Cumulative Layout Shift (CLS), reduce Core Web Vitals scores, or cover important content on smaller screens.</p>
+      </div>
+      <div class="risk-cell">
+        <p class="mitigation">Add <code>position: fixed</code> with a bottom safe zone and ensure the bar only activates via scroll observation API. Run a Lighthouse CLS check before launching to production.</p>
+      </div>
+    </div>
+
+    <div class="risk-row">
+      <div class="risk-cell">
+        <div class="risk-name">Zero-Review Products on PLP</div>
+        <span class="badge badge-green">Low Risk</span>
+      </div>
+      <div class="risk-cell">
+        <p>Showing "0 reviews" on newer products could create a two-tier appearance on the collection page, potentially stigmatising newly launched SKUs.</p>
+      </div>
+      <div class="risk-cell">
+        <p class="mitigation">Configure Judge.me to only render the widget when review count is ≥ 1. Products with no reviews get no chip displayed — clean and neutral, consistent with best practice.</p>
+      </div>
+    </div>
+
+    <div class="risk-row">
+      <div class="risk-cell">
+        <div class="risk-name">Cross-sell Relevance</div>
+        <span class="badge badge-amber">Medium Risk</span>
+      </div>
+      <div class="risk-cell">
+        <p>Generic "You may also like" recommendations in the cart that don't match the category of the item in cart can feel irrelevant and add cognitive noise rather than driving AOV.</p>
+      </div>
+      <div class="risk-cell">
+        <p class="mitigation">Use rule-based cross-sells (skincare → skincare, makeup → makeup) or implement a complementary product tag logic. Monitor cart-to-checkout rate carefully to ensure cross-sells don't distract from checkout.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 07: KPIs TO TRACK -->
+<section>
+  <div class="container">
+    <div class="section-label">
+      <div class="num">07</div>
+      <div class="lbl">KPIs to Track</div>
+    </div>
+    <h2 style="margin-bottom:28px;">What success looks like</h2>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-metric">Cart → Checkout Rate</div>
+        <div class="kpi-baseline">Baseline: measure pre-test (est. ~58–64%)</div>
+        <div class="kpi-target">+5–10%</div>
+        <div class="kpi-target-label">target range (Test 01)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-metric">Add-to-Cart Rate (PDP)</div>
+        <div class="kpi-baseline">Baseline: measure pre-test (est. ~8–12%)</div>
+        <div class="kpi-target">+3–8%</div>
+        <div class="kpi-target-label">target range (Test 02)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-metric">PLP → PDP Click-Through Rate</div>
+        <div class="kpi-baseline">Baseline: measure pre-test</div>
+        <div class="kpi-target">+10–18%</div>
+        <div class="kpi-target-label">target range (Test 03)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-metric">Average Order Value (AOV)</div>
+        <div class="kpi-baseline">Baseline: est. ~$62 NZD</div>
+        <div class="kpi-target">+6–12%</div>
+        <div class="kpi-target-label">target from cross-sell</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-metric">Overall Store CVR</div>
+        <div class="kpi-baseline">Baseline: est. ~1.7%</div>
+        <div class="kpi-target">+0.2–0.5pp</div>
+        <div class="kpi-target-label">combined funnel lift</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-metric">Revenue Per Visitor (RPV)</div>
+        <div class="kpi-baseline">Baseline: CVR × AOV</div>
+        <div class="kpi-target">+8–15%</div>
+        <div class="kpi-target-label">north star metric</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 08: NEXT STEPS -->
+<section>
+  <div class="container">
+    <div class="section-label">
+      <div class="num">08</div>
+      <div class="lbl">Next Steps</div>
+    </div>
+    <h2 style="margin-bottom:28px;">From audit to revenue in 60 days</h2>
+
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Review this audit together <span class="badge badge-blue" style="margin-left:8px;">Week 1</span></h4>
+        <p>Book a 30-minute walkthrough call to align on priorities, confirm traffic volumes, and identify any brand or technical constraints before we write a single line of code. This call also confirms our baseline metrics against your actual Shopify analytics.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Set up GrowthBook + baseline measurement <span class="badge badge-teal" style="margin-left:8px;">Week 1–2</span></h4>
+        <p>Install GrowthBook on the Shopify store, define experiment parameters for all 3 tests, and establish pre-test baselines for each KPI. We run experiments cleanly — no data contamination, no guessing at results.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Launch Test 03 first (PLP Stars) — fastest win <span class="badge badge-green" style="margin-left:8px;">Week 2</span></h4>
+        <p>The Judge.me configuration fix for collection pages is the lowest-effort, highest-confidence change in this audit. Get it live in the first week to generate early momentum and de-risk the engagement before deeper development work begins.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Launch Tests 01 &amp; 02 in parallel <span class="badge badge-purple" style="margin-left:8px;">Week 2–3</span></h4>
+        <p>Cart trust stack and PDP sticky ATC run simultaneously on independent GrowthBook flags — no interaction risk since they affect different pages. Both tests run for a minimum of 3 weeks or 200 conversions per variant, whichever comes first.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>Read results, ship winners, plan Stage 2 <span class="badge badge-amber" style="margin-left:8px;">Week 6–8</span></h4>
+        <p>Statistical significance reached → losing variant off, winning variant becomes permanent baseline. We report results, quantify actual revenue impact, and propose the next 3 tests based on what the data reveals. Stage 2 goes deeper: variant selectors, homepage hero, and email capture optimisation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFER BLOCK -->
+<section class="offer-section">
+  <div class="container">
+    <div class="offer-eyebrow">Revenue Lift CRO · For Hikoco</div>
+    <h2 class="offer-headline">Get Measurable Revenue Gains In 60 Days — <span style="color:#7dd3fc">Guaranteed.</span></h2>
+
+    <div class="offer-guarantee">
+      <p><strong>4× ROI Guarantee — Zero Risk</strong><br>
+      If I can't help you achieve at least a 4× ROI on your conversion optimisation within 60 days, I'll refund every cent — no hassle, no questions asked. You get breakthrough CRO growth, or you get your money back.</p>
+    </div>
+
+    <div class="offer-bullets">
+      <span class="offer-pill">✓ 3 data-backed A/B tests</span>
+      <span class="offer-pill">✓ Full GrowthBook setup included</span>
+      <span class="offer-pill">✓ Weekly reporting &amp; readouts</span>
+      <span class="offer-pill">✓ Shopify native implementation</span>
+      <span class="offer-pill">✓ 4× ROI or full refund</span>
+    </div>
+
+    <div class="offer-stats">
+      <div class="offer-stat">
+        <div class="val">+17%</div>
+        <div class="lbl">Average CVR lift across clients</div>
+      </div>
+      <div class="offer-stat">
+        <div class="val">+20%</div>
+        <div class="lbl">Average AOV improvement</div>
+      </div>
+      <div class="offer-stat">
+        <div class="val">$400k+</div>
+        <div class="lbl">Revenue unlocked for clients</div>
+      </div>
+    </div>
+
+    <a href="https://revenueliftcro.com/revenue-lift-cro-offer/" class="offer-cta">Book a call to run through your audit →</a>
+    <br>
+    <span class="offer-note">No lock-in contracts · Results-based pricing · Shopify specialists</span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-left">revenueliftcro.com · cavell@revenueliftcro.com</div>
+      <div class="footer-right">
+        <svg width="20" height="20" viewBox="0 0 30 30" fill="none">
+          <circle cx="15" cy="15" r="14" stroke="#2563eb" stroke-width="2.2" fill="none" stroke-dasharray="60 28" stroke-dashoffset="-7"/>
+          <polyline points="4,24 8,17 12,20.5 16.5,12 22,18" stroke="#2563eb" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="22" cy="18" r="2" fill="#0d9488"/>
+        </svg>
+        Hikoco · Stage 1 CRO Audit · April 2026 · Shopify · Make-Up &amp; Cosmetics, Skin &amp; Nail Care
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
